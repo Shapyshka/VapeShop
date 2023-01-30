@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.cdnfonts.com/css/sprite-graffiti" rel="stylesheet">
+    <link rel="icon" href="https://i.imgur.com/Y0qpG6p.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+    <title>Редактировать товар - VapeShifter</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(92179338, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true
+   });
+</script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/92179338" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+</head>
+<script language="JavaScript">
+    if (screen.width<1280){
+        document.write("<style>body{zoom:150%}</style>");
+    }
+</script>
+<body style="margin-top:70px">
+<header th:insert="blocks/header :: Header"></header>
+<br>
+<h1 align="center">Изменить запись</h1>
+<div align="center">
+    <div th:each="el:${onenew}" align="center" style="width:33%">
+        <form method="post" th:object="${products}">
+            Название:
+            <input type="text" name="title"  id ="title" th:value="${el.getTitle()}" placeholder="Название" class="form-control" required>
+            Описание:
+            <textarea  name="text" id ="text" th:text="${el.getText()}" placeholder="Описание" class="form-control" style="align:center"></textarea>
+            Тип:
+            <select name="typeofproduct" id ="typeofproduct" class="form-select">
+                <option value="jija">Жидкость</option>
+                <option value="odnoraz">Эл. сигарета и пр.</option>
+                <option value="cartridge">Картридж</option>
+                <option value="ispar">Испаритель</option>
+            </select>
+            <script th:inline="javascript">
+                            /*<![CDATA[*/
+                                    document.getElementById('typeofproduct').value=[[${el.getTypeofproduct}]];
+                            /*]]>*/
+            </script>
+            Розница или опт?:
+            <select name="optIliRozn" id ="optIliRozn" class="form-select">
+                <option value="rozn">Розница</option>
+                <option value="opt">Опт</option>
+            </select>
+
+            <script th:inline="javascript">
+                            /*<![CDATA[*/
+                                    document.getElementById('optIliRozn').value=[[${el.getOptIliRozn}]];
+                            /*]]>*/
+            </script>
+
+            Количество в наличии:
+            <input type="number" min="0" name="quantity" id ="quantity" th:value="${el.getQuantity()}" placeholder="Количество в наличии" class="form-control" >
+
+            Вес (г.):
+            <input type="number" min="1"  name="mass" id ="mass" th:value="${el.getMass()}" placeholder="Вес (г.)" class="form-control" required>
+            Обьем жидкости (мл.):
+            <input type="number" min="1"  name="volume" id ="volume" th:value="${el.getVolume()}" placeholder="Обьем жидкости (мл.)" class="form-control" >
+            Содержание никотина (%):
+            <input type="number" min="0"  name="nicotine" id ="nicotine" th:value="${el.getNicotine()}" placeholder="Содержание никотина (%)" class="form-control" >
+            Старая цена (необязательно):
+            <input type="number" min="1" name="oldprice" id ="oldprice" th:value="${el.getOldprice()}" placeholder="Старая цена (необязательно)" class="form-control" >
+            Цена:
+            <input type="number" min="1" name="price" id ="price" th:value="${el.getPrice()}" placeholder="Цена" class="form-control" required>
+            URL Картинки:
+            <input type="text" name="photoUrl" id ="photoUrl" th:value="${el.getPhotoUrl()}" placeholder="URL Картинки" class="form-control" required>
+            <a href="https://imgur.com/upload" target="_blank" >Загружать картинки здесь</a>
+            <br>
+            <button style="color:#ffffff" class="btn btn-success" type="submit">Изменить запись</button>
+        </form>
+    </div>
+</div>
+
+
+<footer th:insert="blocks/footer :: Footer"></footer>
+</body>
+</html>
