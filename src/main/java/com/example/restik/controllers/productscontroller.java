@@ -60,6 +60,9 @@ public class productscontroller {
         Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn", Sort.by(Sort.Direction.DESC, "date"));
         model.addAttribute("productstype4",listproducts4);
 
+        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRozn("pod","rozn", Sort.by(Sort.Direction.DESC, "date"));
+        model.addAttribute("productstype5",listproducts5);
+
         Iterable<products> listspecials = productsrepository.findSpecials("rozn");
         model.addAttribute("specials",listspecials);
 
@@ -70,7 +73,6 @@ public class productscontroller {
         model.addAttribute("commrep",commentrepository);
 
         model.addAttribute("curusname",currentPrincipalName);
-        //model.addAttribute("curuserid",userrepository.findById(userrepository.findByUsername(currentPrincipalName).getId()));
         return "productsList";
     }
     @GetMapping(path="/opt")
@@ -98,6 +100,9 @@ public class productscontroller {
 
         Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt", Sort.by(Sort.Direction.DESC, "date"));
         model.addAttribute("productstype4",listproducts4);
+
+        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRozn("pod","opt", Sort.by(Sort.Direction.DESC, "date"));
+        model.addAttribute("productstype5",listproducts5);
 
         Iterable<products> listspecials = productsrepository.findSpecials("opt");
         model.addAttribute("specials",listspecials);
@@ -295,6 +300,9 @@ public class productscontroller {
         Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("ispar","rozn", Sort.by(Sort.Direction.ASC, "price"));
         model.addAttribute("productstype4",listproducts4);
 
+        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("pod","rozn", Sort.by(Sort.Direction.ASC, "price"));
+        model.addAttribute("productstype5",listproducts5);
+
         //////////////////////////////////
         Iterable<products> listspecials = productsrepository.findSpecials("aboba");
         model.addAttribute("specials",listspecials);
@@ -336,6 +344,9 @@ public class productscontroller {
 
         Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("ispar","rozn", Sort.by(Sort.Direction.DESC, "price"));
         model.addAttribute("productstype4",listproducts4);
+
+        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("pod","rozn", Sort.by(Sort.Direction.DESC, "price"));
+        model.addAttribute("productstype5",listproducts5);
 
         //////////////////////////////////
         Iterable<products> listspecials = productsrepository.findSpecials("aboba");
@@ -379,6 +390,9 @@ public class productscontroller {
         Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("ispar","opt", Sort.by(Sort.Direction.ASC, "price"));
         model.addAttribute("productstype4",listproducts4);
 
+        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("pod","opt", Sort.by(Sort.Direction.ASC, "price"));
+        model.addAttribute("productstype5",listproducts5);
+
         //////////////////////////////////
         Iterable<products> listspecials = productsrepository.findSpecials("aboba");
         model.addAttribute("specials",listspecials);
@@ -420,6 +434,9 @@ public class productscontroller {
 
         Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("ispar","opt", Sort.by(Sort.Direction.DESC, "price"));
         model.addAttribute("productstype4",listproducts4);
+
+        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("pod","opt", Sort.by(Sort.Direction.DESC, "price"));
+        model.addAttribute("productstype5",listproducts5);
 
         //////////////////////////////////
         Iterable<products> listspecials = productsrepository.findSpecials("aboba");

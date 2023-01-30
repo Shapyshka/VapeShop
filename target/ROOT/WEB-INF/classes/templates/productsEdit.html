@@ -43,8 +43,9 @@
             <textarea  name="text" id ="text" th:text="${el.getText()}" placeholder="Описание" class="form-control" style="align:center"></textarea>
             Тип:
             <select name="typeofproduct" id ="typeofproduct" class="form-select">
+                <option value="odnoraz">Одноразка</option>
+                <option value="pod">Под</option>
                 <option value="jija">Жидкость</option>
-                <option value="odnoraz">Эл. сигарета и пр.</option>
                 <option value="cartridge">Картридж</option>
                 <option value="ispar">Испаритель</option>
             </select>
