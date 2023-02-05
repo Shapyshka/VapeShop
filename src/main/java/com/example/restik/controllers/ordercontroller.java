@@ -1,9 +1,6 @@
 package com.example.restik.controllers;
 
-import com.example.restik.models.cart;
-import com.example.restik.models.orders;
-import com.example.restik.models.products;
-import com.example.restik.models.user;
+import com.example.restik.models.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -45,6 +42,10 @@ public class ordercontroller {
     @Autowired
     private com.example.restik.repository.orderrepository orderrepository;
 
+    @Autowired
+    private com.example.restik.repository.promorepository promorepository;
+
+
 
     @GetMapping(path="/")
     public String order(Model model) throws ParseException {
@@ -57,14 +58,14 @@ public class ordercontroller {
         SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
         model.addAttribute("df2",df2);
 
+        Iterable<orders> listorder;
         if(Objects.equals(currentPrincipalName, "admin")) {
-            Iterable<orders> listorder = orderrepository.findAllByOrderByDateDesc();
-            model.addAttribute("orders", listorder);
+            listorder = orderrepository.findAllByOrderByDateDesc();
         }
         else{
-            Iterable<orders> listorder = orderrepository.findByUser_idOrderByDateDesc(userrepository.findByUsername(currentPrincipalName).getId());
-            model.addAttribute("orders", listorder);
+            listorder = orderrepository.findByUser_idOrderByDateDesc(userrepository.findByUsername(currentPrincipalName).getId());
         }
+        model.addAttribute("orders", listorder);
 
         model.addAttribute("cartrep",cartrepository);
 
@@ -80,7 +81,8 @@ public class ordercontroller {
     }
 
     @PostMapping("/addorder")
-    public String addorder(@Valid orders orders, BindingResult bindingResult) throws ParseException {
+    public String addorder(@RequestParam("promotitle") String promotitle,
+                           @Valid orders orders, BindingResult bindingResult) throws ParseException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         user user = userrepository.findByUsername(currentPrincipalName);
@@ -99,12 +101,16 @@ public class ordercontroller {
             return "redirect:/cart/";
         }
 
+        if(Objects.equals(orders.getSposobpoluch(), "post") && Objects.equals(orders.getSposoboplaty(), "pripoluch")){
+            return "redirect:/cart/";
+        }
+
         int totalprice=0;
         double totalmass=0;
         int postprice=0;
         for(cart i: listcart){
             totalprice = totalprice+(i.getProduct().getPrice()*i.getQuantity());
-            totalmass=totalmass+(i.getProduct().getMass()*i.getQuantity())+150;
+            totalmass=totalmass+(i.getProduct().getMass()*i.getQuantity())+200;
         }
 
         if(orders.getZipcode()!=null) {
@@ -128,9 +134,7 @@ public class ordercontroller {
                 JSONObject data_obj = (JSONObject) parse.parse(response.toString());
                 Double postpricedouble = (Double) data_obj.get("pkg");
                 postprice = postpricedouble.intValue();
-    //            if(postprice==0){
-    //                return "redirect:/cart/";
-    //            }
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -143,7 +147,22 @@ public class ordercontroller {
         Date now = df1.parse(ZonedDateTime.now(ZoneId.of("Greenwich")).toString().replace("T"," "));
         orders.setDate(now);
         orders.setUser(user);
-        orders.setStatus("WaitingPayment");
+
+        if(Objects.equals(orders.getSposoboplaty(), "pripoluch")){
+            orders.setStatus("Confirmed");
+        }
+        else{
+            orders.setStatus("WaitingPayment");
+        }
+
+        promos promoFromDb=promorepository.findByTitle(promotitle);
+        if(promoFromDb!=null){
+            Integer discount = promoFromDb.getDiscount();
+            totalprice = totalprice - ((totalprice/100)*discount);
+            postprice = postprice - ((postprice/100)*discount);
+            orders.setPromo(promoFromDb);
+        }
+
         orders.setTotalPrice(totalprice);
         orders.setTotalMass(totalmass);
         orders.setTotalPostPrice(postprice);

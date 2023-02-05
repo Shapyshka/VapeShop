@@ -11,8 +11,6 @@ public class products {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-//    @NotEmpty(message = "Заполните название")
-//    @Size(min=2,max=40,message = "Длина строки должна находиться в диапозоне от 2 до 40 символов")
     private String title;
 
     private String text;

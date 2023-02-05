@@ -12,8 +12,6 @@ public class comment {
     private Long id;
     private String text;
 
-    private byte[] mediabytes;
-
     private Date date;
 
     private boolean rating;
@@ -40,14 +38,6 @@ public class comment {
 
     public void setText(String text) {
         this.text = text;
-    }
-
-    public byte[] getMediabytes() {
-        return mediabytes;
-    }
-
-    public void setMediabytes(byte[] mediabytes) {
-        this.mediabytes = mediabytes;
     }
 
 

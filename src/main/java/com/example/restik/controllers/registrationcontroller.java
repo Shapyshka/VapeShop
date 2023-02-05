@@ -57,8 +57,8 @@ public class registrationcontroller {
     }
     @PostMapping("/registration")
     public String newuser(@RequestParam String password2, @RequestParam String bday,
-                          user user, @RequestParam String captcha, Model model) throws ParseException, IOException {
-
+                          user user, Model model) throws ParseException, IOException {
+//        @RequestParam String captcha,
         SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd",new Locale("ru", "RU"));
 
         model.addAttribute("fname",user.getFirstname());

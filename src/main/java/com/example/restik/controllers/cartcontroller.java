@@ -56,6 +56,7 @@ public class cartcontroller {
 
         model.addAttribute("postprice",null);
         model.addAttribute("zip",null);
+        model.addAttribute("promo",null);
 
         return "cart";
     }
@@ -87,11 +88,12 @@ public class cartcontroller {
         return ("redirect:/cart/");
     }
 
-    @GetMapping("/count/{zip}/{mass}/{price}/{adress}")
+    @GetMapping("/count/{zip}/{mass}/{price}/{adress}/{promo}")
     public String count(@PathVariable("zip") int zip,
                         @PathVariable("mass") int mass,
                         @PathVariable("price") int price,
                         @PathVariable("adress") String adress,
+                        @PathVariable("promo") String promo,
                         Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -116,8 +118,13 @@ public class cartcontroller {
         model.addAttribute("zip",zip);
         model.addAttribute("adressatercount",adress);
 
+        if(Objects.equals(promo, "nopromo"))
+            model.addAttribute("promo",null);
+        else
+            model.addAttribute("promo",promo);
 
-        mass = mass+150;
+
+        mass = mass+200;
         try {
                 URL url = new URL("https://postprice.ru/engine/russia/api.php?from=101000&to=" + zip + "&mass=" + mass + "&valuation=" + price + "&vat=1");
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();

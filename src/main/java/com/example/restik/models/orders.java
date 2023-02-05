@@ -18,6 +18,8 @@ public class orders {
 
     private String sposobpoluch;
 
+    private String sposoboplaty;
+
     private String adress;
 
     private Integer zipcode;
@@ -31,6 +33,10 @@ public class orders {
     private Date date;
 
     private String commentary;
+
+    @ManyToOne
+    @JoinColumn(name = "promo_id")
+    private promos promo;
 
 
     public Long getId() {
@@ -119,5 +125,21 @@ public class orders {
 
     public void setCommentary(String commentary) {
         this.commentary = commentary;
+    }
+
+    public String getSposoboplaty() {
+        return sposoboplaty;
+    }
+
+    public void setSposoboplaty(String sposoboplaty) {
+        this.sposoboplaty = sposoboplaty;
+    }
+
+    public promos getPromo() {
+        return promo;
+    }
+
+    public void setPromo(promos promo) {
+        this.promo = promo;
     }
 }

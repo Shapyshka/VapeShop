@@ -1,5 +1,6 @@
 com\example\restik\models\products.class
 com\example\restik\repository\cartrepository.class
+com\example\restik\repository\promorepository.class
 com\example\restik\RestikApplication.class
 com\example\restik\controllers\registrationcontroller.class
 com\example\restik\controllers\cartcontroller.class
@@ -8,6 +9,7 @@ com\example\restik\repository\productsrepository.class
 com\example\restik\repository\userrepository.class
 com\example\restik\repository\orderrepository.class
 com\example\restik\controllers\maincontroller.class
+com\example\restik\models\promos.class
 com\example\restik\models\role.class
 com\example\restik\models\orders.class
 com\example\restik\repository\commentrepository.class
@@ -15,6 +17,7 @@ com\example\restik\controllers\ordercontroller.class
 com\example\restik\models\comment.class
 com\example\restik\config\mvcconfig.class
 com\example\restik\models\message.class
+com\example\restik\config\FaviconConfiguration.class
 com\example\restik\controllers\productscontroller.class
 com\example\restik\repository\messagerepository.class
 com\example\restik\config\websecurityconfig.class
