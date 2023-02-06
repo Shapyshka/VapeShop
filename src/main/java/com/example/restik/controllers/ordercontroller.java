@@ -93,7 +93,7 @@ public class ordercontroller {
         for(cart i: listcartopt)
             totaloptprice = totaloptprice+(i.getProduct().getPrice()*i.getQuantity());
 
-        if(totaloptprice>0 && totaloptprice<6500){
+        if(totaloptprice>0 && totaloptprice<4000){
             return "redirect:/cart/";
         }
 
@@ -102,6 +102,10 @@ public class ordercontroller {
         }
 
         if(Objects.equals(orders.getSposobpoluch(), "post") && Objects.equals(orders.getSposoboplaty(), "pripoluch")){
+            return "redirect:/cart/";
+        }
+
+        if(((Collection<?>) listcartopt).size()>0 && Objects.equals(orders.getSposoboplaty(), "pripoluch")){
             return "redirect:/cart/";
         }
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-
+    <meta name="viewport" content="width=device-width, initial-scale=0.6">
     <!-- ✅ Load slick CSS ✅ -->
     <link
             rel="stylesheet"
@@ -23,7 +23,6 @@
     <link rel="icon" type="image/ico" href="https://www.vapeshifter.ru/favicon.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
     <title>Каталог - VapeShifter</title>
-
     <meta name="description" content="Одноразки, поды, жижи, картриджи, испарители в розницу и оптом с доставкой по всей России"/>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -64,11 +63,7 @@
 
     </style>
 </head>
-<script language="JavaScript">
-    if (screen.width<1280){
-        document.write("<style>body{zoom:150%}</style>");
-    }
-</script>
+
 <body style="margin-top:70px; background-color:#eeeeee">
 <header th:insert="blocks/header :: Header" ></header>
 
@@ -251,7 +246,7 @@
         </span>
         <span style="vertical-align:text-top">
             <i style="font-size:18px; color:#444444; ">
-                Чтобы заказать товары оптом - нужно, чтобы их общая стоимость была не менее 6500 ₽
+                Минимальная сумма оптового заказа - 4000 ₽
             </i>
         </span>
         <div style="height:15px"></div>
@@ -265,8 +260,8 @@
                         <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                             <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                                <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl()}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
-                                <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl()}" class="" height="200" width="100%" style="object-fit:contain;"/>
+                                <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+                                <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain;"/>
                                 <div class="card-body">
                                     <div >
                                         <div align="left" class="mb-0" id="titul" th:text="${el.getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:17px; color:#222222; "></div>
@@ -386,8 +381,8 @@
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                            <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl()}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
-                            <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl()}" class="" height="200" width="100%" style="object-fit:contain;"/>
+                            <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+                            <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain;"/>
                             <div class="card-body">
                                 <div >
                                     <div align="left" class="mb-0" th:text="${el.getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:17px; color:#222222; "></div>
@@ -488,8 +483,8 @@
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                            <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl()}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
-                            <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl()}" class="" height="200" width="100%" style="object-fit:contain;"/>
+                            <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+                            <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain;"/>
                             <div class="card-body">
                                 <div >
                                     <div align="left" class="mb-0" th:text="${el.getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:17px; color:#222222; "></div>
@@ -588,8 +583,8 @@
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                            <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl()}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
-                            <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl()}" class="" height="200" width="100%" style="object-fit:contain;"/>
+                            <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+                            <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain;"/>
                             <div class="card-body">
                                 <div >
                                     <div align="left" class="mb-0" th:text="${el.getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:17px; color:#222222; "></div>
@@ -687,8 +682,8 @@
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                            <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl()}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
-                            <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl()}" class="" height="200" width="100%" style="object-fit:contain;"/>
+                            <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+                            <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain;"/>
                             <div class="card-body">
                                 <div >
                                     <div align="left" class="mb-0" th:text="${el.getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:17px; color:#222222; "></div>
@@ -786,8 +781,8 @@
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                            <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl()}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
-                            <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl()}" class="" height="200" width="100%" style="object-fit:contain;"/>
+                            <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+                            <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain;"/>
                             <div class="card-body">
                                 <div >
                                     <div align="left" class="mb-0" th:text="${el.getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:17px; color:#222222; "></div>
@@ -894,8 +889,8 @@
                         <div class="modal-body" align="center" >
                             <div class="card shadow-sm">
 
-                                <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl()}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
-                                <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl()}" class="" height="200" width="100%" style="object-fit:contain; "/>
+                                <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+                                <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; "/>
                                 <div class="card-body">
                                     <div >
                                         <div align="left" class="mb-0" th:text="${el.getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:17px; color:#222222; "></div>

@@ -3,9 +3,9 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       xmlns:text-color="http://www.w3.org/1999/xhtml">
 <head>
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.6">
 
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
   <link rel="icon" type="image/ico" href="https://www.vapeshifter.ru/favicon.ico">
 
@@ -28,37 +28,33 @@
   <noscript><div><img src="https://mc.yandex.ru/watch/92179338" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
 </head>
-<script language="JavaScript">
-    if (screen.width<1280){
-        document.write("<style>body{zoom:150%}</style>");
-    }
-</script>
+
 <body style="margin-top:70px; background-color:#eeeeee">
 <header th:insert="blocks/header :: Header" ></header>
 <br>
 <div align="center" style="font-size:40px;">Регистрация</div>
 <br>
 <div align="center">
-  <div align="center" style="width:66%; " class="card shadow-sm">
+  <div align="center" style="width:70%; " class="card shadow-sm">
   <form th:action="@{/registration}" method="post" >
-    <div><label style="font-size: 20px; width:50%;"> Логин: <input style="font-size: 20px;" type="text" th:value="${usern}" name="username" class="form-control" required/> </label></div>
-    <div><label style="font-size: 20px; width:50%;"> Имя: <input style="font-size: 20px;" type="text" th:value="${fname}" name="firstname" class="form-control" required/> </label></div>
-    <div><label style="font-size: 20px; width:50%;"> Фамилия: <input style="font-size: 20px;" type="text" th:value="${sname}" name="secondname" class="form-control" required/> </label></div>
-    <div><label style="font-size: 20px; width:50%;"> Отчество (при наличии): <input style="font-size: 20px;" type="text" th:value="${mname}" name="middlename" class="form-control"/> </label></div>
+    <div><label style="font-size: 18px; width:60%;"> Логин: <input style="font-size: 18px;" type="text" th:value="${usern}" name="username" class="form-control" required/> </label></div>
+    <div><label style="font-size: 18px; width:60%;"> Имя: <input style="font-size: 18px;" type="text" th:value="${fname}" name="firstname" class="form-control" required/> </label></div>
+    <div><label style="font-size: 18px; width:60%;"> Фамилия: <input style="font-size: 18px;" type="text" th:value="${sname}" name="secondname" class="form-control" required/> </label></div>
+    <div><label style="font-size: 18px; width:60%;"> Отчество (при наличии): <input style="font-size: 18px;" type="text" th:value="${mname}" name="middlename" class="form-control"/> </label></div>
 
-    <div><label style="font-size: 20px; width:50%;"> Номер телефона: <input style="font-size: 20px;" type="tel" th:value="${fonum}" name="phonenumber" id="phonenumber" class="form-control" maxlength="50"
+    <div><label style="font-size: 18px; width:60%;"> Номер телефона: <input style="font-size: 18px;" type="tel" th:value="${fonum}" name="phonenumber" id="phonenumber" class="form-control" maxlength="50"
                                                                             autofocus="autofocus"
                                                                             pattern="\+7\s?[\(]{0,1}9[0-9]{2}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}"
                                                                             placeholder="+7(___)___-__-__"  required/> </label></div>
-    <div><label style="font-size: 20px; width:50%;"> Эл. почта: <input style="font-size: 20px;" type="email" th:value="${email}" name="email" class="form-control" required/> </label></div>
-    <div><label style="font-size: 20px; width:50%;"> Дата рождения: <input style="font-size: 20px;" type="date" th:value="${#dates.format(birthday, 'yyyy-MM-dd')}" name="bday" class="form-control" required/> </label></div>
+    <div><label style="font-size: 18px; width:60%;"> Эл. почта: <input style="font-size: 18px;" type="email" th:value="${email}" name="email" class="form-control" required/> </label></div>
+    <div><label style="font-size: 18px; width:60%;"> Дата рождения: <input style="font-size: 18px;" type="date" th:value="${#dates.format(birthday, 'yyyy-MM-dd')}" name="bday" class="form-control" required/> </label></div>
 
     <br>
-    <div><label style="font-size: 20px; width:50%;"> Пароль: <input style="font-size: 20px;" type="password" th:value="${userp}" name="password" class="form-control" required/> </label></div>
+    <div><label style="font-size: 18px; width:60%;"> Пароль: <input style="font-size: 18px;" type="password" th:value="${userp}" name="password" class="form-control" required/> </label></div>
   <!--  <div style="color:red" th:if = "${#fields.hasErrors('password')}" th:errors="*{text}"></div>-->
-    <div><label style="font-size: 20px; width:50%;"> Повторите пароль: <input style="font-size: 20px;" type="password" name="password2" class="form-control" required/> </label></div>
+    <div><label style="font-size: 18px; width:60%;"> Повторите пароль: <input style="font-size: 18px;" type="password" name="password2" class="form-control" required/> </label></div>
     <br>
-    <div align="center" style="width:50%">
+    <div align="center" style="width:70%">
       <div align="left">
         <input class="form-check-input" type="checkbox" style="display:inline-block;" id="politicscheck"/>
         <label class="form-check-label" for="politicscheck" style="font-size: 16px; display:inline-block; width:90%;"> Настоящим подтверждаю, что я ознакомлен и согласен с условиями <a target="_blank" href="/soglasiepersdata">политики обработки персональных данных</a>, подтверждаю, что являюсь совершеннолетним лицом (мне есть 18 лет).
@@ -77,8 +73,8 @@
     </script>
 
     <br>
-    <div><input class="btn btn-success" id="regbut" style="font-size: 20px;" type="submit" value="Зарегистрироваться" disabled/></div>
-    <a href="/login" style="font-size: 20px;">Войти в аккаунт</a>
+    <div><input class="btn btn-success" id="regbut" style="font-size: 18px;" type="submit" value="Зарегистрироваться" disabled/></div>
+    <a href="/login" style="font-size: 18px;">Войти в аккаунт</a>
   <br>
     <div style="color:#ff0000; font-size: 18px;" th:if="${message}">
       <p th:text="${message}"></p>
