@@ -109,16 +109,25 @@ public class ordercontroller {
             return "redirect:/cart/";
         }
 
-        int totalprice=0;
+
+        int roznprice=0;
+        int optprice=0;
         double totalmass=0;
-        int postprice=0;
         for(cart i: listcart){
-            totalprice = totalprice+(i.getProduct().getPrice()*i.getQuantity());
+            if(Objects.equals(i.getProduct().getOptIliRozn(), "rozn"))
+                roznprice = roznprice+(i.getProduct().getPrice()*i.getQuantity());
+            else
+                optprice = optprice+(i.getProduct().getPrice()*i.getQuantity());
+
             totalmass=totalmass+(i.getProduct().getMass()*i.getQuantity())+200;
         }
+        int totalprice=roznprice+optprice;
 
+        int postprice=0;
         if(orders.getZipcode()!=null) {
             try {
+                if(totalmass>20000)
+                    totalmass=20000;
                 URL url = new URL("https://postprice.ru/engine/russia/api.php?from=101000&to=" + orders.getZipcode() + "&mass=" + totalmass + "&valuation=" + totalprice + "&vat=1");
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");
@@ -161,11 +170,32 @@ public class ordercontroller {
 
         promos promoFromDb=promorepository.findByTitle(promotitle);
         if(promoFromDb!=null){
-            Integer discount = promoFromDb.getDiscount();
-            totalprice = totalprice - ((totalprice/100)*discount);
-            postprice = postprice - ((postprice/100)*discount);
-            orders.setPromo(promoFromDb);
+            if(promoFromDb.getType().contains("alldiscount") ) {
+                Integer discount = promoFromDb.getDiscount();
+                roznprice = roznprice - ((roznprice / 100) * discount);
+                optprice = optprice - ((optprice / 100) * discount);
+                postprice = postprice - ((postprice / 100) * discount);
+                orders.setPromo(promoFromDb);
+            }
+            else {
+                if (promoFromDb.getType().contains("rozndiscount")) {
+                    Integer discount = promoFromDb.getDiscount();
+                    roznprice = roznprice - ((roznprice / 100) * discount);
+                    orders.setPromo(promoFromDb);
+                }
+                if (promoFromDb.getType().contains("optdiscount")) {
+                    Integer discount = promoFromDb.getDiscount();
+                    optprice = optprice - ((optprice / 100) * discount);
+                    orders.setPromo(promoFromDb);
+                }
+            }
+            if (promoFromDb.getType().contains("freeshipping")) {
+                postprice=0;
+                orders.setPromo(promoFromDb);
+            }
         }
+
+        totalprice=roznprice+optprice;
 
         orders.setTotalPrice(totalprice);
         orders.setTotalMass(totalmass);
@@ -191,11 +221,11 @@ public class ordercontroller {
     public String confirmpayment(@Valid orders orders, BindingResult bindingResult, @PathVariable("id") Long id, Model model)   {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        Optional<orders> oneorder= orderrepository.findById(id);
-        ArrayList<orders> res = new ArrayList<>();
-        oneorder.ifPresent(res::add);
-        model.addAttribute("oneorder",res);
 
+        orders.setSposoboplaty(orderrepository.findById(orders.getId()).get().getSposoboplaty());
+        orders.setAdress(orderrepository.findById(orders.getId()).get().getAdress());
+        orders.setCommentary(orderrepository.findById(orders.getId()).get().getCommentary());
+        orders.setPromo(orderrepository.findById(orders.getId()).get().getPromo());
 
         orders.setSposobpoluch(orderrepository.findById(orders.getId()).get().getSposobpoluch());
         orders.setZipcode(orderrepository.findById(orders.getId()).get().getZipcode());
@@ -204,7 +234,6 @@ public class ordercontroller {
         orders.setTotalMass(orderrepository.findById(orders.getId()).get().getTotalMass());
         orders.setTotalPostPrice(orderrepository.findById(orders.getId()).get().getTotalPostPrice());
         orders.setDate(orderrepository.findById(orders.getId()).get().getDate());
-
 
         orders.setStatus("WaitingConfirm");
 
@@ -216,11 +245,11 @@ public class ordercontroller {
     public String cancelorder(@Valid orders orders, BindingResult bindingResult, @PathVariable("id") Long id, Model model)   {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        Optional<orders> oneorder= orderrepository.findById(id);
-        ArrayList<orders> res = new ArrayList<>();
-        oneorder.ifPresent(res::add);
-        model.addAttribute("oneorder",res);
 
+        orders.setSposoboplaty(orderrepository.findById(orders.getId()).get().getSposoboplaty());
+        orders.setAdress(orderrepository.findById(orders.getId()).get().getAdress());
+        orders.setCommentary(orderrepository.findById(orders.getId()).get().getCommentary());
+        orders.setPromo(orderrepository.findById(orders.getId()).get().getPromo());
 
         orders.setSposobpoluch(orderrepository.findById(orders.getId()).get().getSposobpoluch());
         orders.setZipcode(orderrepository.findById(orders.getId()).get().getZipcode());
@@ -229,7 +258,6 @@ public class ordercontroller {
         orders.setTotalMass(orderrepository.findById(orders.getId()).get().getTotalMass());
         orders.setTotalPostPrice(orderrepository.findById(orders.getId()).get().getTotalPostPrice());
         orders.setDate(orderrepository.findById(orders.getId()).get().getDate());
-
 
         orders.setStatus("Canceled");
 
@@ -241,11 +269,11 @@ public class ordercontroller {
     public String confirmpaymentadmin(@Valid orders orders, BindingResult bindingResult, @PathVariable("id") Long id, Model model)   {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        Optional<orders> oneorder= orderrepository.findById(id);
-        ArrayList<orders> res = new ArrayList<>();
-        oneorder.ifPresent(res::add);
-        model.addAttribute("oneorder",res);
 
+        orders.setSposoboplaty(orderrepository.findById(orders.getId()).get().getSposoboplaty());
+        orders.setAdress(orderrepository.findById(orders.getId()).get().getAdress());
+        orders.setCommentary(orderrepository.findById(orders.getId()).get().getCommentary());
+        orders.setPromo(orderrepository.findById(orders.getId()).get().getPromo());
 
         orders.setSposobpoluch(orderrepository.findById(orders.getId()).get().getSposobpoluch());
         orders.setZipcode(orderrepository.findById(orders.getId()).get().getZipcode());
@@ -254,7 +282,6 @@ public class ordercontroller {
         orders.setTotalMass(orderrepository.findById(orders.getId()).get().getTotalMass());
         orders.setTotalPostPrice(orderrepository.findById(orders.getId()).get().getTotalPostPrice());
         orders.setDate(orderrepository.findById(orders.getId()).get().getDate());
-
 
         orders.setStatus("Confirmed");
 
@@ -267,11 +294,11 @@ public class ordercontroller {
     public String notconfirmpaymentadmin(@Valid orders orders, BindingResult bindingResult, @PathVariable("id") Long id, Model model)   {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        Optional<orders> oneorder= orderrepository.findById(id);
-        ArrayList<orders> res = new ArrayList<>();
-        oneorder.ifPresent(res::add);
-        model.addAttribute("oneorder",res);
 
+        orders.setSposoboplaty(orderrepository.findById(orders.getId()).get().getSposoboplaty());
+        orders.setAdress(orderrepository.findById(orders.getId()).get().getAdress());
+        orders.setCommentary(orderrepository.findById(orders.getId()).get().getCommentary());
+        orders.setPromo(orderrepository.findById(orders.getId()).get().getPromo());
 
         orders.setSposobpoluch(orderrepository.findById(orders.getId()).get().getSposobpoluch());
         orders.setZipcode(orderrepository.findById(orders.getId()).get().getZipcode());
@@ -280,7 +307,6 @@ public class ordercontroller {
         orders.setTotalMass(orderrepository.findById(orders.getId()).get().getTotalMass());
         orders.setTotalPostPrice(orderrepository.findById(orders.getId()).get().getTotalPostPrice());
         orders.setDate(orderrepository.findById(orders.getId()).get().getDate());
-
 
         orders.setStatus("notConfirmed");
 
@@ -293,11 +319,11 @@ public class ordercontroller {
     public String finish(@Valid orders orders, BindingResult bindingResult, @PathVariable("id") Long id, Model model)   {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        Optional<orders> oneorder= orderrepository.findById(id);
-        ArrayList<orders> res = new ArrayList<>();
-        oneorder.ifPresent(res::add);
-        model.addAttribute("oneorder",res);
 
+        orders.setSposoboplaty(orderrepository.findById(orders.getId()).get().getSposoboplaty());
+        orders.setAdress(orderrepository.findById(orders.getId()).get().getAdress());
+        orders.setCommentary(orderrepository.findById(orders.getId()).get().getCommentary());
+        orders.setPromo(orderrepository.findById(orders.getId()).get().getPromo());
 
         orders.setSposobpoluch(orderrepository.findById(orders.getId()).get().getSposobpoluch());
         orders.setZipcode(orderrepository.findById(orders.getId()).get().getZipcode());
@@ -307,16 +333,16 @@ public class ordercontroller {
         orders.setTotalPostPrice(orderrepository.findById(orders.getId()).get().getTotalPostPrice());
         orders.setDate(orderrepository.findById(orders.getId()).get().getDate());
 
-
         orders.setStatus("Finished");
 
         orderrepository.save(orders);
-        int quan=0;
 
         for(cart c:cartrepository.findByOrder_id(orders.getId())){
             products myproduct = c.getProduct();
-            myproduct.setQuantity(myproduct.getQuantity()-c.getQuantity());
-            productsrepository.save(myproduct);
+            if(myproduct.getQuantity()!=null) {
+                myproduct.setQuantity(myproduct.getQuantity() - c.getQuantity());
+                productsrepository.save(myproduct);
+            }
         }
 
         return ("redirect:/order/");

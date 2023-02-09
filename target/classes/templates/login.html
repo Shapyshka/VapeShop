@@ -3,7 +3,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       xmlns:text-color="http://www.w3.org/1999/xhtml">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=0.6">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
@@ -33,7 +33,7 @@
 <body style="margin-top:70px; background-color:#eeeeee">
 <header th:insert="blocks/header :: Header" ></header>
 <br>
-<div align="center" style="font-size:40px;">Вход</div>
+<div align="center" style="font-size:35px;">Вход</div>
 <br>
 <div align="center">
     <div align="center" style="width:70%; " class="card shadow-sm">
@@ -43,15 +43,15 @@
             <div><label style="font-size: 18px;width:60%;"> Пароль: <input style="font-size: 18px;" type="password" name="password" class="form-control"/> </label></div>
 
             <br>
-            <div><input style="font-size: 18px; width:33%; " class="btn btn-success" type="submit" value="Войти" /></div>
+            <div><input style="font-size: 18px;" class="btn btn-success" type="submit" value="Войти в аккаунт" /></div>
             <div style="height:10px"></div>
-            <a style="font-size: 18px; " href="/registration">Нет аккаунта? Зарегистрируйтесь</a>
+            <a style="font-size: 18px; " href="/registration">Нет аккаунта? Зарегистрируйтесь!</a>
             <br>
             <div style="font-size: 18px; color:#ff0000" th:if="${param.error}" >
-                Неверный логин и/или пароль.
+                Неверный логин и/или пароль
             </div>
             <div th:if="${param.logout}" style="font-size: 18px;">
-                Вы вышли из аккаунта
+                Вы вышли из аккаунта. Надеемся не надолго)
             </div>
         </form>
         <div style="height:10px"></div>

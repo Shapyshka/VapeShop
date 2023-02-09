@@ -10,7 +10,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript" >
@@ -95,20 +94,9 @@ input:checked + .slider:before {
 }
 
 
-        .loader {
-          border: 16px solid #f3f3f3; /* Light grey */
-          border-top: 16px solid #3498db; /* Blue */
-          border-radius: 50%;
-          width: 75px;
-          height: 75px;
-          animation: spin 2s linear infinite;
-        }
 
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
     </style>
+
 </head>
 
 <body style="margin-top:70px; background-color:#eeeeee">
@@ -117,24 +105,19 @@ input:checked + .slider:before {
 <br>
 <!--<h1 align="center">Подробно</h1>-->
 <div align="center">
-    <div id="loader" style="background-color:#dddddd; width:20%" align="center" class="rounded">
-        <div style="width:90%">
-            <div class="loader"></div>
 
-        </div>
-    </div>
     <div th:each="el:${products}" id="cuntent" class="rounded" style="display:none" >
         <div class="container" >
             <div class="card">
                 <div class="card-body">
                     <div class="card-title" align="center" style="font-size:32px;" th:text="${el.getTitle()}"></div>
-                    <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 g-3" align="center">
-
+                    <div style="height:10px"></div>
+                    <div class="row row-cols-sm-1 row-cols-lg-2" align="center">
                         <div class="col mt-3" align="center" >
                             <div class="white-box text-center">
-                                <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl()}" width="66%" style="object-fit:contain; filter: blur(6px);" class="img-thumbnail ">
+                                <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','.webp').replace('.jpg','.webp')}" width="66%" style="object-fit:contain; filter: blur(6px);" class="img-thumbnail ">
                                 <div th:if="${curusname=='anonymousUser'}" align="center">
-                                    <label >
+                                    <label style="font-size:16px">
                                         <a href="/login">Войдите</a> или <a href="/registration">зарегистрируйтесь,</a>
                                         чтобы просматривать изображения
                                     </label>
@@ -142,7 +125,7 @@ input:checked + .slider:before {
 
                                 <div th:if="${curusname!='anonymousUser'}">
                                     <a href="#" data-toggle="modal" th:data-target="${'#modalimg'+el.getId().toString()}">
-                                        <img th:src="${el.getPhotoUrl()}" width="66%" style="object-fit:contain; " class="img-thumbnail ">
+                                            <img th:src="${el.getPhotoUrl().replace('.png','.webp').replace('.jpg','.webp')}" width="66%" style="object-fit:contain; " class="img-thumbnail">
                                     </a>
 
                                     <div class="modal fade" th:id="${'modalimg'+el.getId().toString()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabe3" aria-hidden="true">
@@ -164,30 +147,30 @@ input:checked + .slider:before {
                         <div class="col mt-3" align="center"  >
                             <div class="row row-cols-2" >
                                 <div class="col" align="left" style="width:66%">
-                                    <h5 class="box-title">Описание:</h5>
+                                    <h5 class="box-title">📃Описание:</h5>
                                     <div th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(el.getText()),'\n','&lt;br /&gt;'))}" style="font-size:18px"></div>
-                                <br>
+                                    <br>
                                 </div>
 
                                 <div class="col" align="left"  style="white-space: nowrap; width:34%">
                                     <div th:if="${el.getVolume()!=null}">
-                                        <h5 class="box-title">Объем:</h5>
+                                        <h5 class="box-title">💧Объем:</h5>
                                         <div th:text="${el.getVolume()+' мл.'}" style="font-size:19px; "/>
                                         <br>
                                     </div>
                                     <div th:if="${el.getNicotine()!=null}">
-                                        <h5 class="box-title" style="white-space: normal;">Содержание никотина:</h5>
+                                        <h5 class="box-title" style="white-space: normal;">😵‍💫Содержание никотина:</h5>
                                         <div th:text="${el.getNicotine()+'%'}" style="font-size:19px; "/>
                                         <br>
                                     </div>
 
                                     <div th:if="${el.getQuantity()!=null}">
-                                        <h5 class="box-title ">В наличии:</h5>
+                                        <h5 class="box-title ">📦В наличии:</h5>
                                         <div th:text="${el.getQuantity()+' шт.'}" style="font-size:19px; "/>
                                         <br>
                                     </div>
 
-                                    <h5 class="box-title">Цена:</h5>
+                                    <h5 class="box-title">🏷️Цена:</h5>
                                     <div style="white-space: nowrap;">
                                         <div style="display:inline-block;">
                                             <h4  class="text-dark mb-0" th:text="${el.getPrice()+' ₽  '}" style="white-space: nowrap;"/>
@@ -288,12 +271,11 @@ input:checked + .slider:before {
     </div>
     <script th:inline="javascript">document.getElementById("cuntent").style.display = "block";</script>
 
-    <script>document.getElementById("loader").style.display = "none";</script>
 
     <br>
-    <div align="center" style="font-size:35px;">Отзывы</div>
+    <div align="center" style="font-size:35px;">⭐Отзывы⭐</div>
     <div style="height:15px"></div>
-    <div align="center" style="font-size:25px;" th:if="${cartrep.findByUser_idAndProduct_IdAndStatus(userrep.findByUsername(curusname), productsrep.findById(id), 'inOrder').size()==0}">Чтобы оставить отзыв - закажите товар</div>
+    <div align="center" style="font-size:25px;" th:if="${cartrep.findByUser_idAndProduct_IdAndStatus(userrep.findByUsername(curusname), productsrep.findById(id), 'inOrder').size()==0}">Закажите товар, чтобы оставить отзыв📦</div>
     <div align="center" style="width:66%" class="card shadow-sm" id="commentform" th:if="${cartrep.findByUser_idAndProduct_IdAndStatus(userrep.findByUsername(curusname), productsrep.findById(id), 'inOrder').size()!=0}">
         <div align="center">
             <div align="center" style="width:80%">
@@ -325,7 +307,7 @@ input:checked + .slider:before {
 
     <div th:if="${comments.size==0}" align="center" style="font-size:23px;">
         <br>
-        Нет отзывов
+        Нет отзывов😔
     </div>
     <div align="center" th:each="el:${comments}">
         <br>
@@ -338,16 +320,15 @@ input:checked + .slider:before {
                     <td align="center" width="70%">
                         <div style="white-space:nowrap; display:inline-block">
                             <a style="color:#222222; text-decoration: none;" th:if="${curusname=='admin'}"  th:href="'/users/'+${el.getAuthorName()}" >
-                                <img class="rounded-circle" th:src="${userrep.findByUsername(el.getAuthorName()).getAvatarlink()}" style="display:inline-block; vertical-align:middle" height="25px" width="25px" >
-                                <h4 th:text="${el.getAuthorName()}" style="display:inline-block; vertical-align:middle"/>
+                                <img class="rounded-circle" th:src="${userrep.findByUsername(el.getAuthorName()).getAvatarlink()}" style="display:inline-block; vertical-align:middle" height="20px" width="20px" >
+                                <h5 th:text="${el.getAuthorName()}" style="display:inline-block; vertical-align:middle"/>
                             </a>
                             <div style="color:#222222; text-decoration: none;" th:if="${curusname!='admin'}" >
-                                <img class="rounded-circle" th:src="${userrep.findByUsername(el.getAuthorName()).getAvatarlink()}" style="display:inline-block; vertical-align:middle" height="25px" width="25px" >
-                                <h4 th:text="${el.getAuthorName()}" style="display:inline-block; vertical-align:middle"/>
+                                <img class="rounded-circle" th:src="${userrep.findByUsername(el.getAuthorName()).getAvatarlink()}" style="display:inline-block; vertical-align:middle" height="20px" width="20px" >
+                                <h5 th:text="${el.getAuthorName()}" style="display:inline-block; vertical-align:middle"/>
                             </div>
                         </div>
 
-                        <div style="font-size: 23px; display:inline-block;"> - </div>
 
                         <div style="font-size: 23px; display:inline-block;" th:if="${el.getRating()}" >
                             <span style="color:#00d10a; display:inline-block; vertical-align:middle;" class="material-symbols-outlined">
@@ -398,7 +379,7 @@ input:checked + .slider:before {
                     </td>
                 </tr>
             </table>
-            <div style="font-size: 15px; white-space:nowrap" th:text="${df2.format(df1.parse(el.getDate().toString()))}"></div>
+            <div style="font-size: 14px; white-space:nowrap" th:text="${df2.format(df1.parse(el.getDate().toString()))}"></div>
 
             <script th:inline="javascript">
                             /*<![CDATA[*/
@@ -408,7 +389,9 @@ input:checked + .slider:before {
                             /*]]>*/
             </script>
 
-            <div style="font-size: 20px;" th:text="${el.getText()}"></div>
+            <div th:if="${el.getText()!=null}">
+                <div th:if="${el.getText().length()!=0}" style="font-size: 23px;"  th:text="${'«'+el.getText()+'»'}"></div>
+            </div>
 
             <div style="height:7px"></div>
         </div>

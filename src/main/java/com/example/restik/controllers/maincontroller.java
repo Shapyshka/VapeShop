@@ -1,16 +1,21 @@
 package com.example.restik.controllers;
 
+import com.example.restik.models.comment;
+import com.example.restik.models.products;
 import com.example.restik.models.role;
 import com.example.restik.models.user;
 import com.example.restik.repository.commentrepository;
 import com.example.restik.repository.productsrepository;
 import com.example.restik.repository.userrepository;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.context.LazyContextVariable;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,7 +36,66 @@ public class maincontroller {
 
     @GetMapping("/")
     public String home(Model model) {
-        return "redirect:/products/";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm",new Locale("ru", "RU"));
+        df1.setTimeZone(TimeZone.getTimeZone(ZoneId.of("Greenwich")));
+        model.addAttribute("df1",df1);
+        SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
+        model.addAttribute("df2",df2);
+
+        model.addAttribute("allspecials",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return Iterables.concat(productsrepository.findSpecials("rozn"),productsrepository.findSpecials("opt"));
+            }
+        });
+
+        model.addAttribute("specialsrozn",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findSpecials("rozn");
+            }
+        });
+        model.addAttribute("specialsopt",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findSpecials("opt");
+            }
+        });
+
+
+        Iterable<comment> comments = commentrepository.findAllByOrderByDateDesc();
+        List<comment> commentlist = new ArrayList<comment>();
+        comments.forEach(commentlist::add);
+
+
+        for(Iterator<comment> iterator = commentlist.iterator(); iterator.hasNext();){
+            comment c = iterator.next();
+            if(c.getText()==null){
+                iterator.remove();
+            }
+            else{
+                if(c.getText().length()==0) {
+                    iterator.remove();
+                }
+            }
+        }
+
+        List<comment> comments3 = new ArrayList<comment>();
+        for (int i = 0; i<=2; i++){
+            comments3.add(commentlist.get(i));
+        }
+        model.addAttribute("comments", comments3);
+
+
+        model.addAttribute("userrep",userrepository);
+        model.addAttribute("productsrep", productsrepository);
+        model.addAttribute("commrep",commentrepository);
+
+        model.addAttribute("curusname",currentPrincipalName);
+        return "mainpage";
     }
 
     @GetMapping("/prf")

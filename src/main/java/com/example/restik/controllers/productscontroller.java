@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.context.LazyContextVariable;
 
 import javax.validation.Valid;
 import java.text.ParseException;
@@ -45,26 +46,61 @@ public class productscontroller {
         SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
         model.addAttribute("df2",df2);
 
-        Iterable<products> listproducts = productsrepository.findByOptIliRoznOrderByDateDesc("rozn");
-        model.addAttribute("products",listproducts);
+        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByOptIliRoznOrderByDateDesc("rozn");
+            }
+        });
 
-        Iterable<products> listproducts1 = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","rozn",Sort.by(Sort.Direction.DESC, "date"));
-        model.addAttribute("productstype1",listproducts1);
+        model.addAttribute("productstype1",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","rozn",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
 
-        Iterable<products> listproducts2 = productsrepository.findByTypeofproductAndOptIliRozn("jija","rozn", Sort.by(Sort.Direction.DESC, "date"));
-        model.addAttribute("productstype2",listproducts2);
+        model.addAttribute("productstype2",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("jija","rozn",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
 
-        Iterable<products> listproducts3 = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","rozn",Sort.by(Sort.Direction.DESC, "date"));
-        model.addAttribute("productstype3",listproducts3);
+        model.addAttribute("productstype3",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("cartridge","rozn",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
 
-        Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn", Sort.by(Sort.Direction.DESC, "date"));
-        model.addAttribute("productstype4",listproducts4);
 
-        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRozn("pod","rozn", Sort.by(Sort.Direction.DESC, "date"));
-        model.addAttribute("productstype5",listproducts5);
+        model.addAttribute("productstype4",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
 
-        Iterable<products> listspecials = productsrepository.findSpecials("rozn");
-        model.addAttribute("specials",listspecials);
+        model.addAttribute("productstype5",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("pod","rozn",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
+
+        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findSpecials("rozn");
+            }
+        });
+
 
         model.addAttribute("opt",false);
 
@@ -86,29 +122,85 @@ public class productscontroller {
         SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
         model.addAttribute("df2",df2);
 
-        Iterable<products> listproducts = productsrepository.findByOptIliRoznOrderByDateDesc("opt");
-        model.addAttribute("products",listproducts);
+//        Iterable<products> listproducts = productsrepository.findByOptIliRoznOrderByDateDesc("opt");
+//        model.addAttribute("products",listproducts);
+//
+//        Iterable<products> listproducts1 = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","opt",Sort.by(Sort.Direction.DESC, "date"));
+//        model.addAttribute("productstype1",listproducts1);
+//
+//        Iterable<products> listproducts2 = productsrepository.findByTypeofproductAndOptIliRozn("jija","opt", Sort.by(Sort.Direction.DESC, "date"));
+//        model.addAttribute("productstype2",listproducts2);
+//
+//        Iterable<products> listproducts3 = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",Sort.by(Sort.Direction.DESC, "date"));
+//        model.addAttribute("productstype3",listproducts3);
+//
+//        Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt", Sort.by(Sort.Direction.DESC, "date"));
+//        model.addAttribute("productstype4",listproducts4);
+//
+//        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRozn("pod","opt", Sort.by(Sort.Direction.DESC, "date"));
+//        model.addAttribute("productstype5",listproducts5);
+//
+//        Iterable<products> listspecials = productsrepository.findSpecials("opt");
+//        model.addAttribute("specials",listspecials);
 
-        Iterable<products> listproducts1 = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","opt",Sort.by(Sort.Direction.DESC, "date"));
-        model.addAttribute("productstype1",listproducts1);
 
-        Iterable<products> listproducts2 = productsrepository.findByTypeofproductAndOptIliRozn("jija","opt", Sort.by(Sort.Direction.DESC, "date"));
-        model.addAttribute("productstype2",listproducts2);
+        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByOptIliRoznOrderByDateDesc("opt");
+            }
+        });
 
-        Iterable<products> listproducts3 = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",Sort.by(Sort.Direction.DESC, "date"));
-        model.addAttribute("productstype3",listproducts3);
+        model.addAttribute("productstype1",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","opt",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
 
-        Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt", Sort.by(Sort.Direction.DESC, "date"));
-        model.addAttribute("productstype4",listproducts4);
+        model.addAttribute("productstype2",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("jija","opt",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
 
-        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRozn("pod","opt", Sort.by(Sort.Direction.DESC, "date"));
-        model.addAttribute("productstype5",listproducts5);
 
-        Iterable<products> listspecials = productsrepository.findSpecials("opt");
-        model.addAttribute("specials",listspecials);
+        model.addAttribute("productstype3",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
+
+        model.addAttribute("productstype4",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
+
+        model.addAttribute("productstype5",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("pod","opt",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
+
+        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findSpecials("opt");
+            }
+        });
+
 
         model.addAttribute("opt",true);
-
 
         model.addAttribute("userrep",userrepository);
         model.addAttribute("productsrep", productsrepository);
@@ -285,28 +377,83 @@ public class productscontroller {
         SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
         model.addAttribute("df2",df2);
 
-        Iterable<products> listproducts = productsrepository.findByOptIliRoznOrderByDateDesc("rozn");
-        model.addAttribute("products",listproducts);
+//        Iterable<products> listproducts = productsrepository.findByOptIliRoznOrderByDateDesc("rozn");
+//        model.addAttribute("products",listproducts);
+//
+//        Iterable<products> listproducts1 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("odnoraz","rozn",Sort.by(Sort.Direction.ASC, "price"));
+//        model.addAttribute("productstype1",listproducts1);
+//
+//        Iterable<products> listproducts2 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("jija","rozn", Sort.by(Sort.Direction.ASC, "price"));
+//        model.addAttribute("productstype2",listproducts2);
+//
+//        Iterable<products> listproducts3 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("cartridge","rozn",Sort.by(Sort.Direction.ASC, "price"));
+//        model.addAttribute("productstype3",listproducts3);
+//
+//        Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("ispar","rozn", Sort.by(Sort.Direction.ASC, "price"));
+//        model.addAttribute("productstype4",listproducts4);
+//
+//        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("pod","rozn", Sort.by(Sort.Direction.ASC, "price"));
+//        model.addAttribute("productstype5",listproducts5);
+//
+//        Iterable<products> listspecials = productsrepository.findSpecials("aboba");
+//        model.addAttribute("specials",listspecials);
 
-        Iterable<products> listproducts1 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("odnoraz","rozn",Sort.by(Sort.Direction.ASC, "price"));
-        model.addAttribute("productstype1",listproducts1);
 
-        Iterable<products> listproducts2 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("jija","rozn", Sort.by(Sort.Direction.ASC, "price"));
-        model.addAttribute("productstype2",listproducts2);
+        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByOptIliRoznOrderByDateDesc("rozn");
+            }
+        });
 
-        Iterable<products> listproducts3 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("cartridge","rozn",Sort.by(Sort.Direction.ASC, "price"));
-        model.addAttribute("productstype3",listproducts3);
+        model.addAttribute("productstype1",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","rozn",
+                        Sort.by(Sort.Direction.ASC, "price"));
+            }
+        });
 
-        Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("ispar","rozn", Sort.by(Sort.Direction.ASC, "price"));
-        model.addAttribute("productstype4",listproducts4);
+        model.addAttribute("productstype2",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("jija","rozn",
+                        Sort.by(Sort.Direction.ASC, "price"));
+            }
+        });
 
-        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("pod","rozn", Sort.by(Sort.Direction.ASC, "price"));
-        model.addAttribute("productstype5",listproducts5);
 
-        //////////////////////////////////
-        Iterable<products> listspecials = productsrepository.findSpecials("aboba");
-        model.addAttribute("specials",listspecials);
-        //////////////////////////////////
+        model.addAttribute("productstype3",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("cartridge","rozn",
+                        Sort.by(Sort.Direction.ASC, "price"));
+            }
+        });
+
+        model.addAttribute("productstype4",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn",
+                        Sort.by(Sort.Direction.ASC, "price"));
+            }
+        });
+
+        model.addAttribute("productstype5",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("pod","rozn",
+                        Sort.by(Sort.Direction.ASC, "price"));
+            }
+        });
+
+        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findSpecials("aboba");
+            }
+        });
+
 
 
         model.addAttribute("opt",false);
@@ -330,28 +477,83 @@ public class productscontroller {
         SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
         model.addAttribute("df2",df2);
 
-        Iterable<products> listproducts = productsrepository.findByOptIliRoznOrderByDateDesc("rozn");
-        model.addAttribute("products",listproducts);
+//        Iterable<products> listproducts = productsrepository.findByOptIliRoznOrderByDateDesc("rozn");
+//        model.addAttribute("products",listproducts);
+//
+//        Iterable<products> listproducts1 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("odnoraz","rozn",Sort.by(Sort.Direction.DESC, "price"));
+//        model.addAttribute("productstype1",listproducts1);
+//
+//        Iterable<products> listproducts2 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("jija","rozn", Sort.by(Sort.Direction.DESC, "price"));
+//        model.addAttribute("productstype2",listproducts2);
+//
+//        Iterable<products> listproducts3 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("cartridge","rozn",Sort.by(Sort.Direction.DESC, "price"));
+//        model.addAttribute("productstype3",listproducts3);
+//
+//        Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("ispar","rozn", Sort.by(Sort.Direction.DESC, "price"));
+//        model.addAttribute("productstype4",listproducts4);
+//
+//        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("pod","rozn", Sort.by(Sort.Direction.DESC, "price"));
+//        model.addAttribute("productstype5",listproducts5);
+//
+//        Iterable<products> listspecials = productsrepository.findSpecials("aboba");
+//        model.addAttribute("specials",listspecials);
+//
 
-        Iterable<products> listproducts1 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("odnoraz","rozn",Sort.by(Sort.Direction.DESC, "price"));
-        model.addAttribute("productstype1",listproducts1);
+        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByOptIliRoznOrderByDateDesc("rozn");
+            }
+        });
 
-        Iterable<products> listproducts2 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("jija","rozn", Sort.by(Sort.Direction.DESC, "price"));
-        model.addAttribute("productstype2",listproducts2);
+        model.addAttribute("productstype1",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","rozn",
+                        Sort.by(Sort.Direction.DESC, "price"));
+            }
+        });
 
-        Iterable<products> listproducts3 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("cartridge","rozn",Sort.by(Sort.Direction.DESC, "price"));
-        model.addAttribute("productstype3",listproducts3);
+        model.addAttribute("productstype2",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("jija","rozn",
+                        Sort.by(Sort.Direction.DESC, "price"));
+            }
+        });
 
-        Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("ispar","rozn", Sort.by(Sort.Direction.DESC, "price"));
-        model.addAttribute("productstype4",listproducts4);
 
-        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("pod","rozn", Sort.by(Sort.Direction.DESC, "price"));
-        model.addAttribute("productstype5",listproducts5);
+        model.addAttribute("productstype3",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("cartridge","rozn",
+                        Sort.by(Sort.Direction.DESC, "price"));
+            }
+        });
 
-        //////////////////////////////////
-        Iterable<products> listspecials = productsrepository.findSpecials("aboba");
-        model.addAttribute("specials",listspecials);
-        //////////////////////////////////
+        model.addAttribute("productstype4",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn",
+                        Sort.by(Sort.Direction.DESC, "price"));
+            }
+        });
+
+        model.addAttribute("productstype5",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("pod","rozn",
+                        Sort.by(Sort.Direction.DESC, "price"));
+            }
+        });
+
+        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findSpecials("aboba");
+            }
+        });
+
 
         model.addAttribute("opt",false);
 
@@ -375,31 +577,86 @@ public class productscontroller {
         SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
         model.addAttribute("df2",df2);
 
-        Iterable<products> listproducts = productsrepository.findByOptIliRoznOrderByDateDesc("opt");
-        model.addAttribute("products",listproducts);
+//        Iterable<products> listproducts = productsrepository.findByOptIliRoznOrderByDateDesc("opt");
+//        model.addAttribute("products",listproducts);
+//
+//        Iterable<products> listproducts1 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("odnoraz","opt",Sort.by(Sort.Direction.ASC, "price"));
+//        model.addAttribute("productstype1",listproducts1);
+//
+//        Iterable<products> listproducts2 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("jija","opt", Sort.by(Sort.Direction.ASC, "price"));
+//        model.addAttribute("productstype2",listproducts2);
+//
+//        Iterable<products> listproducts3 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("cartridge","opt",Sort.by(Sort.Direction.ASC, "price"));
+//        model.addAttribute("productstype3",listproducts3);
+//
+//        Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("ispar","opt", Sort.by(Sort.Direction.ASC, "price"));
+//        model.addAttribute("productstype4",listproducts4);
+//
+//        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("pod","opt", Sort.by(Sort.Direction.ASC, "price"));
+//        model.addAttribute("productstype5",listproducts5);
+//
+//        Iterable<products> listspecials = productsrepository.findSpecials("aboba");
+//        model.addAttribute("specials",listspecials);
 
-        Iterable<products> listproducts1 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("odnoraz","opt",Sort.by(Sort.Direction.ASC, "price"));
-        model.addAttribute("productstype1",listproducts1);
 
-        Iterable<products> listproducts2 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("jija","opt", Sort.by(Sort.Direction.ASC, "price"));
-        model.addAttribute("productstype2",listproducts2);
+        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByOptIliRoznOrderByDateDesc("opt");
+            }
+        });
 
-        Iterable<products> listproducts3 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("cartridge","opt",Sort.by(Sort.Direction.ASC, "price"));
-        model.addAttribute("productstype3",listproducts3);
+        model.addAttribute("productstype1",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","opt",
+                        Sort.by(Sort.Direction.ASC, "price"));
+            }
+        });
 
-        Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("ispar","opt", Sort.by(Sort.Direction.ASC, "price"));
-        model.addAttribute("productstype4",listproducts4);
+        model.addAttribute("productstype2",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("jija","opt",
+                        Sort.by(Sort.Direction.ASC, "price"));
+            }
+        });
 
-        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("pod","opt", Sort.by(Sort.Direction.ASC, "price"));
-        model.addAttribute("productstype5",listproducts5);
 
-        //////////////////////////////////
-        Iterable<products> listspecials = productsrepository.findSpecials("aboba");
-        model.addAttribute("specials",listspecials);
-        //////////////////////////////////
+        model.addAttribute("productstype3",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",
+                        Sort.by(Sort.Direction.ASC, "price"));
+            }
+        });
+
+        model.addAttribute("productstype4",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt",
+                        Sort.by(Sort.Direction.ASC, "price"));
+            }
+        });
+
+        model.addAttribute("productstype5",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("pod","opt",
+                        Sort.by(Sort.Direction.ASC, "price"));
+            }
+        });
+
+        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findSpecials("aboba");
+            }
+        });
+
+
 
         model.addAttribute("opt",true);
-
 
         model.addAttribute("userrep",userrepository);
         model.addAttribute("productsrep", productsrepository);
@@ -420,28 +677,84 @@ public class productscontroller {
         SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
         model.addAttribute("df2",df2);
 
-        Iterable<products> listproducts = productsrepository.findByOptIliRoznOrderByDateDesc("opt");
-        model.addAttribute("products",listproducts);
+//        Iterable<products> listproducts = productsrepository.findByOptIliRoznOrderByDateDesc("opt");
+//        model.addAttribute("products",listproducts);
+//
+//        Iterable<products> listproducts1 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("odnoraz","opt",Sort.by(Sort.Direction.DESC, "price"));
+//        model.addAttribute("productstype1",listproducts1);
+//
+//        Iterable<products> listproducts2 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("jija","opt", Sort.by(Sort.Direction.DESC, "price"));
+//        model.addAttribute("productstype2",listproducts2);
+//
+//        Iterable<products> listproducts3 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("cartridge","opt",Sort.by(Sort.Direction.DESC, "price"));
+//        model.addAttribute("productstype3",listproducts3);
+//
+//        Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("ispar","opt", Sort.by(Sort.Direction.DESC, "price"));
+//        model.addAttribute("productstype4",listproducts4);
+//
+//        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("pod","opt", Sort.by(Sort.Direction.DESC, "price"));
+//        model.addAttribute("productstype5",listproducts5);
+//
+//        Iterable<products> listspecials = productsrepository.findSpecials("aboba");
+//        model.addAttribute("specials",listspecials);
 
-        Iterable<products> listproducts1 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("odnoraz","opt",Sort.by(Sort.Direction.DESC, "price"));
-        model.addAttribute("productstype1",listproducts1);
 
-        Iterable<products> listproducts2 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("jija","opt", Sort.by(Sort.Direction.DESC, "price"));
-        model.addAttribute("productstype2",listproducts2);
 
-        Iterable<products> listproducts3 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("cartridge","opt",Sort.by(Sort.Direction.DESC, "price"));
-        model.addAttribute("productstype3",listproducts3);
+        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByOptIliRoznOrderByDateDesc("opt");
+            }
+        });
 
-        Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("ispar","opt", Sort.by(Sort.Direction.DESC, "price"));
-        model.addAttribute("productstype4",listproducts4);
+        model.addAttribute("productstype1",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","opt",
+                        Sort.by(Sort.Direction.DESC, "price"));
+            }
+        });
 
-        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("pod","opt", Sort.by(Sort.Direction.DESC, "price"));
-        model.addAttribute("productstype5",listproducts5);
+        model.addAttribute("productstype2",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("jija","opt",
+                        Sort.by(Sort.Direction.DESC, "price"));
+            }
+        });
 
-        //////////////////////////////////
-        Iterable<products> listspecials = productsrepository.findSpecials("aboba");
-        model.addAttribute("specials",listspecials);
-        //////////////////////////////////
+
+        model.addAttribute("productstype3",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",
+                        Sort.by(Sort.Direction.DESC, "price"));
+            }
+        });
+
+        model.addAttribute("productstype4",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt",
+                        Sort.by(Sort.Direction.DESC, "price"));
+            }
+        });
+
+        model.addAttribute("productstype5",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("pod","opt",
+                        Sort.by(Sort.Direction.DESC, "price"));
+            }
+        });
+
+        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findSpecials("aboba");
+            }
+        });
+
 
         model.addAttribute("opt",true);
 

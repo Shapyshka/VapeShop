@@ -126,6 +126,8 @@ public class cartcontroller {
 
         mass = mass+200;
         try {
+                if(mass>20000)
+                    mass=20000;
                 URL url = new URL("https://postprice.ru/engine/russia/api.php?from=101000&to=" + zip + "&mass=" + mass + "&valuation=" + price + "&vat=1");
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");
@@ -145,7 +147,6 @@ public class cartcontroller {
                 JSONObject data_obj = (JSONObject) parse.parse(response.toString());
                 Double postpricedouble = (Double) data_obj.get("pkg");
                 model.addAttribute("postprice",postpricedouble.intValue());
-
 
 
         } catch (Exception e) {

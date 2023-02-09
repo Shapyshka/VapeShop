@@ -2,25 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=0.6">
-    <!-- ✅ Load slick CSS ✅ -->
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"
-            integrity="sha512-wR4oNhLBHf7smjy0K4oqzdWumd+r5/+6QO/vDda76MW5iug4PT7v86FoEkySIJft3XA0Ae6axhIvHrqwm793Nw=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-    />
 
-    <!-- ✅ Load slick theme CSS ✅ -->
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
-            integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-    />
+
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.0/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.0/slick/slick-theme.css"/>
+
 
     <link rel="icon" type="image/ico" href="https://www.vapeshifter.ru/favicon.ico">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
     <title>Каталог - VapeShifter</title>
     <meta name="description" content="Одноразки, поды, жижи, картриджи, испарители в розницу и оптом с доставкой по всей России"/>
@@ -45,25 +34,22 @@
     <noscript><div><img src="https://mc.yandex.ru/watch/92179338" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
 
-    <style>
-        .loader {
-          border: 16px solid #f3f3f3; /* Light grey */
-          border-top: 16px solid #3498db; /* Blue */
-          border-radius: 50%;
-          width: 75px;
-          height: 75px;
-          animation: spin 2s linear infinite;
-        }
 
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-
-
-    </style>
 </head>
 
+<style>
+   .scale {
+    display: inline-block; /* Строчно-блочный элемент */
+    overflow: hidden; /* Скрываем всё за контуром */
+   }
+   .scale img {
+    transition: 1s; /* Время эффекта */
+    display: block; /* Убираем небольшой отступ снизу */
+   }
+   .scale img:hover {
+    transform: scale(1.2); /* Увеличиваем масштаб */
+   }
+  </style>
 <body style="margin-top:70px; background-color:#eeeeee">
 <header th:insert="blocks/header :: Header" ></header>
 
@@ -136,17 +122,6 @@
                                 </span>
                             </a>
 
-
-
-        <!-- ✅ load Slick ✅ -->
-        <script
-                src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
-                integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
-                crossorigin="anonymous"
-                referrerpolicy="no-referrer"
-        ></script>
-
-
         <script>
             function searchFunction() {
                 let input = document.getElementById('sparam').value;
@@ -174,7 +149,7 @@
                 var x = document.getElementsByClassName('tovary');
                 for (i = 0; i < x.length; i++) {
                     var div1 = x[i].getElementsByTagName('div')[0];
-                    var div2 = div1.getElementsByTagName('div')[0];
+                    var div2 = div1.getElementsByTagName('div')[1];
                     var div3 = div2.getElementsByTagName('div')[0];
                     if (!div3.getElementsByTagName('div')[0].innerHTML.toLowerCase().includes(input)) {
                         x[i].style.display="none";
@@ -190,31 +165,31 @@
 
             $("#moistslink").click(function() {
                 $([document.documentElement, document.body]).animate({
-                    scrollTop: $("#moistsdiv").offset().top
+                    scrollTop: $("#moistsdiv").offset().top - 150
                 }, 100);
             });
 
             $("#vapeslink").click(function() {
                 $([document.documentElement, document.body]).animate({
-                    scrollTop: $("#vapesdiv").offset().top
+                    scrollTop: $("#vapesdiv").offset().top - 150
                 }, 100);
             });
 
             $("#podslink").click(function() {
                 $([document.documentElement, document.body]).animate({
-                    scrollTop: $("#podsdiv").offset().top
+                    scrollTop: $("#podsdiv").offset().top - 150
                 }, 100);
             });
 
             $("#cartridgelink").click(function() {
                 $([document.documentElement, document.body]).animate({
-                    scrollTop: $("#cartridgediv").offset().top
+                    scrollTop: $("#cartridgediv").offset().top - 150
                 }, 100);
             });
 
             $("#isparlink").click(function() {
                 $([document.documentElement, document.body]).animate({
-                    scrollTop: $("#ispardiv").offset().top
+                    scrollTop: $("#ispardiv").offset().top - 150
                 }, 100);
             });
         </script>
@@ -234,11 +209,6 @@
 
 <div align="center">
 
-    <div id="loader" style="background-color:#dddddd; width:20%" align="center" class="rounded">
-        <div style="width:90%">
-            <div class="loader"></div>
-        </div>
-    </div>
 
     <div align="center" th:if="${opt==true}">
         <span style="font-size:26px; vertical-align:text-top; color:#ff7b00" class="material-symbols-outlined">
@@ -249,19 +219,25 @@
                 Минимальная сумма оптового заказа - 4000 ₽
             </i>
         </span>
+        <span style="font-size:26px; vertical-align:text-top; color:#ff7b00" class="material-symbols-outlined">
+            warning
+        </span>
         <div style="height:15px"></div>
     </div>
         <div id="specialsdiv">
             <div th:if="${specials.size()>5}" >
-                <div align="center" style="font-size:35px; ">Скидки</div>
+                <div align="center" style="font-size:35px; ">🔖💲Скидки💲🔖</div>
                 <br>
-                <div class="autoplay" style="width:80%">
+                <div class="autoplay" style="width:75%">
                     <div th:each="el:${specials}" >
                         <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                             <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                                <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
-                                <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain;"/>
+                                <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+
+                                <div class="scale">
+                                    <img loading=lazy th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
+                                </div>
                                 <div class="card-body">
                                     <div >
                                         <div align="left" class="mb-0" id="titul" th:text="${el.getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:17px; color:#222222; "></div>
@@ -313,52 +289,51 @@
                     </div>
                 </div>
 
+                <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+                <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+                <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.0/slick/slick.min.js"></script>
+
                 <script type="text/javascript">
 
-                $(document).ready(function(){
                   $('.autoplay').slick({
                   dots: true,
-              infinite: true,
+                    infinite: true,
                       slidesToShow: 5,
                       slidesToScroll: 1,
                       autoplay: true,
                       autoplaySpeed: 3500,
                        responsive: [
-                {
-                  breakpoint: 1024,
-                  settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 1,
-                    infinite: true,
-                    dots: true,
-                    autoplay: true,
-                      autoplaySpeed: 3500
-                  }
-                },
-                {
-                  breakpoint: 600,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                    autoplay: true,
-                      autoplaySpeed: 3500
-                  }
-                },
-                {
-                  breakpoint: 480,
-                  settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    autoplay: true,
-                      autoplaySpeed: 3500
-                  }
-                }
-                // You can unslick at a given breakpoint now by adding:
-                // settings: "unslick"
-                // instead of a settings object
-              ]
+                        {
+                          breakpoint: 1024,
+                          settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 1,
+                            infinite: true,
+                            dots: true,
+                            autoplay: true,
+                              autoplaySpeed: 3500
+                          }
+                        },
+                        {
+                          breakpoint: 600,
+                          settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                              autoplaySpeed: 3500
+                          }
+                        },
+                        {
+                          breakpoint: 480,
+                          settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                              autoplaySpeed: 3500
+                          }
+                        }
+                      ]
                     });
-                });
 
               </script>
             </div>
@@ -373,16 +348,18 @@
 
             <div id="vapesdiv" style="height:15px"></div>
             <div align="center" class="categorytitle" th:if="${productstype1.size()>0}" style="font-size:35px;" >
-                Одноразовые электронные сигареты
-                <div style="height:15px"> </div>
+                ⚡🚬Одноразовые электронные сигареты🚬⚡
+                <div style="height:5px"> </div>
             </div>
             <div th:if="${productstype1.size()>0}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-0">
                 <div th:each="el:${productstype1}" class="col tovary">
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                            <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
-                            <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain;"/>
+                            <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+                            <div class="scale">
+                                <img loading=lazy th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
+                            </div>
                             <div class="card-body">
                                 <div >
                                     <div align="left" class="mb-0" th:text="${el.getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:17px; color:#222222; "></div>
@@ -475,16 +452,18 @@
 
             <div id="podsdiv" style="height:15px"></div>
             <div align="center" class="categorytitle" th:if="${productstype5.size()>0}" style="font-size:35px;" >
-                Pod системы
-                <div style="height:15px"> </div>
+                💨⚡Pod-системы⚡💨
+                <div style="height:5px"> </div>
             </div>
             <div th:if="${productstype5.size()>0}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-0">
                 <div th:each="el:${productstype5}" class="col tovary">
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                            <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
-                            <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain;"/>
+                            <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+                            <div class="scale">
+                                <img loading=lazy th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
+                            </div>
                             <div class="card-body">
                                 <div >
                                     <div align="left" class="mb-0" th:text="${el.getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:17px; color:#222222; "></div>
@@ -575,16 +554,18 @@
 
             <div id ="moistsdiv" style="height:15px"></div>
             <div class="categorytitle" th:if="${productstype2.size()>0}"  align="center" style="font-size:35px;">
-                Жидкости
-                <div style="height:15px"> </div>
+                🧪💧Жидкости💧🧪
+                <div style="height:5px"> </div>
             </div>
             <div th:if="${productstype2.size()>0}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-0">
                 <div th:each="el:${productstype2}" class="col tovary">
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                            <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
-                            <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain;"/>
+                            <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+                            <div class="scale">
+                                <img loading=lazy th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
+                            </div>
                             <div class="card-body">
                                 <div >
                                     <div align="left" class="mb-0" th:text="${el.getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:17px; color:#222222; "></div>
@@ -674,16 +655,18 @@
 
             <div id ="cartridgediv" style="height:15px"></div>
             <div class="categorytitle" th:if="${productstype3.size()>0}"  align="center" style="font-size:35px;">
-                Картриджи
-                <div style="height:15px"> </div>
+                🔋Картриджи🔋
+                <div style="height:5px"> </div>
             </div>
             <div th:if="${productstype3.size()>0}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-0">
                 <div th:each="el:${productstype3}" class="col tovary">
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                            <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
-                            <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain;"/>
+                            <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+                            <div class="scale">
+                                <img loading=lazy th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
+                            </div>
                             <div class="card-body">
                                 <div >
                                     <div align="left" class="mb-0" th:text="${el.getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:17px; color:#222222; "></div>
@@ -773,16 +756,18 @@
 
             <div id ="ispardiv" style="height:15px"></div>
             <div class="categorytitle" th:if="${productstype4.size()>0}"  align="center" style="font-size:35px;">
-                Испарители
-                <div style="height:15px"> </div>
+                ⚡🔋Испарители🔋⚡
+                <div style="height:5px"> </div>
             </div>
             <div th:if="${productstype4.size()>0}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-0">
                 <div th:each="el:${productstype4}" class="col tovary">
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                            <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
-                            <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain;"/>
+                            <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+                            <div class="scale">
+                                <img loading=lazy th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
+                            </div>
                             <div class="card-body">
                                 <div >
                                     <div align="left" class="mb-0" th:text="${el.getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:17px; color:#222222; "></div>
@@ -889,8 +874,10 @@
                         <div class="modal-body" align="center" >
                             <div class="card shadow-sm">
 
-                                <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
-                                <img th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; "/>
+                                <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+                                <div class="scale">
+                                    <img loading=lazy th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain; "/>
+                                </div>
                                 <div class="card-body">
                                     <div >
                                         <div align="left" class="mb-0" th:text="${el.getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:17px; color:#222222; "></div>
@@ -962,8 +949,6 @@
 <!--            }-->
 <!--        /*]]>*/-->
 <!--    </script>-->
-
-    <script>document.getElementById("loader").style.display = "none";</script>
 
 </div>
 <br>

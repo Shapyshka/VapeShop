@@ -13,6 +13,8 @@ public class promos {
 
     private Integer discount;
 
+    private String type;
+
 
     public Long getId() {
         return id;
@@ -36,5 +38,13 @@ public class promos {
 
     public void setDiscount(Integer discount) {
         this.discount = discount;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

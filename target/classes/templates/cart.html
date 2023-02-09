@@ -3,25 +3,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=0.6">
 
-    <!-- ✅ Load slick CSS ✅ -->
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"
-            integrity="sha512-wR4oNhLBHf7smjy0K4oqzdWumd+r5/+6QO/vDda76MW5iug4PT7v86FoEkySIJft3XA0Ae6axhIvHrqwm793Nw=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-    />
-
-    <!-- ✅ Load slick theme CSS ✅ -->
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
-            integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-    />
-
     <link rel="icon" type="image/ico" href="https://www.vapeshifter.ru/favicon.ico">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
     <title>Корзина - VapeShifter</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -44,24 +27,6 @@
     <noscript><div><img src="https://mc.yandex.ru/watch/92179338" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
 
-
-    <style>
-        .loader {
-          border: 16px solid #f3f3f3; /* Light grey */
-          border-top: 16px solid #3498db; /* Blue */
-          border-radius: 50%;
-          width: 75px;
-          height: 75px;
-          animation: spin 2s linear infinite;
-        }
-
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-
-
-    </style>
 </head>
 
 <body style="margin-top:70px; background-color:#eeeeee">
@@ -70,11 +35,7 @@
 <br>
 
 <div align="center">
-    <div id="loader" style="background-color:#dddddd; width:20%" align="center" class="rounded">
-        <div style="width:90%">
-            <div class="loader"></div>
-        </div>
-    </div>
+
 
     <!-- ✅ load jQuery ✅ -->
     <script
@@ -83,16 +44,16 @@
             crossorigin="anonymous"
     ></script>
 
-    <div align="center" style="font-size:40px;">Корзина</div>
+    <div align="center" style="font-size:35px;">🛒Корзина:</div>
 
     <div align="center" style="font-size:30px;" th:if="${cartproducts.size()==0}">
         <br>
-        Корзина пуста
+        Корзина пуста😔
     </div>
 
     <table width="100%" th:if="${cartproducts.size()>0}">
         <tr>
-            <td align="right" width="50%" style="vertical-align:top">
+            <td align="right" width="40%" style="vertical-align:top">
 
                 <div class="album py-2" align="center">
                     <div class="container">
@@ -105,17 +66,17 @@
                             /*]]>*/
                         </script>
 
-                        <div th:if="${cartproductsRozn.size()>0}" align="center" style="font-size:30px;">Розничные товары</div>
+                        <div th:if="${cartproductsRozn.size()>0}" align="center" style="font-size:25px;">🛍️Розница:</div>
                         <div style="height:10px"> </div>
                         <div th:each="el:${cartproductsRozn}" class="col">
-                                <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm" align="left"  style="width:95%" >
+                                <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm" align="center"  style="width:95%" >
 
-                                        <div style="display: inline-block; vertical-align:middle; margin-left:10%">
-                                            <img th:src="${el.getProduct().getPhotoUrl()}" class="" height="150" width="100%" style="object-fit:contain;"/>
+                                        <div style="display: inline-block; vertical-align:middle;">
+                                            <img loading=lazy th:src="${el.getProduct().getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="img-thumbnail" height="160" width="100%" style="object-fit:contain;"/>
                                         </div>
                                         <div class="card-body" style="display: inline-block; vertical-align:middle;" >
-                                            <div >
-                                                <div align="left" class="mb-0" th:text="${el.getProduct().getTitle()}" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size:20px; color:#222222; width:95%"></div>
+                                            <div align="left">
+                                                <div align="left" class="mb-0" th:text="${el.getProduct().getTitle()}" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size:20px; color:#222222; width:200px"></div>
                                                 <div style="height:10px"> </div>
                                                 <div align="left" style="white-space: nowrap;">
                                                     <div style="display:inline-block;">
@@ -220,7 +181,7 @@
                                 <script th:inline="javascript">document.getElementById("cuntent"+"[[${el.getId()}]]").style.display = "block";</script>
                             </div>
 
-                        <div th:if="${cartproductsOpt.size()>0}" align="center" style="font-size:30px;">Оптовые товары</div>
+                        <div th:if="${cartproductsOpt.size()>0}" align="center" style="font-size:25px;">📦Опт:</div>
                         <div style="height:10px"></div>
                         <div th:if="${cartproductsOpt.size()>0}" align="center" >
                                     <span style="font-size:20px; vertical-align:text-top; color:#ff7b00" class="material-symbols-outlined">
@@ -231,6 +192,9 @@
                                         Минимальная сумма оптового заказа - 4000 ₽
                                     </i>
                             </span>
+                            <span style="font-size:20px; vertical-align:text-top; color:#ff7b00" class="material-symbols-outlined">
+                                        warning
+                                    </span>
                             <div style="height:10px"></div>
                         </div>
                         <div th:if="${cartproductsOpt.size()>0}" align="center">
@@ -245,14 +209,14 @@
                         </div>
                         <div style="height:10px"> </div>
                         <div th:each="el:${cartproductsOpt}" class="col">
-                            <div th:id="${'cuntent2'+el.getId()}" class="card shadow-sm" align="left"  style="width:95%" >
+                            <div th:id="${'cuntent2'+el.getId()}" class="card shadow-sm" align="center" style="width:95%" >
 
-                                <div style="display: inline-block; vertical-align:middle; margin-left:10%">
-                                    <img th:src="${el.getProduct().getPhotoUrl()}" class="" height="200" width="100%" style="object-fit:contain;"/>
+                                <div style="display: inline-block; vertical-align:middle;">
+                                    <img loading=lazy th:src="${el.getProduct().getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="160" width="100%" style="object-fit:contain;"/>
                                 </div>
                                 <div class="card-body" style="display: inline-block; vertical-align:middle;" >
-                                    <div >
-                                        <div align="left" class="mb-0" th:text="${el.getProduct().getTitle()}" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size:20px; color:#222222; width:95%"></div>
+                                    <div align="left">
+                                        <div align="left" class="mb-0" th:text="${el.getProduct().getTitle()}" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size:20px; color:#222222; width:200px"></div>
                                         <div style="height:10px"> </div>
                                         <div align="left" style="white-space: nowrap;">
                                             <div style="display:inline-block;">
@@ -370,8 +334,8 @@
                     </div>
                 </div>
             </td>
-            <td align="left" width="50%" style="vertical-align:top">
-                        <div class="card shadow-sm" align="center" style="width:90%; margin-top:60px;">
+            <td align="left" width="60%" style="vertical-align:top">
+                        <div class="card shadow-sm" align="center" style="width:90%; margin-top:20px;">
                             <form method="post" action="/order/addorder" th:object="${orders}">
 
                                 <p style="font-size:20px">Выберите способ получения заказа:</p>
@@ -382,7 +346,7 @@
                                         <span style="white-space: nowrap;">
                                             <input type="radio" id="sam1" onclick="hidepost()"
                                                    name="sposobpoluch" value="sam1">
-                                            <label for="sam1" style="white-space: normal; ">Самовывоз c метро
+                                            <label for="sam1" style="white-space: normal; ">📦Самовывоз c метро
                                                 <a target="_blank" href="https://yandex.ru/maps/213/moscow/stops/4419561430/?ll=37.451773%2C55.715169&tab=overview&z=16">Давыдково</a>
                                             </label>
                                         </span>
@@ -425,7 +389,7 @@
         <!--<br>-->                     <span style="white-space: nowrap; ">
                                             <input type="radio" id="post" onclick="showpost()"
                                                    name="sposobpoluch" value="post">
-                                            <label for="post" style="white-space: normal; ">Отправка по почте России</label>
+                                            <label for="post" style="white-space: normal; ">📬Отправка по почте России</label>
                                         </span>
                                         <script language="JavaScript">
                                             function showpost(){
@@ -515,14 +479,14 @@
                                             <input type="radio" id="yoomoney"
                                                    name="sposoboplaty" value="yoomoney" checked>
                                             <label for="yoomoney" style="white-space: normal; ">
-                                                Переводом на эл. кошелек (можно с карты)
+                                                💳Переводом на эл. кошелек (можно с карты)
                                             </label>
                                         </span>
                                         <div style="height:5px"></div>
                                         <span style="white-space: nowrap; ">
                                             <input type="radio" id="pripoluch"
                                                    name="sposoboplaty" value="pripoluch">
-                                            <label for="pripoluch" style="white-space: normal; ">При получении любым способом (только при самовывозе, без опта)</label>
+                                            <label for="pripoluch" style="white-space: normal; ">💵При получении любым способом (только при самовывозе, без опта)</label>
                                         </span>
                                     </fieldset>
                                     <div style="height:5px"></div>
@@ -647,7 +611,6 @@
             </td>
         </tr>
     </table>
-    <script>document.getElementById("loader").style.display = "none";</script>
 
 </div>
 
