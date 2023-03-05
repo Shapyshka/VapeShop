@@ -3,6 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=0.6">
 
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.0/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.0/slick/slick-theme.css"/>
@@ -203,7 +204,7 @@
 
 <div align="center" th:if="${curusname=='admin'}">
     <div style="height:30px"></div>
-    <a type="button" class="btn btn-success" style="color:#ffffff" href="/products/add">Добавить товар</a>
+    <a target="_blank" type="button" class="btn btn-success" style="color:#ffffff" href="/products/add">Добавить товар</a>
 </div>
 <br>
 
@@ -226,17 +227,17 @@
     </div>
         <div id="specialsdiv">
             <div th:if="${specials.size()>5}" >
-                <div align="center" style="font-size:35px; ">🔖💲Скидки💲🔖</div>
+                <div align="center" style="font-size:30px; ">🏷Особые предложения🏷️</div>
                 <br>
                 <div class="autoplay" style="width:75%">
                     <div th:each="el:${specials}" >
                         <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                             <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                                <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+<!--                                <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>-->
 
                                 <div class="scale">
-                                    <img loading=lazy th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
+                                    <img loading=lazy  th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
                                 </div>
                                 <div class="card-body">
                                     <div >
@@ -289,7 +290,6 @@
                     </div>
                 </div>
 
-                <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
                 <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
                 <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.0/slick/slick.min.js"></script>
 
@@ -356,9 +356,9 @@
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                            <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+<!--                            <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>-->
                             <div class="scale">
-                                <img loading=lazy th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
+                                <img loading=lazy  th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
                             </div>
                             <div class="card-body">
                                 <div >
@@ -412,7 +412,7 @@
                                                  </span>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" th:href="'/products/'+${el.getId()}+'/edit'">Изменить</a>
+                                            <a target="_blank" class="dropdown-item" th:href="'/products/'+${el.getId()}+'/edit'">Изменить</a>
                                             <a class="dropdown-item" href="#" data-toggle="modal" th:data-target="${'#modal'+el.getId().toString()}">Удалить</a>
                                         </div>
                                         <div class="modal fade" th:id="${'modal'+el.getId().toString()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -460,9 +460,9 @@
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                            <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+<!--                            <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>-->
                             <div class="scale">
-                                <img loading=lazy th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
+                                <img loading=lazy  th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
                             </div>
                             <div class="card-body">
                                 <div >
@@ -514,7 +514,7 @@
                                                  </span>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton5">
-                                            <a class="dropdown-item" th:href="'/products/'+${el.getId()}+'/edit'">Изменить</a>
+                                            <a target="_blank" class="dropdown-item" th:href="'/products/'+${el.getId()}+'/edit'">Изменить</a>
                                             <a class="dropdown-item" href="#" data-toggle="modal" th:data-target="${'#modal'+el.getId().toString()}">Удалить</a>
                                         </div>
                                         <div class="modal fade" th:id="${'modal'+el.getId().toString()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel5" aria-hidden="true">
@@ -562,9 +562,9 @@
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                            <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+<!--                            <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>-->
                             <div class="scale">
-                                <img loading=lazy th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
+                                <img loading=lazy  th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
                             </div>
                             <div class="card-body">
                                 <div >
@@ -616,7 +616,7 @@
                                                  </span>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                            <a class="dropdown-item" th:href="'/products/'+${el.getId()}+'/edit'">Изменить</a>
+                                            <a target="_blank" class="dropdown-item" th:href="'/products/'+${el.getId()}+'/edit'">Изменить</a>
                                             <a class="dropdown-item" href="#" data-toggle="modal" th:data-target="${'#modal'+el.getId().toString()}">Удалить</a>
                                         </div>
                                         <div class="modal fade" th:id="${'modal'+el.getId().toString()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
@@ -663,9 +663,9 @@
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                            <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+<!--                            <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>-->
                             <div class="scale">
-                                <img loading=lazy th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
+                                <img loading=lazy  th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
                             </div>
                             <div class="card-body">
                                 <div >
@@ -717,7 +717,7 @@
                                                  </span>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                                            <a class="dropdown-item" th:href="'/products/'+${el.getId()}+'/edit'">Изменить</a>
+                                            <a target="_blank" class="dropdown-item" th:href="'/products/'+${el.getId()}+'/edit'">Изменить</a>
                                             <a class="dropdown-item" href="#" data-toggle="modal" th:data-target="${'#modal'+el.getId().toString()}">Удалить</a>
                                         </div>
                                         <div class="modal fade" th:id="${'modal'+el.getId().toString()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true">
@@ -764,9 +764,9 @@
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-                            <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
+<!--                            <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>-->
                             <div class="scale">
-                                <img loading=lazy th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
+                                <img loading=lazy  th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
                             </div>
                             <div class="card-body">
                                 <div >
@@ -818,7 +818,7 @@
                                                  </span>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton4">
-                                            <a class="dropdown-item" th:href="'/products/'+${el.getId()}+'/edit'">Изменить</a>
+                                            <a target="_blank" class="dropdown-item" th:href="'/products/'+${el.getId()}+'/edit'">Изменить</a>
                                             <a class="dropdown-item" href="#" data-toggle="modal" th:data-target="${'#modal'+el.getId().toString()}">Удалить</a>
                                         </div>
                                         <div class="modal fade" th:id="${'modal'+el.getId().toString()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel6" aria-hidden="true">
@@ -860,7 +860,7 @@
     <div th:if="${curusname!='anonymousUser'}">
         <div th:each="el:${products}" style="height:0px" >
             <div style="display: inline-block;" >
-        <div class="modal fade" th:id="${'modalcart'+el.getId().toString()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+            <div class="modal fade" th:id="${'modalcart'+el.getId().toString()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -870,13 +870,12 @@
                     </div>
 
                     <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-                    <form th:id="${'myform'+el.getId().toString()}" th:action="'/products/'+${el.getId()}+'/addcart'" th:object="${cart}" method="post" target="dummyframe">
+                    <form onkeydown="return event.key != 'Enter';" th:id="${'myform'+el.getId().toString()}" th:action="'/products/'+${el.getId()}+'/addcart'" th:object="${cart}" method="post" target="dummyframe">
                         <div class="modal-body" align="center" >
                             <div class="card shadow-sm">
 
-                                <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>
                                 <div class="scale">
-                                    <img loading=lazy th:if="${curusname!='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain; "/>
+                                    <img loading=lazy th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain; "/>
                                 </div>
                                 <div class="card-body">
                                     <div >
@@ -895,19 +894,33 @@
                                         </div>
                                         <div style="height:15px"> </div>
                                     </div>
-                                    Количество:
-                                    <input  type="number" min="1" th:max="${el.getQuantity()}" name="quantity" id ="quantity" placeholder="Количество" value="1" class="form-control" required>
 
+                                    <div th:if="${el.getColors()!=null}" align="center">
+                                        <div th:if="${!(el.getColors().isEmpty())}">
+                                            Вкус/цвет:
+                                            <select name="colors" id ="colors" class="form-select">
+                                                <option th:each = "cel:${el.getColors().split(';')}" th:value="${cel}" >
+                                                    <div th:text="${cel}"></div>
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    Количество:
+                                    <input  type="number" min="1" th:max="${el.getQuantity()}" name="quantity" th:id ="${'quantity'+el.getId().toString()}" placeholder="Количество" value="1" class="form-control" required>
+                                    <div th:id="${'quanquan'+el.getId().toString()}" style="display:none" th:text="${el.getQuantity()}"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                            <button type="submit" th:id="${'bebra'+el.getId().toString()}" class="btn btn-dark" data-toggle="modal" th:data-target="${'#modalcart'+el.getId().toString()}">
-                                                                         <span class="material-symbols-outlined" style="font-size:15px">
-                                                                         shopping_cart
-                                                                         </span>Добавить
+                            <button th:id="${'bebra'+el.getId().toString()}" class="btn btn-dark" th:onclick="@{cartsubmit({id})(id=${el.getId})}">
+                                <span class="material-symbols-outlined" style="font-size:15px">
+                                    shopping_cart
+                                </span>
+                                Добавить
                             </button>
+
 
                         </div>
                     </form>
@@ -916,6 +929,20 @@
         </div>
     </div>
         </div>
+        <script type="text/javascript">
+            function cartsubmit(id){
+                if(document.getElementById('quanquan'+id.toString()).innerHTML != ""){
+                    if (document.getElementById('quantity'+id.toString()).value>0 && document.getElementById('quantity'+id.toString()).value <= parseInt(document.getElementById('quanquan'+id.toString()).textContent)){
+                        document.getElementById('myform'+id.toString()).submit();
+                        $('#modalcart'+id.toString()).modal('hide');
+                    }
+                }
+                else if(document.getElementById('quantity'+id.toString()).value>0){
+                        document.getElementById('myform'+id.toString()).submit();
+                        $('#modalcart'+id.toString()).modal('hide');
+                }
+            }
+        </script>
     </div>
 
         <div class="modal fade" tabindex="-1" role="dialog" id="ageconfirmmodal" aria-hidden="true">

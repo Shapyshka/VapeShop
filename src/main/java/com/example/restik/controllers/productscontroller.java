@@ -200,6 +200,7 @@ public class productscontroller {
         });
 
 
+
         model.addAttribute("opt",true);
 
         model.addAttribute("userrep",userrepository);
@@ -257,6 +258,9 @@ public class productscontroller {
         ArrayList<products> res = new ArrayList<>();
         oneproducts.ifPresent(res::add);
         model.addAttribute("products",res);
+
+        if(res.get(0).getColors()!=null)
+            model.addAttribute("colorarray",res.get(0).getColors().split(";"));
 
         Iterable<comment> listcomments = commentrepository.findByZapis_idOrderByDateDesc(id);
         model.addAttribute("comments",listcomments);

@@ -8,6 +8,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,12 +46,19 @@ public class registrationcontroller {
 //        Date date2= Date.from(date1.atStartOfDay(ZoneId.systemDefault()).toInstant());
 //        model.addAttribute("maxdate", date2);
         model.addAttribute("fonum","+7(___)___-__-__");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        model.addAttribute("curusname",currentPrincipalName);
+
         return "registration";
     }
 
     public static boolean isValid(String s) {
         for (int i = 0; i < s.length(); i++) {
             if (Character.UnicodeBlock.of(s.charAt(i)).equals(Character.UnicodeBlock.CYRILLIC)) {
+                return false;
+            }
+            if(!Character.isDigit(s.charAt(i))&&!Character.isLetter(s.charAt(i))){
                 return false;
             }
         }
@@ -118,7 +127,7 @@ public class registrationcontroller {
 
         user userFromDb=userRepository.findByUsername(user.getUsername());
         if(userFromDb!=null|| Objects.equals(user.getUsername(), "anonymousUser")){
-            model.addAttribute("message","Данный логин уже занят");
+            model.addAttribute("message","Данный никнейм уже занят");
             model.addAttribute("usern",user.getUsername());
             model.addAttribute("userp",user.getPassword());
 
@@ -147,7 +156,7 @@ public class registrationcontroller {
             model.addAttribute("usern",user.getUsername());
             model.addAttribute("userp",user.getPassword());
 
-            model.addAttribute("message","В логине недопустима кириллица");
+            model.addAttribute("message","В нике допустимы только латинские буквы и цифры");
             return "registration";
         }
 
@@ -176,7 +185,7 @@ public class registrationcontroller {
             model.addAttribute("usern",user.getUsername());
             model.addAttribute("userp",user.getPassword());
 
-            model.addAttribute("message","Введите логин");
+            model.addAttribute("message","Введите никнейм");
             return "registration";
         }
 

@@ -27,6 +27,8 @@ public class cart {
 
     private String optIliRozn;
 
+    private String colors;
+
 
     public Long getId() {
         return id;
@@ -82,5 +84,13 @@ public class cart {
 
     public void setOptIliRozn(String optIliRozn) {
         this.optIliRozn = optIliRozn;
+    }
+
+    public String getColors() {
+        return colors;
+    }
+
+    public void setColors(String colors) {
+        this.colors = colors;
     }
 }

@@ -82,7 +82,7 @@ public class ordercontroller {
 
     @PostMapping("/addorder")
     public String addorder(@RequestParam("promotitle") String promotitle,
-                           @Valid orders orders, BindingResult bindingResult) throws ParseException {
+                           @Valid orders orders, BindingResult bindingResult, Model model) throws ParseException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         user user = userrepository.findByUsername(currentPrincipalName);
@@ -97,11 +97,14 @@ public class ordercontroller {
             return "redirect:/cart/";
         }
 
-        if(Objects.equals(orders.getSposobpoluch(), "post") && (orders.getZipcode()==null || orders.getAdress()==null)){
+        if(Objects.equals(orders.getSposobpoluch(), "post") && (orders.getZipcode()==null || orders.getAdress().isEmpty())){
+            return "redirect:/cart/";
+        }
+        if(Objects.equals(orders.getSposobpoluch(), "dost") && (orders.getAdress().isEmpty())){
             return "redirect:/cart/";
         }
 
-        if(Objects.equals(orders.getSposobpoluch(), "post") && Objects.equals(orders.getSposoboplaty(), "pripoluch")){
+        if(((Objects.equals(orders.getSposobpoluch(), "post"))||(Objects.equals(orders.getSposobpoluch(), "dost"))) && Objects.equals(orders.getSposoboplaty(), "pripoluch")){
             return "redirect:/cart/";
         }
 
@@ -119,11 +122,15 @@ public class ordercontroller {
             else
                 optprice = optprice+(i.getProduct().getPrice()*i.getQuantity());
 
-            totalmass=totalmass+(i.getProduct().getMass()*i.getQuantity())+200;
+            totalmass=totalmass+(i.getProduct().getMass()*i.getQuantity());
         }
-        int totalprice=roznprice+optprice;
+        if (Objects.equals(orders.getSposobpoluch(), "post")) {
+            totalmass +=200;
+        }
 
+        int totalprice=roznprice+optprice;
         int postprice=0;
+
         if(orders.getZipcode()!=null) {
             try {
                 if(totalmass>20000)
@@ -156,6 +163,12 @@ public class ordercontroller {
         }
 
 
+
+        if (Objects.equals(orders.getSposobpoluch(), "dost")) {
+            postprice = 300;
+        }
+
+
         SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",new Locale("ru", "RU"));
         Date now = df1.parse(ZonedDateTime.now(ZoneId.of("Greenwich")).toString().replace("T"," "));
         orders.setDate(now);
@@ -168,35 +181,48 @@ public class ordercontroller {
             orders.setStatus("WaitingPayment");
         }
 
-        promos promoFromDb=promorepository.findByTitle(promotitle);
-        if(promoFromDb!=null){
-            if(promoFromDb.getType().contains("alldiscount") ) {
-                Integer discount = promoFromDb.getDiscount();
-                roznprice = roznprice - ((roznprice / 100) * discount);
-                optprice = optprice - ((optprice / 100) * discount);
-                postprice = postprice - ((postprice / 100) * discount);
-                orders.setPromo(promoFromDb);
-            }
-            else {
-                if (promoFromDb.getType().contains("rozndiscount")) {
+        if(!promotitle.isEmpty()) {
+            promos promoFromDb = promorepository.findByTitle(promotitle.toLowerCase(Locale.ROOT));
+            if (promoFromDb != null) {
+                if (promoFromDb.getType().contains("alldiscount")) {
                     Integer discount = promoFromDb.getDiscount();
                     roznprice = roznprice - ((roznprice / 100) * discount);
-                    orders.setPromo(promoFromDb);
-                }
-                if (promoFromDb.getType().contains("optdiscount")) {
-                    Integer discount = promoFromDb.getDiscount();
                     optprice = optprice - ((optprice / 100) * discount);
+                    postprice = postprice - ((postprice / 100) * discount);
                     orders.setPromo(promoFromDb);
+                } else {
+                    if (promoFromDb.getType().contains("rozndiscount")) {
+                        Integer discount = promoFromDb.getDiscount();
+                        roznprice = roznprice - ((roznprice / 100) * discount);
+                        orders.setPromo(promoFromDb);
+                    }
+                    if (promoFromDb.getType().contains("optdiscount")) {
+                        Integer discount = promoFromDb.getDiscount();
+                        optprice = optprice - ((optprice / 100) * discount);
+                        orders.setPromo(promoFromDb);
+                    }
                 }
-            }
-            if (promoFromDb.getType().contains("freeshipping")) {
-                postprice=0;
-                orders.setPromo(promoFromDb);
+                if (promoFromDb.getType().contains("freeshipping")) {
+                    if (Objects.equals(orders.getSposobpoluch(), "post")) {
+                        postprice = 0;
+                        orders.setPromo(promoFromDb);
+                    }
+                }
+                if(promoFromDb.getType().contains("freecourier")) {
+                    if (Objects.equals(orders.getSposobpoluch(), "dost")) {
+                        postprice = 0;
+                        orders.setPromo(promoFromDb);
+                    }
+                }
+            } else {
+                if (orders.getZipcode() != null)
+                    return "redirect:/cart/count/" + orders.getZipcode() + "/" + (int) totalmass  + "/" + (roznprice+optprice) + "/" + orders.getAdress() + "/nopromo";
+                else
+                    return "redirect:/cart/";
             }
         }
 
         totalprice=roznprice+optprice;
-
         orders.setTotalPrice(totalprice);
         orders.setTotalMass(totalmass);
         orders.setTotalPostPrice(postprice);
@@ -211,6 +237,7 @@ public class ordercontroller {
             i.setUser(i.getUser());
             i.setStatus("inOrder");
             i.setOrder(orders);
+            i.setColors(i.getColors());
             cartrepository.save(i);
         }
 

@@ -110,20 +110,21 @@ input:checked + .slider:before {
         <div class="container" >
             <div class="card">
                 <div class="card-body">
-                    <div class="card-title" align="center" style="font-size:32px;" th:text="${el.getTitle()}"></div>
+                    <div class="card-title" align="center" style="font-size:32px; font-weight: bold;" th:text="${el.getTitle()}"></div>
                     <div style="height:10px"></div>
                     <div class="row row-cols-sm-1 row-cols-lg-2" align="center">
                         <div class="col mt-3" align="center" >
                             <div class="white-box text-center">
-                                <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','.webp').replace('.jpg','.webp')}" width="66%" style="object-fit:contain; filter: blur(6px);" class="img-thumbnail ">
-                                <div th:if="${curusname=='anonymousUser'}" align="center">
-                                    <label style="font-size:16px">
-                                        <a href="/login">Войдите</a> или <a href="/registration">зарегистрируйтесь,</a>
-                                        чтобы просматривать изображения
-                                    </label>
-                                </div>
+<!--                                <img th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','.webp').replace('.jpg','.webp')}" width="66%" style="object-fit:contain; filter: blur(6px);" class="img-thumbnail ">-->
+<!--                                <div th:if="${curusname=='anonymousUser'}" align="center">-->
+<!--                                    <label style="font-size:16px">-->
+<!--                                        <a href="/login">Войдите</a> или <a href="/registration">зарегистрируйтесь,</a>-->
+<!--                                        чтобы просматривать изображения-->
+<!--                                    </label>-->
+<!--                                </div>-->
 
-                                <div th:if="${curusname!='anonymousUser'}">
+<!--                                <div th:if="${curusname!='anonymousUser'}">-->
+                                <div>
                                     <a href="#" data-toggle="modal" th:data-target="${'#modalimg'+el.getId().toString()}">
                                             <img th:src="${el.getPhotoUrl().replace('.png','.webp').replace('.jpg','.webp')}" width="66%" style="object-fit:contain; " class="img-thumbnail">
                                     </a>
@@ -147,9 +148,24 @@ input:checked + .slider:before {
                         <div class="col mt-3" align="center"  >
                             <div class="row row-cols-2" >
                                 <div class="col" align="left" style="width:66%">
-                                    <h5 class="box-title">📃Описание:</h5>
-                                    <div th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(el.getText()),'\n','&lt;br /&gt;'))}" style="font-size:18px"></div>
-                                    <br>
+                                    <div>
+                                        <div th:if="${el.getOptIliRozn()=='opt'}" style="font-size:19px; color:#222222;">
+                                            <div >
+                                                <div class="rounded" style="background-color:#FAF4A1; display:inline-block;">📦Опт</div>
+                                            </div>
+                                        </div>
+                                        <div th:if="${el.getOptIliRozn()=='rozn'}" style="font-size:19px; color:#222222;">
+                                            <div >
+                                                <div class="rounded" style="background-color:#9FFA99; display:inline-block;">🛍️Розница</div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                    <div>
+                                        <h5 class="box-title">📃Описание:</h5>
+                                        <div th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(el.getText()),'\n','&lt;br /&gt;'))}" style="font-size:18px"></div>
+                                        <br>
+                                    </div>
                                 </div>
 
                                 <div class="col" align="left"  style="white-space: nowrap; width:34%">
@@ -161,6 +177,12 @@ input:checked + .slider:before {
                                     <div th:if="${el.getNicotine()!=null}">
                                         <h5 class="box-title" style="white-space: normal;">😵‍💫Содержание никотина:</h5>
                                         <div th:text="${el.getNicotine()+'%'}" style="font-size:19px; "/>
+                                        <br>
+                                    </div>
+
+                                    <div th:if="${el.getAkuma()!=null}">
+                                        <h5 class="box-title" style="white-space: normal;">⚡Объем аккумулятора:</h5>
+                                        <div th:text="${el.getAkuma()+' mAh'}" style="font-size:19px; "/>
                                         <br>
                                     </div>
 
@@ -190,14 +212,7 @@ input:checked + .slider:before {
                                         </div>
                                         <div th:if="${el.getQuantity()!=0}">
 
-                                            <a type="button" th:if="${curusname=='anonymousUser'}" class="btn btn-sm btn-dark" href="/prf" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:22px; white-space: nowrap; ">
-                                                <span class="material-symbols-outlined" style="font-size:20px;">
-                                                    shopping_cart
-                                                </span>
-                                                В корзину
-                                            </a>
-
-                                            <a type="button" th:if="${curusname!='anonymousUser'}" class="btn btn-sm btn-dark" href="#" data-toggle="modal" data-target="#modalcart" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:22px; white-space: nowrap; ">
+                                            <a type="button" class="btn btn-sm btn-dark" href="#" data-toggle="modal" data-target="#modalcart" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:22px; white-space: nowrap; ">
                                                 <span class="material-symbols-outlined" style="font-size:20px;">
                                                     shopping_cart
                                                 </span>
@@ -214,7 +229,7 @@ input:checked + .slider:before {
                                                         </div>
 
                                                         <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-                                                        <form th:action="'/products/'+${el.getId()}+'/addcart'" th:object="${cart}" method="post" target="dummyframe">
+                                                        <form onkeydown="return event.key != 'Enter';" th:action="'/products/'+${el.getId()}+'/addcart'" th:object="${cart}" method="post" target="dummyframe" id="cartform">
                                                             <div class="modal-body" align="center" >
                                                                 <div class="card shadow-sm">
 
@@ -236,21 +251,103 @@ input:checked + .slider:before {
                                                                             </div>
                                                                             <div style="height:15px"> </div>
                                                                         </div>
+
+                                                                        <div th:if="${colorarray!=null}" align="center">
+                                                                            <div th:if="${!(colorarray.length<=1)}">
+                                                                                Вкус/цвет:
+                                                                                <select name="colors" id ="colors" class="form-select">
+                                                                                    <option th:each = "cel:${colorarray}" th:value="${cel}" >
+                                                                                        <div th:text="${cel}"></div>
+                                                                                    </option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+
                                                                         Количество:
                                                                         <input type="number" min="1" th:max="${el.getQuantity()}" name="quantity" id ="quantity" placeholder="Количество" value="1" class="form-control" required>
+                                                                        <div th:id="${'quanquan'+el.getId().toString()}" style="display:none" th:text="${el.getQuantity()}"></div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div align="center">
+                                                                <div align="left" style="width:90%">
+                                                                    <div id="regmsg" style="font-size: 18px; display:none; white-space:normal">
+
+                                                                        <div align="center">
+                                                                            <span style="font-size:20px; vertical-align:text-top; color:#ff7b00" class="material-symbols-outlined">
+                                                                                warning
+                                                                            </span>
+                                                                            Чтобы добавить товар в корзину нужно
+                                                                            <a href="/registration">зарегистрироваться</a> <br>
+                                                                        </div>
+
+                                                                        <div align="center">
+                                                                            Или написать в телеграм:
+                                                                            <a target="_blank" href="https://telegram.me/vapeshiftermanager" style="display:inline-block; font-size:18px; text-decoration:none">
+                                                                                <img src="https://i.imgur.com/lV4a4sl.png" width="20px" style="object-fit:contain; display:inline-block;">
+                                                                                <div style="display:inline-block;">@vapeshiftermanager</div>
+                                                                            </a>
+                                                                        </div>
+
+                                                                        <div align="center">
+                                                                            <div style="display:inline-block;">
+                                                                                Или написать на WhatsApp:
+                                                                            </div>
+                                                                            <a target="_blank" href="https://api.whatsapp.com/send?phone=79169072614&text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5,%20%D1%85%D0%BE%D1%82%D0%B5%D0%BB%20%D0%B1%D1%8B%20%D0%B7%D0%B0%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D1%8C" style="display:inline-block;">
+                                                                                +79169072614
+                                                                            </a>
+                                                                        </div>
+
+                                                                        <div align="center">
+                                                                            <div style="display:inline-block;">
+                                                                                Или написать на эл. почту:
+                                                                            </div>
+                                                                            <a href="mailto:vapeshiftershop@gmail.com" style="display:inline-block;">
+                                                                                vapeshiftershop@gmail.com
+                                                                            </a>
+                                                                        </div>
 
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                                                                <button type="submit" class="btn btn-dark" data-toggle="modal" data-target="#modalcart">
-                                                                                     <span class="material-symbols-outlined" style="font-size:15px">
-                                                                                     shopping_cart
-                                                                                     </span>Добавить
+
+                                                                <button th:if="${curusname!='anonymousUser'}" onclick="cartsubmit()" class="btn btn-dark">
+                                                                    <span class="material-symbols-outlined" style="font-size:15px">
+                                                                         shopping_cart
+                                                                    </span>
+                                                                    Добавить
+                                                                </button>
+
+                                                                <script>
+                                                                   /*<![CDATA[*/
+                                                                    function cartsubmit(){
+                                                                        if(document.getElementById('quanquan'+[[${el.getId()}]]).innerHTML != ""){
+                                                                            if (document.getElementById('quantity').value>0 && document.getElementById('quantity').value <= parseInt(document.getElementById('quanquan'+[[${el.getId()}]]).textContent)){
+                                                                                document.getElementById('cartform').submit();
+                                                                                $('#modalcart').modal('hide');
+                                                                            }
+                                                                        }
+                                                                        else if(document.getElementById('quantity').value>0){
+                                                                            document.getElementById('cartform').submit();
+                                                                            $('#modalcart').modal('hide');
+                                                                        }
+                                                                    }
+                                                                    /*]]>*/
+                                                                </script>
+
+
+                                                                <button th:if="${curusname=='anonymousUser'}" type="submit" class="btn btn-dark" onclick="document.getElementById('regmsg').style.display = 'block';">
+                                                                    <span class="material-symbols-outlined" style="font-size:15px">
+                                                                         shopping_cart
+                                                                    </span>
+                                                                    Добавить
                                                                 </button>
 
                                                             </div>
+
                                                         </form>
                                                     </div>
                                                 </div>
@@ -273,7 +370,7 @@ input:checked + .slider:before {
 
 
     <br>
-    <div align="center" style="font-size:35px;">⭐Отзывы⭐</div>
+    <div align="center" style="font-size:35px;">Отзывы:</div>
     <div style="height:15px"></div>
     <div align="center" style="font-size:25px;" th:if="${cartrep.findByUser_idAndProduct_IdAndStatus(userrep.findByUsername(curusname), productsrep.findById(id), 'inOrder').size()==0}">Закажите товар, чтобы оставить отзыв📦</div>
     <div align="center" style="width:66%" class="card shadow-sm" id="commentform" th:if="${cartrep.findByUser_idAndProduct_IdAndStatus(userrep.findByUsername(curusname), productsrep.findById(id), 'inOrder').size()!=0}">

@@ -2,7 +2,7 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=0.9">
+  <meta name="viewport" content="width=device-width, initial-scale=0.8">
 
   <link rel="icon" type="image/ico" href="https://www.vapeshifter.ru/favicon.ico">
 
@@ -37,7 +37,7 @@
     </a>
     <div style="color:#222222; text-decoration: none;" th:if="${curusname!='admin'}" >
       <img class="rounded-circle" th:src="${userrep.findByUsername(usrnm).getAvatarlink()}" style="display:inline-block;" height="40px" width="40px" >
-      <h2  style="display:inline-block; color:#eeeeee">Администрация - </h2>
+      <h2  style="display:inline-block; color:#eeeeee">Администрация</h2>
 
       <a target="_blank" href="https://t.me/thismanisdeadinside" style="display:inline-block; color:#dddddd; text-decoration: none; font-size:18px">
         <img src="https://i.imgur.com/lV4a4sl.png" width="25px" style="object-fit:contain; display:inline-block;">
@@ -45,9 +45,9 @@
 
       </a>
 
-      <a target="_blank" href="https://telegram.me/shapyshka" style="display:inline-block; color:#dddddd; text-decoration: none; font-size:18px">
+      <a target="_blank" href="https://t.me/vapeshiftermanager" style="display:inline-block; color:#dddddd; text-decoration: none; font-size:18px">
         <img src="https://i.imgur.com/lV4a4sl.png" width="25px" style="object-fit:contain; display:inline-block;">
-        <div style="display:inline-block;">@shapyshka</div>
+        <div style="display:inline-block;">@vapeshiftermanager</div>
 
       </a>
 

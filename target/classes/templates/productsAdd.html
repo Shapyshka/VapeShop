@@ -33,7 +33,7 @@
 <body style="margin-top:70px; background-color:#eeeeee">
 <header th:insert="blocks/header :: Header"></header>
 <br>
-<h1 align="center">Добавить продукт</h1>
+<h2 align="center">Добавить товар</h2>
 <div align="center">
   <div align="center" style="width:50%">
     <form method="post" action="/products/add" th:object="${products}">
@@ -42,6 +42,9 @@
         <input type="text" name="title" id ="title" placeholder="Название" class="form-control" required>
         Описание:
         <textarea  name="text" id ="text" placeholder="Описание" class="form-control" style="align:center"></textarea>
+        Вкусы/цвета (разделять символом ";"):
+        <textarea  name="colors" id ="colors" placeholder="Вкусы/цвета" class="form-control" style="align:center"></textarea>
+
         Тип:
         <select name="typeofproduct" id ="typeofproduct" class="form-select">
           <option value="odnoraz">Одноразка</option>
@@ -64,6 +67,8 @@
         <input type="number" min="1"  name="volume" id ="volume" placeholder="Обьем жидкости (мл.)" class="form-control" >
         Содержание никотина (%):
         <input type="number" min="0"  name="nicotine" id ="nicotine" placeholder="Содержание никотина (%)" class="form-control" >
+        Обьем аккумулятора (mAh):
+        <input type="number" min="0"  name="akuma" id ="akuma" placeholder="Обьем аккумулятора (mAh)" class="form-control" >
 
         Старая цена (необязательно):
         <input type="number" min="1" name="oldprice" id ="oldprice" placeholder="Старая цена (необязательно)" class="form-control" >

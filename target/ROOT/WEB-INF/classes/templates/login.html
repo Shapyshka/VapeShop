@@ -31,14 +31,80 @@
 </head>
 
 <body style="margin-top:70px; background-color:#eeeeee">
-<header th:insert="blocks/header :: Header" ></header>
+<header >
+    <div th:fragment="Header" style="position: fixed; top: 0; width: 100%; z-index:11;">
+        <script
+                src="https://code.jquery.com/jquery-3.6.0.min.js"
+                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+                crossorigin="anonymous"
+        ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Third navbar example">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/" style="margin-left:30px;">
+                    <img src="https://i.imgur.com/EUN5KN5.webp" height="35px">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-center" id="navbarsExample03" style="margin-right:200px">
+                    <ul class="navbar-nav justify-content-center">
+                        <li class="nav-item" style="white-space:nowrap">
+                            <!--                            <span style="vertical-align:text-top" class="material-symbols-outlined">-->
+                            <!--                                shopping_bag-->
+                            <!--                            </span>-->
+                            <a class="nav-link" href="/products/" style="color:rgba(200,200,200);">
+                                <span style="vertical-align:text-top">
+                                    🛍Магазин
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item" style="white-space:nowrap">
+
+                            <a class="nav-link" href="/products/opt" style="color:rgba(200,200,200);">
+<!--                            <span style="vertical-align:text-top" class="material-symbols-outlined">-->
+<!--                                local_shipping-->
+<!--                                </span>-->
+                                <span style="vertical-align:text-top">
+                                    📦Опт
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item"  style="white-space:nowrap">
+                            <a class="nav-link" href="/prf/" style="color:rgba(200,200,200);">
+<!--                            <span style="vertical-align:text-top" class="material-symbols-outlined">-->
+<!--                                account_circle-->
+<!--                            </span>-->
+                                <span style="vertical-align:text-top">
+                                    👤Вход/регистрация
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a target="_blank" class="nav-link" href="https://t.me/vapeshifter" style="white-space:nowrap">
+                                <img src="https://i.imgur.com/lV4a4sl.png" width="20px" style="object-fit:contain; display:inline-block;">
+                                <div style="display:inline-block;">Телеграм-канал</div>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
 <br>
 <div align="center" style="font-size:35px;">Вход</div>
 <br>
 <div align="center">
     <div align="center" style="width:70%; " class="card shadow-sm">
         <form th:action="@{/login}" method="post" >
-            <div><label style="font-size: 18px; width:60%;"> Логин: <input style="font-size: 18px;" type="text" name="username" class="form-control"/> </label></div>
+            <div><label style="font-size: 18px; width:60%;"> Никнейм: <input style="font-size: 18px;" type="text" name="username" class="form-control"/> </label></div>
             <br>
             <div><label style="font-size: 18px;width:60%;"> Пароль: <input style="font-size: 18px;" type="password" name="password" class="form-control"/> </label></div>
 

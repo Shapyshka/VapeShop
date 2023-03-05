@@ -45,10 +45,17 @@ public class websecurityconfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .defaultSuccessUrl("/", true)
                 .permitAll()
                 .and()
                 .logout()
+                .deleteCookies("JSESSIONID")
                 .permitAll()
+                .and()
+                .rememberMe()
+                .userDetailsService(this.userDetailsService())
+                .tokenValiditySeconds(172800)
+                .alwaysRemember(true)
                 .and()
                 .csrf().disable().cors().disable();
     }

@@ -3,6 +3,7 @@ package com.example.restik.models;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="products")
@@ -21,6 +22,8 @@ public class products {
     private Integer volume;
     private Integer nicotine;
 
+    private Integer akuma;
+
     private Integer oldprice;
 
     private Integer quantity;
@@ -32,6 +35,8 @@ public class products {
     private String typeofproduct;
 
     private String optIliRozn;
+
+    private String colors;
 
 
     public Long getId() {
@@ -130,11 +135,27 @@ public class products {
         this.nicotine = nicotine;
     }
 
+    public Integer getAkuma() {
+        return akuma;
+    }
+
+    public void setAkuma(Integer akuma) {
+        this.akuma = akuma;
+    }
+
     public String getOptIliRozn() {
         return optIliRozn;
     }
 
     public void setOptIliRozn(String optIliRozn) {
         this.optIliRozn = optIliRozn;
+    }
+
+    public String getColors() {
+        return colors;
+    }
+
+    public void setColors(String colors) {
+        this.colors = colors;
     }
 }

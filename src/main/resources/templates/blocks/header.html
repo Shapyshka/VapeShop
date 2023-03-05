@@ -17,75 +17,76 @@
             </button>
             <div class="collapse navbar-collapse justify-content-center" id="navbarsExample03" style="margin-right:200px">
                 <ul class="navbar-nav justify-content-center">
-                    <li class="nav-item">
+                    <li class="nav-item" style="white-space:nowrap">
 
-                        <a class="nav-link" href="/products/" style="white-space:nowrap">
-                            <span style="vertical-align:text-top" class="material-symbols-outlined">
-                                shopping_bag
-                            </span>
+<!--                        <span style="vertical-align:text-top" class="material-symbols-outlined">-->
+                            <!--                                shopping_bag-->
+                            <!--                            </span>-->
+                        <a class="nav-link" href="/products/" style="color:rgba(200,200,200);">
                             <span style="vertical-align:text-top">
-                                Розница
+                                🛍Магазин
+                            </span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item" style="white-space:nowrap">
+
+                        <a class="nav-link" href="/products/opt" style="color:rgba(200,200,200);">
+<!--                            <span style="vertical-align:text-top" class="material-symbols-outlined">-->
+<!--                        local_shipping-->
+<!--                        </span>-->
+                            <span style="vertical-align:text-top">
+                                📦Опт
                             </span>
 
                         </a>
                     </li>
 
-                    <li class="nav-item">
-
-                        <a class="nav-link" href="/products/opt" style="white-space:nowrap">
-                            <span style="vertical-align:text-top" class="material-symbols-outlined">
-                        local_shipping
-                        </span>
+                    <li class="nav-item" th:if="${curusname!='anonymousUser'}" style="white-space:nowrap">
+                        <a class="nav-link" href="/cart/" style="color:rgba(200,200,200);">
+<!--                            <span style="vertical-align:text-top" class="material-symbols-outlined">-->
+<!--                        shopping_cart-->
+<!--                        </span>-->
                             <span style="vertical-align:text-top">
-                                Опт
-                            </span>
-
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-
-                        <a class="nav-link" href="/cart/" style="white-space:nowrap">
-                            <span style="vertical-align:text-top" class="material-symbols-outlined">
-                        shopping_cart
-                        </span>
-                            <span style="vertical-align:text-top">
-                                Корзина
+                                🛒Корзина
                             </span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" th:if="${curusname!='anonymousUser'}" style="white-space:nowrap">
 
-                        <a class="nav-link" href="/order/" style="white-space:nowrap">
-                            <span style="vertical-align:text-top" class="material-symbols-outlined">
-                        receipt_long
-                        </span>
+                        <a class="nav-link" href="/order/" style="color:rgba(200,200,200);">
+<!--                            <span style="vertical-align:text-top" class="material-symbols-outlined">-->
+<!--                        receipt_long-->
+<!--                        </span>-->
                             <span style="vertical-align:text-top">
-                                Заказы
+                                🧾Заказы
                             </span>
                         </a>
                     </li>
 
-                    <li class="nav-item">
+                    <li class="nav-item" th:if="${curusname!='anonymousUser'}" style="white-space:nowrap">
 
-                        <a class="nav-link" href="/msg/" style="white-space:nowrap">
-                            <span style="vertical-align:text-top" class="material-symbols-outlined">
-                        contact_support
-                        </span>
+                        <a class="nav-link" href="/msg/" style="color:rgba(200,200,200);">
+<!--                            <span style="vertical-align:text-top" class="material-symbols-outlined">-->
+<!--                        contact_support-->
+<!--                        </span>-->
                             <span style="vertical-align:text-top">
-                                Поддержка
+                                ❓Поддержка
                             </span>
 
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="white-space:nowrap">
 
-                        <a class="nav-link" href="/prf/" style="white-space:nowrap">
-                            <span style="vertical-align:text-top" class="material-symbols-outlined">
-                                account_circle
+                        <a class="nav-link" href="/prf/" style="color:rgba(200,200,200);">
+<!--                            <span style="vertical-align:text-top" class="material-symbols-outlined">-->
+<!--                                account_circle-->
+<!--                            </span>-->
+                            <span th:if="${curusname!='anonymousUser'}" style="vertical-align:text-top">
+                                👤Профиль
                             </span>
-                            <span style="vertical-align:text-top">
-                                Профиль
+                            <span th:if="${curusname=='anonymousUser'}" style="vertical-align:text-top">
+                                👤Вход/регистрация
                             </span>
                         </a>
                     </li>

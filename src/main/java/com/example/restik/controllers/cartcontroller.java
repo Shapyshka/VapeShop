@@ -82,6 +82,7 @@ public class cartcontroller {
         cart.setUser(res.get(0).getUser());
         cart.setStatus("inCart");
         cart.setOptIliRozn(res.get(0).getOptIliRozn());
+        cart.setColors(res.get(0).getColors());
 
         cartrepository.save(cart);
 

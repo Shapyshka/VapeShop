@@ -32,7 +32,7 @@
 <body style="margin-top:70px">
 <header th:insert="blocks/header :: Header"></header>
 <br>
-<h1 align="center">Изменить запись</h1>
+<h2 align="center">Изменить товар</h2>
 <div align="center">
     <div th:each="el:${onenew}" align="center" style="width:50%">
         <form method="post" th:object="${products}">
@@ -40,6 +40,10 @@
             <input type="text" name="title"  id ="title" th:value="${el.getTitle()}" placeholder="Название" class="form-control" required>
             Описание:
             <textarea  name="text" id ="text" th:text="${el.getText()}" placeholder="Описание" class="form-control" style="align:center"></textarea>
+            Вкусы/цвета (разделять символом ";"):
+            <textarea  name="colors" id ="colors" th:text="${el.getColors()}" placeholder="Вкусы/цвета" class="form-control" style="align:center"></textarea>
+
+
             Тип:
             <select name="typeofproduct" id ="typeofproduct" class="form-select">
                 <option value="odnoraz">Одноразка</option>
@@ -74,6 +78,9 @@
             <input type="number" min="1"  name="volume" id ="volume" th:value="${el.getVolume()}" placeholder="Обьем жидкости (мл.)" class="form-control" >
             Содержание никотина (%):
             <input type="number" min="0"  name="nicotine" id ="nicotine" th:value="${el.getNicotine()}" placeholder="Содержание никотина (%)" class="form-control" >
+            Обьем аккумулятора (mAh):
+            <input type="number" min="0"  name="akuma" id ="akuma" th:value="${el.getAkuma()}" placeholder="Обьем аккумулятора (mAh)" class="form-control" >
+
             Старая цена (необязательно):
             <input type="number" min="1" name="oldprice" id ="oldprice" th:value="${el.getOldprice()}" placeholder="Старая цена (необязательно)" class="form-control" >
             Цена:

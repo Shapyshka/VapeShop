@@ -1,10 +1,8 @@
 package com.example.restik.controllers;
 
-import com.example.restik.models.comment;
-import com.example.restik.models.products;
-import com.example.restik.models.role;
-import com.example.restik.models.user;
+import com.example.restik.models.*;
 import com.example.restik.repository.commentrepository;
+import com.example.restik.repository.newsrepository;
 import com.example.restik.repository.productsrepository;
 import com.example.restik.repository.userrepository;
 import com.google.common.collect.Iterables;
@@ -28,7 +26,8 @@ public class maincontroller {
 
     @Autowired
     private productsrepository productsrepository;
-
+    @Autowired
+    private newsrepository newsrepository;
     @Autowired
     private commentrepository commentrepository;
     @Autowired
@@ -89,12 +88,19 @@ public class maincontroller {
         }
         model.addAttribute("comments", comments3);
 
+        model.addAttribute("news",new LazyContextVariable<Iterable<news>>() {
+            @Override
+            protected Iterable<news> loadValue() {
+                return newsrepository.findAll();
+            }
+        });
 
         model.addAttribute("userrep",userrepository);
         model.addAttribute("productsrep", productsrepository);
         model.addAttribute("commrep",commentrepository);
 
         model.addAttribute("curusname",currentPrincipalName);
+
         return "mainpage";
     }
 

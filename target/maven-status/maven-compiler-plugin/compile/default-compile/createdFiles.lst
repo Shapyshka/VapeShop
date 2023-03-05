@@ -36,6 +36,7 @@ com\example\restik\controllers\productscontroller$25.class
 com\example\restik\controllers\productscontroller$8.class
 com\example\restik\models\cart.class
 com\example\restik\controllers\productscontroller$21.class
+com\example\restik\models\news.class
 com\example\restik\repository\cartrepository.class
 com\example\restik\controllers\productscontroller$38.class
 com\example\restik\controllers\maincontroller$1.class
@@ -51,6 +52,7 @@ com\example\restik\models\user.class
 com\example\restik\repository\userrepository.class
 com\example\restik\repository\orderrepository.class
 com\example\restik\controllers\maincontroller.class
+com\example\restik\repository\newsrepository.class
 com\example\restik\controllers\productscontroller$11.class
 com\example\restik\controllers\productscontroller$31.class
 com\example\restik\controllers\productscontroller$41.class
@@ -62,6 +64,7 @@ com\example\restik\controllers\productscontroller$7.class
 com\example\restik\models\comment.class
 com\example\restik\controllers\productscontroller$15.class
 com\example\restik\config\FaviconConfiguration.class
+com\example\restik\controllers\maincontroller$4.class
 com\example\restik\controllers\productscontroller$3.class
 com\example\restik\controllers\productscontroller.class
 com\example\restik\repository\messagerepository.class
