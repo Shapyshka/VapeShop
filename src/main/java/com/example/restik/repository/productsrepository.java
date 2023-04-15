@@ -15,9 +15,9 @@ public interface productsrepository extends CrudRepository <products, Long> {
     Iterable<products> findByTypeofproductAndOptIliRozn(String type, String optOtRozn, Sort date);
 
 
-    @Query("Select p From products p Where p.typeofproduct = ?1 and p.optIliRozn = ?2")
-    Iterable<products> findByTypeofproductAndOptIliRoznSortByPriceAsc(String type, String optOtRozn, Sort price);
-
-    @Query("Select p From products p Where p.typeofproduct = ?1 and p.optIliRozn = ?2")
-    Iterable<products> findByTypeofproductAndOptIliRoznSortByPriceDesc(String type, String optOtRozn, Sort price);
+//    @Query("Select p From products p Where p.typeofproduct = ?1 and p.optIliRozn = ?2")
+//    Iterable<products> findByTypeofproductAndOptIliRoznSortByPriceAsc(String type, String optOtRozn, Sort price);
+//
+//    @Query("Select p From products p Where p.typeofproduct = ?1 and p.optIliRozn = ?2")
+//    Iterable<products> findByTypeofproductAndOptIliRoznSortByPriceDesc(String type, String optOtRozn, Sort price);
 }

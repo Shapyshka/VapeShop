@@ -50,44 +50,90 @@
    .scale img:hover {
     transform: scale(1.2); /* Увеличиваем масштаб */
    }
+
+   .loader {
+          border: 16px solid #f3f3f3; /* Light grey */
+          border-top: 16px solid #3498db; /* Blue */
+          border-radius: 50%;
+          width: 75px;
+          height: 75px;
+          animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
   </style>
-<body style="margin-top:70px; background-color:#eeeeee">
+<!--zoom:90%-->
+<body style="margin-top:70px; background-color:#eeeeee; ">
 <header th:insert="blocks/header :: Header" ></header>
 
 <div style="align:center;" align="center">
     <div class="justify-content-center" style="background-color:#212529; width:100%; position: fixed; top: 60px; align:center;z-index:10;" align="center" >
         <div align="center">
-            <div align="center"  style="width:40%; margin-top:3px; display:inline-block">
-                <input type="search" id="sparam" class="form-control" placeholder="Поиск по названию..." aria-label="Title" oninput="searchFunction()" aria-describedby="basic-addon1">
-            </div>
-            <div align="center" style="display:inline-block; margin-top:3px;">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="sortdrop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                     Сорт. по цене
-                </button>
-                <div th:if="${!opt}" class="dropdown-menu" aria-labelledby="sortdrop">
-                    <a class="dropdown-item" href="/products/">По умолчанию</a>
-                    <a class="dropdown-item" href="/products/sort/priceasc">Сначала недорогие</a>
-                    <a class="dropdown-item" href="/products/sort/pricedesc">Сначала дорогие</a>
+
+            <div align="center"  style="width:50%; margin-top:3px;">
+
+                <div th:if="${!opt}" >
+                    <div style=" display:inline-block; width:80%;" >
+                        <input th:value="${sparamalready}" onchange="window.location.href = '/products/search?sparam='+document.getElementById('sparamrozn').value;" type="search" id="sparamrozn" class="form-control" placeholder="Поиск по розничному каталогу..." >
+                    </div>
+
+                    <div style="display:inline-block">
+                        <button onclick="window.location.href = '/products/search?sparam='+document.getElementById('sparamrozn').value;" class="btn btn-primary" >
+               <span class="material-symbols-outlined">
+                   search
+               </span>
+                        </button>
+                    </div>
+
                 </div>
-                <div th:if="${opt}" class="dropdown-menu" aria-labelledby="sortdrop">
-                    <a class="dropdown-item" href="/products/opt">По умолчанию</a>
-                    <a class="dropdown-item" href="/products/opt/sort/priceasc">Сначала недорогие</a>
-                    <a class="dropdown-item" href="/products/opt/sort/pricedesc">Сначала дорогие</a>
+
+
+                <div th:if="${opt}" >
+                    <div style=" display:inline-block; width:80%;" >
+                        <input th:value="${sparamalready}" onchange="window.location.href = '/products/opt/search?sparam='+document.getElementById('sparamopt').value;" type="search" id="sparamopt" class="form-control" placeholder="Поиск по оптовому каталогу..." >
+                    </div>
+
+                    <div style="display:inline-block">
+                        <button onclick="window.location.href = '/products/opt/search?sparam='+document.getElementById('sparamopt').value;" class="btn btn-primary">
+               <span class="material-symbols-outlined">
+                   search
+               </span>
+                        </button>
+                    </div>
                 </div>
+
             </div>
+<!--            <div align="center" style="display:inline-block; margin-top:3px;">-->
+<!--                <button class="btn btn-secondary dropdown-toggle" type="button" id="sortdrop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >-->
+<!--                     Сорт. по цене-->
+<!--                </button>-->
+<!--                <div th:if="${!opt}" class="dropdown-menu" aria-labelledby="sortdrop">-->
+<!--                    <a class="dropdown-item" href="/products/">По умолчанию</a>-->
+<!--                    <a class="dropdown-item" href="/products/sort/priceasc">Сначала недорогие</a>-->
+<!--                    <a class="dropdown-item" href="/products/sort/pricedesc">Сначала дорогие</a>-->
+<!--                </div>-->
+<!--                <div th:if="${opt}" class="dropdown-menu" aria-labelledby="sortdrop">-->
+<!--                    <a class="dropdown-item" href="/products/opt">По умолчанию</a>-->
+<!--                    <a class="dropdown-item" href="/products/opt/sort/priceasc">Сначала недорогие</a>-->
+<!--                    <a class="dropdown-item" href="/products/opt/sort/pricedesc">Сначала дорогие</a>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
         <div style="height:5px"> </div>
 
-                            <a th:if="${productstype1.size()>0}" class="nav-link" id="vapeslink" href="#" style="color:#cccccc; display:inline-block">
+                            <a th:if="${productstype1size>0 && opt==false}" class="nav-link"  href="/products/odnoraz" style="color:#cccccc; display:inline-block">
                                 <span style="vertical-align:text-top" class="material-symbols-outlined">
                             vaping_rooms
                             </span>
                                 <span style="vertical-align:text-top">
-                                    Одноразовые эл. сигареты
+                                    Одноразки
                                 </span>
                             </a>
 
-                            <a th:if="${productstype5.size()>0}" class="nav-link" id="podslink" href="#" style="color:#cccccc; display:inline-block">
+                            <a th:if="${productstype5size>0 && opt==false}" class="nav-link"  href="/products/pod" style="color:#cccccc; display:inline-block">
                                                     <span style="vertical-align:text-top" class="material-symbols-outlined">
                                                 air_freshener
                                                 </span>
@@ -96,7 +142,7 @@
                                                     </span>
                             </a>
 
-                            <a th:if="${productstype2.size()>0}" class="nav-link" id="moistslink" href="#" style="color:#cccccc; display:inline-block">
+                            <a th:if="${productstype2size>0 && opt==false}" class="nav-link"  href="/products/jija" style="color:#cccccc; display:inline-block">
                                 <span style="vertical-align:text-top" class="material-symbols-outlined">
                             pediatrics
                             </span>
@@ -105,7 +151,7 @@
                                 </span>
                             </a>
 
-                            <a th:if="${productstype3.size()>0}" class="nav-link" id="cartridgelink" href="#" style="color:#cccccc; display:inline-block">
+                            <a th:if="${productstype3size>0 && opt==false}" class="nav-link"  href="/products/cartridge" style="color:#cccccc; display:inline-block">
                                         <span style="vertical-align:text-top" class="material-symbols-outlined">
                                     place_item
                                     </span>
@@ -114,7 +160,7 @@
                                 </span>
                             </a>
 
-                            <a th:if="${productstype4.size()>0}" class="nav-link" id="isparlink" href="#" style="color:#cccccc; display:inline-block">
+                            <a th:if="${productstype4size>0 && opt==false}" class="nav-link"  href="/products/ispar" style="color:#cccccc; display:inline-block">
                                         <span style="vertical-align:text-top" class="material-symbols-outlined">
                                     water_heater
                                     </span>
@@ -123,77 +169,91 @@
                                 </span>
                             </a>
 
-        <script>
-            function searchFunction() {
-                let input = document.getElementById('sparam').value;
-                input=input.toLowerCase();
 
-                if(input.length>0){
-                   document.getElementById('specialsdiv').style.height = "0px";
-                   document.getElementById('specialsdiv').style.overflowY = "hidden";
+                            <a th:if="${productstype1size>0 && opt==true}" class="nav-link"  href="/products/opt/odnoraz" style="color:#cccccc; display:inline-block">
+                                                    <span style="vertical-align:text-top" class="material-symbols-outlined">
+                                                vaping_rooms
+                                                </span>
+                                <span style="vertical-align:text-top">
+                                                        Одноразки
+                                                    </span>
+                            </a>
 
-                   var x = document.getElementsByClassName('categorytitle');
-                       for (i = 0; i < x.length; i++) {
-                            x[i].style.display="none";
-                       }
-                }
-                else{
-                   document.getElementById('specialsdiv').style.height = slickheight;
-                   document.getElementById('specialsdiv').style.overflowY = "visible";
+                            <a th:if="${productstype5size>0 && opt==true}" class="nav-link"  href="/products/opt/pod" style="color:#cccccc; display:inline-block">
+                                                                        <span style="vertical-align:text-top" class="material-symbols-outlined">
+                                                                    air_freshener
+                                                                    </span>
+                                <span style="vertical-align:text-top">
+                                                                            Pod-системы
+                                                                        </span>
+                            </a>
 
-                   var x = document.getElementsByClassName('categorytitle');
-                       for (i = 0; i < x.length; i++) {
-                            x[i].style.display="block";
-                       }
-                }
+                            <a th:if="${productstype2size>0 && opt==true}" class="nav-link"  href="/products/opt/jija" style="color:#cccccc; display:inline-block">
+                                                    <span style="vertical-align:text-top" class="material-symbols-outlined">
+                                                pediatrics
+                                                </span>
+                                <span style="vertical-align:text-top">
+                                                        Жидкости
+                                                    </span>
+                            </a>
 
-                var x = document.getElementsByClassName('tovary');
-                for (i = 0; i < x.length; i++) {
-                    var div1 = x[i].getElementsByTagName('div')[0];
-                    var div2 = div1.getElementsByTagName('div')[1];
-                    var div3 = div2.getElementsByTagName('div')[0];
-                    if (!div3.getElementsByTagName('div')[0].innerHTML.toLowerCase().includes(input)) {
-                        x[i].style.display="none";
-                    }
-                    else {
-                        x[i].style.display="block";
-                    }
-                }
-            }
-        </script>
+                            <a th:if="${productstype3size>0 && opt==true}" class="nav-link"  href="/products/opt/cartridge" style="color:#cccccc; display:inline-block">
+                                                            <span style="vertical-align:text-top" class="material-symbols-outlined">
+                                                        place_item
+                                                        </span>
+                                <span style="vertical-align:text-top">
+                                                                Картриджи
+                                                    </span>
+                            </a>
 
-        <script>
+                            <a th:if="${productstype4size>0 && opt==true}" class="nav-link"  href="/products/opt/ispar" style="color:#cccccc; display:inline-block">
+                                        <span style="vertical-align:text-top" class="material-symbols-outlined">
+                                    water_heater
+                                    </span>
+            <span style="vertical-align:text-top">
+                                            Испарители
+                                </span>
+        </a>
 
-            $("#moistslink").click(function() {
-                $([document.documentElement, document.body]).animate({
-                    scrollTop: $("#moistsdiv").offset().top - 150
-                }, 100);
-            });
+<!--        <script>-->
+<!--            function searchFunction() {-->
+<!--                let input = document.getElementById('sparam').value;-->
+<!--                input=input.toLowerCase();-->
 
-            $("#vapeslink").click(function() {
-                $([document.documentElement, document.body]).animate({
-                    scrollTop: $("#vapesdiv").offset().top - 150
-                }, 100);
-            });
+<!--                if(input.length>0){-->
+<!--                   document.getElementById('specialsdiv').style.height = "0px";-->
+<!--                   document.getElementById('specialsdiv').style.overflowY = "hidden";-->
 
-            $("#podslink").click(function() {
-                $([document.documentElement, document.body]).animate({
-                    scrollTop: $("#podsdiv").offset().top - 150
-                }, 100);
-            });
+<!--                   var x = document.getElementsByClassName('categorytitle');-->
+<!--                       for (i = 0; i < x.length; i++) {-->
+<!--                            x[i].style.display="none";-->
+<!--                       }-->
+<!--                }-->
+<!--                else{-->
+<!--                   document.getElementById('specialsdiv').style.height = slickheight;-->
+<!--                   document.getElementById('specialsdiv').style.overflowY = "visible";-->
 
-            $("#cartridgelink").click(function() {
-                $([document.documentElement, document.body]).animate({
-                    scrollTop: $("#cartridgediv").offset().top - 150
-                }, 100);
-            });
+<!--                   var x = document.getElementsByClassName('categorytitle');-->
+<!--                       for (i = 0; i < x.length; i++) {-->
+<!--                            x[i].style.display="block";-->
+<!--                       }-->
+<!--                }-->
 
-            $("#isparlink").click(function() {
-                $([document.documentElement, document.body]).animate({
-                    scrollTop: $("#ispardiv").offset().top - 150
-                }, 100);
-            });
-        </script>
+<!--                var x = document.getElementsByClassName('tovary');-->
+<!--                for (i = 0; i < x.length; i++) {-->
+<!--                    var div1 = x[i].getElementsByTagName('div')[0];-->
+<!--                    var div2 = div1.getElementsByTagName('div')[1];-->
+<!--                    var div3 = div2.getElementsByTagName('div')[0];-->
+<!--                    if (!div3.getElementsByTagName('div')[0].innerHTML.toLowerCase().includes(input)) {-->
+<!--                        x[i].style.display="none";-->
+<!--                    }-->
+<!--                    else {-->
+<!--                        x[i].style.display="block";-->
+<!--                    }-->
+<!--                }-->
+<!--            }-->
+<!--        </script>-->
+
         <div style="height:10px"> </div>
 
 
@@ -210,6 +270,12 @@
 
 <div align="center">
 
+    <div style="font-size:35px" th:if="${!opt}">
+        🛍Розничный каталог
+    </div>
+    <div style="font-size:35px"  th:if="${opt}">
+        📦Оптовый каталог
+    </div>
 
     <div align="center" th:if="${opt==true}">
         <span style="font-size:26px; vertical-align:text-top; color:#ff7b00" class="material-symbols-outlined">
@@ -225,133 +291,22 @@
         </span>
         <div style="height:15px"></div>
     </div>
-        <div id="specialsdiv">
-            <div th:if="${specials.size()>5}" >
-                <div align="center" style="font-size:30px; ">🏷Особые предложения🏷️</div>
-                <br>
-                <div class="autoplay" style="width:75%">
-                    <div th:each="el:${specials}" >
-                        <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
-                            <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
 
-<!--                                <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>-->
-
-                                <div class="scale">
-                                    <img loading=lazy  th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
-                                </div>
-                                <div class="card-body">
-                                    <div >
-                                        <div align="left" class="mb-0" id="titul" th:text="${el.getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:17px; color:#222222; "></div>
-                                        <div style="height:5px"> </div>
-                                        <div align="left" style="white-space: nowrap;">
-                                            <div style="display:inline-block;">
-                                                <h5  class="text-dark mb-0" th:text="${el.getPrice()+' ₽  '}" style="white-space: nowrap;"/>
-                                            </div>
-                                            <div th:if="${el.getOldprice()!=null}"  style="color:#FF0000; text-decoration: line-through; display:inline-block;">
-                                                <span th:text="${el.getOldprice()+' ₽'}" style="font-size:14px; color:#777777; "/>
-                                            </div>
-                                        </div>
-                                        <div align="left" th:if="${el.getQuantity()!=null}">
-                                            <i class="mb-0" th:text="${'В наличии: '+el.getQuantity()+' шт.'}" style="font-size:15px; color:#444444; "></i>
-                                        </div>
-
-                                        <div style="height:3px"> </div>
-
-                                        <div align="left" style="font-size:16px; color:#222222;">
-                                            <div th:text="${commrep.findByZapisAndRating(el, true).size()}" style="display:inline-block"></div>
-                                            <span style="font-size:16px; color:#00d10a; display:inline-block; vertical-align:middle;" class="material-symbols-outlined">
-                                            thumb_up
-                                        </span>
-
-                                            <div th:text="${commrep.findByZapisAndRating(el, false).size()}" style="display:inline-block"></div>
-                                            <span style="font-size:16px; color:#c40404; display:inline-block; vertical-align:middle;" class="material-symbols-outlined">
-                                            thumb_down
-                                        </span>
-                                        </div>
-
-                                        <div style="height:15px"> </div>
-                                    </div>
-
-
-                                        <a th:if="${el.getQuantity()!=0 && curusname!='anonymousUser'}" type="button" class="btn btn-sm btn-outline-dark" href="#" data-toggle="modal" th:data-target="${'#modalcart'+el.getId().toString()}" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px; white-space: nowrap; ">
-                                                    <span class="material-symbols-outlined" style="font-size:16px;">
-                                                        shopping_cart
-                                                    </span>
-                                            В корзину
-                                        </a>
-
-                                    <a type="button" class="btn btn-sm btn-dark" th:href="@{/products/{id}(id=${el.getId})}" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px;">
-                                        Подробнее...
-                                    </a>
-
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-                <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.0/slick/slick.min.js"></script>
-
-                <script type="text/javascript">
-
-                  $('.autoplay').slick({
-                  dots: true,
-                    infinite: true,
-                      slidesToShow: 5,
-                      slidesToScroll: 1,
-                      autoplay: true,
-                      autoplaySpeed: 3500,
-                       responsive: [
-                        {
-                          breakpoint: 1024,
-                          settings: {
-                            slidesToShow: 3,
-                            slidesToScroll: 1,
-                            infinite: true,
-                            dots: true,
-                            autoplay: true,
-                              autoplaySpeed: 3500
-                          }
-                        },
-                        {
-                          breakpoint: 600,
-                          settings: {
-                            slidesToShow: 2,
-                            slidesToScroll: 1,
-                            autoplay: true,
-                              autoplaySpeed: 3500
-                          }
-                        },
-                        {
-                          breakpoint: 480,
-                          settings: {
-                            slidesToShow: 1,
-                            slidesToScroll: 1,
-                            autoplay: true,
-                              autoplaySpeed: 3500
-                          }
-                        }
-                      ]
-                    });
-
-              </script>
-            </div>
+    <div id="loader" style="background-color:#dddddd; width:20%" align="center" class="rounded">
+        <div style="width:90%">
+            <div class="loader"></div>
         </div>
-    <script>
-        var slickheight=document.getElementById('specialsdiv').style.height;
-    </script>
-
+    </div>
 
     <div class="album py-2" >
-        <div class="container">
+        <div class="container" id="catalogdiv" style="display:none">
 
-            <div id="vapesdiv" style="height:15px"></div>
-            <div align="center" class="categorytitle" th:if="${productstype1.size()>0}" style="font-size:35px;" >
-                ⚡🚬Одноразовые электронные сигареты🚬⚡
+            <div align="center" class="categorytitle" th:if="${productstype1size>0 && productstype1!=null && mainpage==null}" style="font-size:32px;" >
+                <div style="height:10px"> </div>
+                ⚡Одноразки⚡
                 <div style="height:5px"> </div>
             </div>
-            <div th:if="${productstype1.size()>0}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-0">
+            <div th:if="${productstype1!=null && mainpage!=true}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-0">
                 <div th:each="el:${productstype1}" class="col tovary">
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
@@ -373,7 +328,12 @@
                                         </div>
                                     </div>
                                     <div align="left" th:if="${el.getQuantity()!=null}">
-                                        <i class="mb-0" th:text="${'В наличии: '+el.getQuantity()+' шт.'}" style="font-size:15px; color:#444444; "></i>
+                                        <div th:if="${el.getQuantity()==0}">
+                                            <i class="mb-0" style="font-size:15px; color:#444444; ">Нет в наличии</i>
+                                        </div>
+                                        <div th:if="${el.getQuantity()>0}">
+                                            <i class="mb-0" th:text="${'В наличии: '+el.getQuantity()+' шт.'}" style="font-size:15px; color:#444444; "></i>
+                                        </div>
                                     </div>
 
                                     <div style="height:3px"> </div>
@@ -399,6 +359,13 @@
                                         </span>
                                         В корзину
                                     </a>
+
+                                <a th:if="${el.getQuantity()!=0 && curusname=='anonymousUser' && el.getOptIliRozn()=='rozn'}" th:href="@{/products/{id}/fastorder(id=${el.getId})}" type="button" class="btn btn-sm btn-outline-dark" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px; white-space: nowrap; ">
+                                                    <span class="material-symbols-outlined" style="font-size:16px;">
+                                                        receipt_long
+                                                    </span>
+                                    Заказать
+                                </a>
 
                                 <a type="button" class="btn btn-sm btn-dark" th:href="@{/products/{id}(id=${el.getId})}" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px;">
                                         Подробнее...
@@ -450,12 +417,14 @@
             </div>
 
 
-            <div id="podsdiv" style="height:15px"></div>
-            <div align="center" class="categorytitle" th:if="${productstype5.size()>0}" style="font-size:35px;" >
-                💨⚡Pod-системы⚡💨
+
+            <div align="center" class="categorytitle" th:if="${productstype5size>0 && productstype5!=null && mainpage==null}" style="font-size:32px;" >
+                <div style="height:10px"> </div>
+                ⚡Pod-системы⚡
                 <div style="height:5px"> </div>
             </div>
-            <div th:if="${productstype5.size()>0}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-0">
+
+            <div th:if="${productstype5!=null && mainpage!=true}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-0">
                 <div th:each="el:${productstype5}" class="col tovary">
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
@@ -477,7 +446,12 @@
                                         </div>
                                     </div>
                                     <div align="left" th:if="${el.getQuantity()!=null}">
-                                        <i class="mb-0" th:text="${'В наличии: '+el.getQuantity()+' шт.'}" style="font-size:15px; color:#444444; "></i>
+                                        <div th:if="${el.getQuantity()==0}">
+                                            <i class="mb-0" style="font-size:15px; color:#444444; ">Нет в наличии</i>
+                                        </div>
+                                        <div th:if="${el.getQuantity()>0}">
+                                            <i class="mb-0" th:text="${'В наличии: '+el.getQuantity()+' шт.'}" style="font-size:15px; color:#444444; "></i>
+                                        </div>
                                     </div>
                                     <div style="height:3px"> </div>
 
@@ -500,6 +474,13 @@
                                             shopping_cart
                                         </span>
                                     В корзину
+                                </a>
+
+                                <a th:if="${el.getQuantity()!=0 && curusname=='anonymousUser' && el.getOptIliRozn()=='rozn'}" th:href="@{/products/{id}/fastorder(id=${el.getId})}" type="button" class="btn btn-sm btn-outline-dark" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px; white-space: nowrap; ">
+                                                    <span class="material-symbols-outlined" style="font-size:16px;">
+                                                        receipt_long
+                                                    </span>
+                                    Заказать
                                 </a>
 
                                 <a type="button" class="btn btn-sm btn-dark" th:href="@{/products/{id}(id=${el.getId})}" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px;">
@@ -551,13 +532,13 @@
                 </div>
             </div>
 
-
-            <div id ="moistsdiv" style="height:15px"></div>
-            <div class="categorytitle" th:if="${productstype2.size()>0}"  align="center" style="font-size:35px;">
-                🧪💧Жидкости💧🧪
+            <div class="categorytitle" th:if="${productstype2size>0 && productstype2!=null && mainpage==null}"  align="center" style="font-size:32px;">
+                <div style="height:10px"> </div>
+                💧Жидкости💧
                 <div style="height:5px"> </div>
             </div>
-            <div th:if="${productstype2.size()>0}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-0">
+
+            <div th:if="${productstype2!=null && mainpage!=true}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-0">
                 <div th:each="el:${productstype2}" class="col tovary">
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
@@ -579,7 +560,12 @@
                                         </div>
                                     </div>
                                     <div align="left" th:if="${el.getQuantity()!=null}">
-                                        <i class="mb-0" th:text="${'В наличии: '+el.getQuantity()+' шт.'}" style="font-size:15px; color:#444444; "></i>
+                                        <div th:if="${el.getQuantity()==0}">
+                                            <i class="mb-0" style="font-size:15px; color:#444444; ">Нет в наличии</i>
+                                        </div>
+                                        <div th:if="${el.getQuantity()>0}">
+                                            <i class="mb-0" th:text="${'В наличии: '+el.getQuantity()+' шт.'}" style="font-size:15px; color:#444444; "></i>
+                                        </div>
                                     </div>
                                     <div style="height:3px"> </div>
 
@@ -602,6 +588,13 @@
                                             shopping_cart
                                         </span>
                                     В корзину
+                                </a>
+
+                                <a th:if="${el.getQuantity()!=0 && curusname=='anonymousUser' && el.getOptIliRozn()=='rozn'}" th:href="@{/products/{id}/fastorder(id=${el.getId})}" type="button" class="btn btn-sm btn-outline-dark" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px; white-space: nowrap; ">
+                                                    <span class="material-symbols-outlined" style="font-size:16px;">
+                                                        receipt_long
+                                                    </span>
+                                    Заказать
                                 </a>
 
                                 <a type="button" class="btn btn-sm btn-dark" th:href="@{/products/{id}(id=${el.getId})}" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px;">
@@ -653,12 +646,14 @@
             </div>
 
 
-            <div id ="cartridgediv" style="height:15px"></div>
-            <div class="categorytitle" th:if="${productstype3.size()>0}"  align="center" style="font-size:35px;">
+            <div class="categorytitle" th:if="${productstype3size>0 && productstype3!=null && mainpage==null}"  align="center" style="font-size:32px;">
+                <div style="height:10px"> </div>
                 🔋Картриджи🔋
+
                 <div style="height:5px"> </div>
             </div>
-            <div th:if="${productstype3.size()>0}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-0">
+
+            <div th:if="${productstype3!=null && mainpage!=true}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-0">
                 <div th:each="el:${productstype3}" class="col tovary">
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
@@ -680,7 +675,12 @@
                                         </div>
                                     </div>
                                     <div align="left" th:if="${el.getQuantity()!=null}">
-                                        <i class="mb-0" th:text="${'В наличии: '+el.getQuantity()+' шт.'}" style="font-size:15px; color:#444444; "></i>
+                                        <div th:if="${el.getQuantity()==0}">
+                                            <i class="mb-0" style="font-size:15px; color:#444444; ">Нет в наличии</i>
+                                        </div>
+                                        <div th:if="${el.getQuantity()>0}">
+                                            <i class="mb-0" th:text="${'В наличии: '+el.getQuantity()+' шт.'}" style="font-size:15px; color:#444444; "></i>
+                                        </div>
                                     </div>
                                     <div style="height:3px"> </div>
 
@@ -703,6 +703,13 @@
                                             shopping_cart
                                         </span>
                                     В корзину
+                                </a>
+
+                                <a th:if="${el.getQuantity()!=0 && curusname=='anonymousUser' && el.getOptIliRozn()=='rozn'}" th:href="@{/products/{id}/fastorder(id=${el.getId})}" type="button" class="btn btn-sm btn-outline-dark" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px; white-space: nowrap; ">
+                                                    <span class="material-symbols-outlined" style="font-size:16px;">
+                                                        receipt_long
+                                                    </span>
+                                    Заказать
                                 </a>
 
                                 <a type="button" class="btn btn-sm btn-dark" th:href="@{/products/{id}(id=${el.getId})}" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px;">
@@ -754,12 +761,13 @@
             </div>
 
 
-            <div id ="ispardiv" style="height:15px"></div>
-            <div class="categorytitle" th:if="${productstype4.size()>0}"  align="center" style="font-size:35px;">
-                ⚡🔋Испарители🔋⚡
+            <div class="categorytitle" th:if="${productstype4size>0 && productstype4!=null && mainpage==null}"  align="center" style="font-size:32px;">
+                <div style="height:10px"> </div>
+                🔋Испарители🔋
                 <div style="height:5px"> </div>
             </div>
-            <div th:if="${productstype4.size()>0}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-0">
+
+            <div th:if="${productstype4!=null && mainpage!=true}" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-0">
                 <div th:each="el:${productstype4}" class="col tovary">
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
                         <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
@@ -781,7 +789,13 @@
                                         </div>
                                     </div>
                                     <div align="left" th:if="${el.getQuantity()!=null}">
-                                        <i class="mb-0" th:text="${'В наличии: '+el.getQuantity()+' шт.'}" style="font-size:15px; color:#444444; "></i>
+                                        <div th:if="${el.getQuantity()==0}">
+                                            <i class="mb-0" style="font-size:15px; color:#444444; ">Нет в наличии</i>
+                                        </div>
+                                        <div th:if="${el.getQuantity()>0}">
+                                            <i class="mb-0" th:text="${'В наличии: '+el.getQuantity()+' шт.'}" style="font-size:15px; color:#444444; "></i>
+                                        </div>
+
                                     </div>
                                     <div style="height:3px"> </div>
 
@@ -804,6 +818,13 @@
                                             shopping_cart
                                         </span>
                                     В корзину
+                                </a>
+
+                                <a th:if="${el.getQuantity()!=0 && curusname=='anonymousUser' && el.getOptIliRozn()=='rozn'}" th:href="@{/products/{id}/fastorder(id=${el.getId})}" type="button" class="btn btn-sm btn-outline-dark" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px; white-space: nowrap; ">
+                                                    <span class="material-symbols-outlined" style="font-size:16px;">
+                                                        receipt_long
+                                                    </span>
+                                    Заказать
                                 </a>
 
                                 <a type="button" class="btn btn-sm btn-dark" th:href="@{/products/{id}(id=${el.getId})}" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px;">
@@ -855,8 +876,99 @@
             </div>
 
 
+
+            <div th:if="${specials!=null}" id="specialsdiv">
+                <div th:if="${specials.size()>5}" >
+                    <br>
+                    <div align="center" style="font-size:32px; ">🔥Скидки🔥</div>
+                    <br>
+                    <div class="autoplay" >
+                        <div th:each="el:${specials}" >
+                            <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
+                                <div th:id="${'cuntent'+el.getId()}" class="card shadow-sm">
+
+                                    <!--                                <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="200" width="100%" style="object-fit:contain; filter: blur(5px);"/>-->
+
+                                    <div class="scale">
+                                        <img loading=lazy  th:src="${el.getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="200" width="100%" style="object-fit:contain;"/>
+                                    </div>
+                                    <div class="card-body">
+                                        <div >
+                                            <div align="left" class="mb-0" id="titul" th:text="${el.getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:17px; color:#222222; "></div>
+                                            <div style="height:5px"> </div>
+                                            <div align="left" style="white-space: nowrap;">
+                                                <div style="display:inline-block;">
+                                                    <h5  class="text-dark mb-0" th:text="${el.getPrice()+' ₽  '}" style="white-space: nowrap;"/>
+                                                </div>
+                                                <div th:if="${el.getOldprice()!=null}"  style="color:#FF0000; text-decoration: line-through; display:inline-block;">
+                                                    <span th:text="${el.getOldprice()+' ₽'}" style="font-size:14px; color:#777777; "/>
+                                                </div>
+                                            </div>
+                                            <div align="left" th:if="${el.getQuantity()!=null}">
+                                                <div th:if="${el.getQuantity()==0}">
+                                                    <i class="mb-0" style="font-size:15px; color:#444444; ">Нет в наличии</i>
+                                                </div>
+                                                <div th:if="${el.getQuantity()>0}">
+                                                    <i class="mb-0" th:text="${'В наличии: '+el.getQuantity()+' шт.'}" style="font-size:15px; color:#444444; "></i>
+                                                </div>
+                                            </div>
+
+                                            <div style="height:3px"> </div>
+
+                                            <div align="left" style="font-size:16px; color:#222222;">
+                                                <div th:text="${commrep.findByZapisAndRating(el, true).size()}" style="display:inline-block"></div>
+                                                <span style="font-size:16px; color:#00d10a; display:inline-block; vertical-align:middle;" class="material-symbols-outlined">
+                                            thumb_up
+                                        </span>
+
+                                                <div th:text="${commrep.findByZapisAndRating(el, false).size()}" style="display:inline-block"></div>
+                                                <span style="font-size:16px; color:#c40404; display:inline-block; vertical-align:middle;" class="material-symbols-outlined">
+                                            thumb_down
+                                        </span>
+                                            </div>
+
+                                            <div style="height:15px"> </div>
+                                        </div>
+
+
+                                        <a th:if="${el.getQuantity()!=0 && curusname!='anonymousUser'}" type="button" class="btn btn-sm btn-outline-dark" href="#" data-toggle="modal" th:data-target="${'#modalcart'+el.getId().toString()}" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px; white-space: nowrap; ">
+                                                    <span class="material-symbols-outlined" style="font-size:16px;">
+                                                        shopping_cart
+                                                    </span>
+                                            В корзину
+                                        </a>
+
+                                        <a th:if="${el.getQuantity()!=0 && curusname=='anonymousUser' && el.getOptIliRozn()=='rozn'}" th:href="@{/products/{id}/fastorder(id=${el.getId})}" type="button" class="btn btn-sm btn-outline-dark" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px; white-space: nowrap; ">
+                                                    <span class="material-symbols-outlined" style="font-size:16px;">
+                                                        receipt_long
+                                                    </span>
+                                            Заказать
+                                        </a>
+
+                                        <a type="button" class="btn btn-sm btn-dark" th:href="@{/products/{id}(id=${el.getId})}" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px;">
+                                            Подробнее...
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <script>
+                var slickheight=document.getElementById('specialsdiv').style.height;
+            </script>
+
         </div>
+
+        <script>
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("catalogdiv").style.display = "block";
+        </script>
     </div>
+
     <div th:if="${curusname!='anonymousUser'}">
         <div th:each="el:${products}" style="height:0px" >
             <div style="display: inline-block;" >
@@ -945,40 +1057,80 @@
         </script>
     </div>
 
-        <div class="modal fade" tabindex="-1" role="dialog" id="ageconfirmmodal" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" align="center">Предупреждение</h5>
+<!--        <div class="modal fade" tabindex="-1" role="dialog" id="ageconfirmmodal" aria-hidden="true">-->
+<!--            <div class="modal-dialog" role="document">-->
+<!--                <div class="modal-content">-->
+<!--                    <div class="modal-header">-->
+<!--                        <h5 class="modal-title" align="center">Предупреждение</h5>-->
 
-                    </div>
-                        <div class="modal-body" align="center" >
-                                <div class="card-body">
-                                    <div style="font-size:16px">
-                                        Данный сайт содержит информацию, не предназначенную для просмотра лицами не достигшими возраста 18 лет.
+<!--                    </div>-->
+<!--                        <div class="modal-body" align="center" >-->
+<!--                                <div class="card-body">-->
+<!--                                    <div style="font-size:16px">-->
+<!--                                        Данный сайт содержит информацию, не предназначенную для просмотра лицами не достигшими возраста 18 лет.-->
 
-                                    </div>
-                                </div>
-                            <div class="modal-footer" align="center">
-                                <a type="button" class="btn btn-outline-secondary" href="https://www.google.com/search?q=%D0%BF%D0%BE%D1%87%D0%B5%D0%BC%D1%83+%D0%BA%D1%83%D1%80%D0%B8%D1%82%D1%8C+%D1%8D%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%BD%D0%BD%D1%8B%D0%B5+%D1%81%D0%B8%D0%B3%D0%B0%D1%80%D0%B5%D1%82%D1%8B+%D0%B2%D1%80%D0%B5%D0%B4%D0%BD%D0%BE&sxsrf=AJOqlzW-rnjNu3HnJ1geaA33fjbSbx-HiQ%3A1674291606236&ei=lqnLY-uDDs-L9u8P0YCToAs&ved=0ahUKEwjrpsKjptj8AhXPhf0HHVHABLQQ4dUDCA8&uact=5&oq=%D0%BF%D0%BE%D1%87%D0%B5%D0%BC%D1%83+%D0%BA%D1%83%D1%80%D0%B8%D1%82%D1%8C+%D1%8D%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%BD%D0%BD%D1%8B%D0%B5+%D1%81%D0%B8%D0%B3%D0%B0%D1%80%D0%B5%D1%82%D1%8B+%D0%B2%D1%80%D0%B5%D0%B4%D0%BD%D0%BE&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIECAAQRzIECAAQRzIECAAQRzIECAAQRzIECAAQRzIECAAQRzIECAAQRzIECAAQRzoKCAAQRxDWBBCwA0oECEEYAEoECEYYAFCODliODmDsDmgBcAJ4AIABAIgBAJIBAJgBAKABAcgBCMABAQ&sclient=gws-wiz-serp"
-                                >Мне нет 18 лет.</a>
-                                <button type="button" class="btn btn-success" data-dismiss="modal">Мне есть 18 лет.</button>
-                            </div>
-                        </div>
-                </div>
-            </div>
-        </div>
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            <div class="modal-footer" align="center">-->
+<!--                                <a type="button" class="btn btn-outline-secondary" href="https://www.google.com/search?q=%D0%BF%D0%BE%D1%87%D0%B5%D0%BC%D1%83+%D0%BA%D1%83%D1%80%D0%B8%D1%82%D1%8C+%D1%8D%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%BD%D0%BD%D1%8B%D0%B5+%D1%81%D0%B8%D0%B3%D0%B0%D1%80%D0%B5%D1%82%D1%8B+%D0%B2%D1%80%D0%B5%D0%B4%D0%BD%D0%BE&sxsrf=AJOqlzW-rnjNu3HnJ1geaA33fjbSbx-HiQ%3A1674291606236&ei=lqnLY-uDDs-L9u8P0YCToAs&ved=0ahUKEwjrpsKjptj8AhXPhf0HHVHABLQQ4dUDCA8&uact=5&oq=%D0%BF%D0%BE%D1%87%D0%B5%D0%BC%D1%83+%D0%BA%D1%83%D1%80%D0%B8%D1%82%D1%8C+%D1%8D%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%BD%D0%BD%D1%8B%D0%B5+%D1%81%D0%B8%D0%B3%D0%B0%D1%80%D0%B5%D1%82%D1%8B+%D0%B2%D1%80%D0%B5%D0%B4%D0%BD%D0%BE&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIECAAQRzIECAAQRzIECAAQRzIECAAQRzIECAAQRzIECAAQRzIECAAQRzIECAAQRzoKCAAQRxDWBBCwA0oECEEYAEoECEYYAFCODliODmDsDmgBcAJ4AIABAIgBAJIBAJgBAKABAcgBCMABAQ&sclient=gws-wiz-serp"-->
+<!--                                >Мне нет 18 лет.</a>-->
+<!--                                <button type="button" class="btn btn-success" data-dismiss="modal">Мне есть 18 лет.</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
-<!--    <script th:inline="javascript">-->
-<!--        /*<![CDATA[*/-->
-<!--            if([[${curusname=='anonymousUser'}]]){-->
-<!--                $('#ageconfirmmodal').modal({backdrop: 'static', keyboard: false})-->
-<!--            }-->
-<!--        /*]]>*/-->
-<!--    </script>-->
 
 </div>
 <br>
+
+<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.0/slick/slick.min.js"></script>
+<script type="text/javascript">
+
+                  $('.autoplay').slick({
+                  dots: true,
+                    infinite: true,
+                      slidesToShow: 5,
+                      slidesToScroll: 1,
+                      autoplay: true,
+                      autoplaySpeed: 3500,
+                       responsive: [
+                        {
+                          breakpoint: 1024,
+                          settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 1,
+                            infinite: true,
+                            dots: true,
+                            autoplay: true,
+                              autoplaySpeed: 3500
+                          }
+                        },
+                        {
+                          breakpoint: 600,
+                          settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                              autoplaySpeed: 3500
+                          }
+                        },
+                        {
+                          breakpoint: 480,
+                          settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                              autoplaySpeed: 3500
+                          }
+                        }
+                      ]
+                    });
+
+              </script>
+
 <footer th:insert="blocks/footer :: Footer"></footer>
 </body>
 </html>

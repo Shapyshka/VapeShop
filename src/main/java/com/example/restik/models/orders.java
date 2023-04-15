@@ -34,9 +34,33 @@ public class orders {
 
     private String commentary;
 
+
     @ManyToOne
     @JoinColumn(name = "promo_id")
     private promos promo;
+
+
+    private String fastphonenumber;
+
+    private String fastemail;
+
+    private String fastname;
+
+    @ManyToOne
+    @JoinColumn(name = "fasttovar_id")
+    private products fasttovar;
+
+    private Integer fastquan;
+
+    private String fastmessen;
+
+    public products getFasttovar() {
+        return fasttovar;
+    }
+
+    public void setFasttovar(products fasttovar) {
+        this.fasttovar = fasttovar;
+    }
 
 
     public Long getId() {
@@ -141,5 +165,49 @@ public class orders {
 
     public void setPromo(promos promo) {
         this.promo = promo;
+    }
+
+
+
+
+    public String getFastphonenumber() {
+        return fastphonenumber;
+    }
+
+    public void setFastphonenumber(String fastphonenumber) {
+        this.fastphonenumber = fastphonenumber;
+    }
+
+    public String getFastemail() {
+        return fastemail;
+    }
+
+    public void setFastemail(String fastemail) {
+        this.fastemail = fastemail;
+    }
+
+
+    public String getFastname() {
+        return fastname;
+    }
+
+    public void setFastname(String fastname) {
+        this.fastname = fastname;
+    }
+
+    public Integer getFastquan() {
+        return fastquan;
+    }
+
+    public void setFastquan(Integer fastquan) {
+        this.fastquan = fastquan;
+    }
+
+    public String getFastmessen() {
+        return fastmessen;
+    }
+
+    public void setFastmessen(String fastmessen) {
+        this.fastmessen = fastmessen;
     }
 }

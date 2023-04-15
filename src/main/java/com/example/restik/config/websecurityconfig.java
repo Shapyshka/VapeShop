@@ -37,10 +37,10 @@ public class websecurityconfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/","/registration","/products/opt","/products/","/products/{id}","/soglasiepersdata",
-                        "/products/opt/sort/pricedesc","/products/opt/sort/priceasc","/products/sort/pricedesc",
-                        "/products/sort/priceasc",
-                        "/favicon.ico").permitAll()
+                .antMatchers("/","/registration","/products/opt","/products/","/products/{id}",
+                        "/products/opt/{id}","/products/{id}/fastorder",
+                        "/soglasiepersdata","/products/opt/sort/pricedesc","/products/opt/sort/priceasc",
+                        "/products/sort/pricedesc","/products/sort/priceasc","/favicon.ico").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -54,7 +54,7 @@ public class websecurityconfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .rememberMe()
                 .userDetailsService(this.userDetailsService())
-                .tokenValiditySeconds(172800)
+                .tokenValiditySeconds(604800)
                 .alwaysRemember(true)
                 .and()
                 .csrf().disable().cors().disable();

@@ -2,6 +2,9 @@ package com.example.restik.controllers;
 
 import com.example.restik.models.*;
 import com.example.restik.repository.*;
+import com.google.common.collect.Iterables;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -14,6 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.LazyContextVariable;
 
 import javax.validation.Valid;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
@@ -34,6 +41,10 @@ public class productscontroller {
     @Autowired
     private cartrepository cartrepository;
 
+    @Autowired
+    private com.example.restik.repository.orderrepository orderrepository;
+
+
 
     @GetMapping(path="/")
     public String homeproducts(Model model) throws ParseException {
@@ -46,10 +57,141 @@ public class productscontroller {
         SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
         model.addAttribute("df2",df2);
 
+
+        List<products> productstype1 = new ArrayList<products>();
+        Iterator<products> productsIterator1 = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","rozn",
+                Sort.by(Sort.Direction.DESC, "date")).iterator();
+        for(int i=0; i<10; i++){
+            if(productsIterator1.hasNext())
+                productstype1.add(productsIterator1.next());
+        }
+
+        model.addAttribute("productstype1",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productstype1;
+            }
+        });
+
+        List<products> productstype2 = new ArrayList<products>();
+        Iterator<products> productsIterator2 = productsrepository.findByTypeofproductAndOptIliRozn("jija","rozn",
+                Sort.by(Sort.Direction.DESC, "date")).iterator();
+        for(int i=0; i<10; i++){
+            if(productsIterator2.hasNext())
+                productstype2.add(productsIterator2.next());
+        }
+
+        model.addAttribute("productstype2",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productstype2;
+            }
+        });
+
+        List<products> productstype3 = new ArrayList<products>();
+        Iterator<products> productsIterator3 = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","rozn",
+                Sort.by(Sort.Direction.DESC, "date")).iterator();
+        for(int i=0; i<10; i++){
+            if(productsIterator3.hasNext())
+                productstype3.add(productsIterator3.next());
+        }
+        model.addAttribute("productstype3",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productstype3;
+            }
+        });
+
+        List<products> productstype4 = new ArrayList<products>();
+        Iterator<products> productsIterator4 = productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn",
+                Sort.by(Sort.Direction.DESC, "date")).iterator();
+        for(int i=0; i<10; i++){
+            if(productsIterator4.hasNext())
+                productstype4.add(productsIterator4.next());
+        }
+        model.addAttribute("productstype4",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productstype4;
+            }
+        });
+
+        List<products> productstype5 = new ArrayList<products>();
+        Iterator<products> productsIterator5 = productsrepository.findByTypeofproductAndOptIliRozn("pod","rozn",
+                Sort.by(Sort.Direction.DESC, "date")).iterator();
+        for(int i=0; i<10; i++){
+            if(productsIterator5.hasNext())
+                productstype5.add(productsIterator5.next());
+        }
+        model.addAttribute("productstype5",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productstype5;
+            }
+        });
+
+        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findSpecials("rozn");
+            }
+        });
+
+        Iterable<products> odnoraz = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> jija = productsrepository.findByTypeofproductAndOptIliRozn("jija","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> pod = productsrepository.findByTypeofproductAndOptIliRozn("pod","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> cartridge = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> ispar = productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+
         model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
             @Override
             protected Iterable<products> loadValue() {
-                return productsrepository.findByOptIliRoznOrderByDateDesc("rozn");
+                return Iterables.concat(odnoraz,jija,cartridge,ispar,pod);
+            }
+        });
+
+        model.addAttribute("productstype1size",odnoraz.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype2size",jija.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype3size",cartridge.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype4size",ispar.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype5size",pod.spliterator().getExactSizeIfKnown());
+
+
+        model.addAttribute("opt",false);
+
+        model.addAttribute("mainpage",true);
+
+        model.addAttribute("userrep",userrepository);
+        model.addAttribute("productsrep", productsrepository);
+        model.addAttribute("commrep",commentrepository);
+
+        model.addAttribute("curusname",currentPrincipalName);
+        return "productsMain";
+    }
+    //////////////////////
+
+
+    @GetMapping(path="/odnoraz")
+    public String odnoraz(Model model) throws ParseException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm",new Locale("ru", "RU"));
+        df1.setTimeZone(TimeZone.getTimeZone(ZoneId.of("Greenwich")));
+        model.addAttribute("df1",df1);
+        SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
+        model.addAttribute("df2",df2);
+
+        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","rozn",
+                        Sort.by(Sort.Direction.DESC, "date"));
             }
         });
 
@@ -61,6 +203,63 @@ public class productscontroller {
             }
         });
 
+
+
+        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findSpecials("rozn");
+            }
+        });
+
+        Iterable<products> odnoraz = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> jija = productsrepository.findByTypeofproductAndOptIliRozn("jija","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> pod = productsrepository.findByTypeofproductAndOptIliRozn("pod","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> cartridge = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> ispar = productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+
+
+        model.addAttribute("productstype1size",odnoraz.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype2size",jija.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype3size",cartridge.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype4size",ispar.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype5size",pod.spliterator().getExactSizeIfKnown());
+
+        model.addAttribute("opt",false);
+
+        model.addAttribute("userrep",userrepository);
+        model.addAttribute("productsrep", productsrepository);
+        model.addAttribute("commrep",commentrepository);
+
+        model.addAttribute("curusname",currentPrincipalName);
+        return "productsList";
+    }
+
+    @GetMapping(path="/jija")
+    public String jija(Model model) throws ParseException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm",new Locale("ru", "RU"));
+        df1.setTimeZone(TimeZone.getTimeZone(ZoneId.of("Greenwich")));
+        model.addAttribute("df1",df1);
+        SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
+        model.addAttribute("df2",df2);
+
+        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("jija","rozn",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
+
+
         model.addAttribute("productstype2",new LazyContextVariable<Iterable<products>>() {
             @Override
             protected Iterable<products> loadValue() {
@@ -69,22 +268,64 @@ public class productscontroller {
             }
         });
 
-        model.addAttribute("productstype3",new LazyContextVariable<Iterable<products>>() {
+
+        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
             @Override
             protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("cartridge","rozn",
-                        Sort.by(Sort.Direction.DESC, "date"));
+                return productsrepository.findSpecials("rozn");
             }
         });
 
 
-        model.addAttribute("productstype4",new LazyContextVariable<Iterable<products>>() {
+        Iterable<products> odnoraz = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> jija = productsrepository.findByTypeofproductAndOptIliRozn("jija","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> pod = productsrepository.findByTypeofproductAndOptIliRozn("pod","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> cartridge = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> ispar = productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+
+
+        model.addAttribute("productstype1size",odnoraz.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype2size",jija.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype3size",cartridge.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype4size",ispar.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype5size",pod.spliterator().getExactSizeIfKnown());
+
+
+
+        model.addAttribute("opt",false);
+
+        model.addAttribute("userrep",userrepository);
+        model.addAttribute("productsrep", productsrepository);
+        model.addAttribute("commrep",commentrepository);
+
+        model.addAttribute("curusname",currentPrincipalName);
+        return "productsList";
+    }
+
+    @GetMapping(path="/pod")
+    public String pod(Model model) throws ParseException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm",new Locale("ru", "RU"));
+        df1.setTimeZone(TimeZone.getTimeZone(ZoneId.of("Greenwich")));
+        model.addAttribute("df1",df1);
+        SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
+        model.addAttribute("df2",df2);
+
+        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
             @Override
             protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn",
+                return productsrepository.findByTypeofproductAndOptIliRozn("pod","rozn",
                         Sort.by(Sort.Direction.DESC, "date"));
             }
         });
+
 
         model.addAttribute("productstype5",new LazyContextVariable<Iterable<products>>() {
             @Override
@@ -102,6 +343,25 @@ public class productscontroller {
         });
 
 
+        Iterable<products> odnoraz = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> jija = productsrepository.findByTypeofproductAndOptIliRozn("jija","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> pod = productsrepository.findByTypeofproductAndOptIliRozn("pod","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> cartridge = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> ispar = productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+
+
+        model.addAttribute("productstype1size",odnoraz.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype2size",jija.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype3size",cartridge.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype4size",ispar.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype5size",pod.spliterator().getExactSizeIfKnown());
+
+
         model.addAttribute("opt",false);
 
         model.addAttribute("userrep",userrepository);
@@ -111,6 +371,141 @@ public class productscontroller {
         model.addAttribute("curusname",currentPrincipalName);
         return "productsList";
     }
+
+    @GetMapping(path="/ispar")
+    public String ispar(Model model) throws ParseException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm",new Locale("ru", "RU"));
+        df1.setTimeZone(TimeZone.getTimeZone(ZoneId.of("Greenwich")));
+        model.addAttribute("df1",df1);
+        SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
+        model.addAttribute("df2",df2);
+
+        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
+
+        model.addAttribute("productstype4",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
+
+
+        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findSpecials("rozn");
+            }
+        });
+
+
+        Iterable<products> odnoraz = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> jija = productsrepository.findByTypeofproductAndOptIliRozn("jija","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> pod = productsrepository.findByTypeofproductAndOptIliRozn("pod","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> cartridge = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> ispar = productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+
+
+        model.addAttribute("productstype1size",odnoraz.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype2size",jija.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype3size",cartridge.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype4size",ispar.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype5size",pod.spliterator().getExactSizeIfKnown());
+
+
+        model.addAttribute("opt",false);
+
+        model.addAttribute("userrep",userrepository);
+        model.addAttribute("productsrep", productsrepository);
+        model.addAttribute("commrep",commentrepository);
+
+        model.addAttribute("curusname",currentPrincipalName);
+        return "productsList";
+    }
+
+    @GetMapping(path="/cartridge")
+    public String cartridge(Model model) throws ParseException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm",new Locale("ru", "RU"));
+        df1.setTimeZone(TimeZone.getTimeZone(ZoneId.of("Greenwich")));
+        model.addAttribute("df1",df1);
+        SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
+        model.addAttribute("df2",df2);
+
+        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("cartridge","rozn",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
+
+        model.addAttribute("productstype3",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("cartridge","rozn",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
+
+
+        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findSpecials("rozn");
+            }
+        });
+
+
+        Iterable<products> odnoraz = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> jija = productsrepository.findByTypeofproductAndOptIliRozn("jija","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> pod = productsrepository.findByTypeofproductAndOptIliRozn("pod","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> cartridge = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> ispar = productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+
+
+        model.addAttribute("productstype1size",odnoraz.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype2size",jija.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype3size",cartridge.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype4size",ispar.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype5size",pod.spliterator().getExactSizeIfKnown());
+
+
+
+        model.addAttribute("opt",false);
+
+        model.addAttribute("userrep",userrepository);
+        model.addAttribute("productsrep", productsrepository);
+        model.addAttribute("commrep",commentrepository);
+
+        model.addAttribute("curusname",currentPrincipalName);
+        return "productsList";
+    }
+
+
+    ///////////////////////
+
     @GetMapping(path="/opt")
     public String opt(Model model) throws ParseException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -122,32 +517,147 @@ public class productscontroller {
         SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
         model.addAttribute("df2",df2);
 
-//        Iterable<products> listproducts = productsrepository.findByOptIliRoznOrderByDateDesc("opt");
-//        model.addAttribute("products",listproducts);
-//
-//        Iterable<products> listproducts1 = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","opt",Sort.by(Sort.Direction.DESC, "date"));
-//        model.addAttribute("productstype1",listproducts1);
-//
-//        Iterable<products> listproducts2 = productsrepository.findByTypeofproductAndOptIliRozn("jija","opt", Sort.by(Sort.Direction.DESC, "date"));
-//        model.addAttribute("productstype2",listproducts2);
-//
-//        Iterable<products> listproducts3 = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",Sort.by(Sort.Direction.DESC, "date"));
-//        model.addAttribute("productstype3",listproducts3);
-//
-//        Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt", Sort.by(Sort.Direction.DESC, "date"));
-//        model.addAttribute("productstype4",listproducts4);
-//
-//        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRozn("pod","opt", Sort.by(Sort.Direction.DESC, "date"));
-//        model.addAttribute("productstype5",listproducts5);
-//
-//        Iterable<products> listspecials = productsrepository.findSpecials("opt");
-//        model.addAttribute("specials",listspecials);
 
+
+        List<products> productstype1 = new ArrayList<products>();
+        Iterator<products> productsIterator1 = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","opt",
+                Sort.by(Sort.Direction.DESC, "date")).iterator();
+        for(int i=0; i<10; i++){
+            if(productsIterator1.hasNext())
+                productstype1.add(productsIterator1.next());
+        }
+
+        model.addAttribute("productstype1",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productstype1;
+            }
+        });
+
+        List<products> productstype2 = new ArrayList<products>();
+        Iterator<products> productsIterator2 = productsrepository.findByTypeofproductAndOptIliRozn("jija","opt",
+                Sort.by(Sort.Direction.DESC, "date")).iterator();
+        for(int i=0; i<10; i++){
+            if(productsIterator2.hasNext())
+                productstype2.add(productsIterator2.next());
+        }
+
+        model.addAttribute("productstype2",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productstype2;
+            }
+        });
+
+        List<products> productstype3 = new ArrayList<products>();
+        Iterator<products> productsIterator3 = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",
+                Sort.by(Sort.Direction.DESC, "date")).iterator();
+        for(int i=0; i<10; i++){
+            if(productsIterator3.hasNext())
+                productstype3.add(productsIterator3.next());
+        }
+        model.addAttribute("productstype3",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productstype3;
+            }
+        });
+
+        List<products> productstype4 = new ArrayList<products>();
+        Iterator<products> productsIterator4 = productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt",
+                Sort.by(Sort.Direction.DESC, "date")).iterator();
+        for(int i=0; i<10; i++){
+            if(productsIterator4.hasNext())
+                productstype4.add(productsIterator4.next());
+        }
+        model.addAttribute("productstype4",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productstype4;
+            }
+        });
+
+        List<products> productstype5 = new ArrayList<products>();
+        Iterator<products> productsIterator5 = productsrepository.findByTypeofproductAndOptIliRozn("pod","opt",
+                Sort.by(Sort.Direction.DESC, "date")).iterator();
+        for(int i=0; i<10; i++){
+            if(productsIterator5.hasNext())
+                productstype5.add(productsIterator5.next());
+        }
+        model.addAttribute("productstype5",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productstype5;
+            }
+        });
+
+        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findSpecials("opt");
+            }
+        });
+
+        Iterable<products> odnoraz = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> jija = productsrepository.findByTypeofproductAndOptIliRozn("jija","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> pod = productsrepository.findByTypeofproductAndOptIliRozn("pod","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> cartridge = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> ispar = productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
 
         model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
             @Override
             protected Iterable<products> loadValue() {
-                return productsrepository.findByOptIliRoznOrderByDateDesc("opt");
+                return Iterables.concat(odnoraz,jija,cartridge,ispar,pod);
+            }
+        });
+
+
+        model.addAttribute("productstype1size",odnoraz.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype2size",jija.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype3size",cartridge.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype4size",ispar.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype5size",pod.spliterator().getExactSizeIfKnown());
+
+
+
+        model.addAttribute("opt",true);
+        model.addAttribute("mainpage",true);
+
+        model.addAttribute("userrep",userrepository);
+        model.addAttribute("productsrep", productsrepository);
+        model.addAttribute("commrep",commentrepository);
+
+        model.addAttribute("curusname",currentPrincipalName);
+        //model.addAttribute("curuserid",userrepository.findById(userrepository.findByUsername(currentPrincipalName).getId()));
+        return "productsMain";
+    }
+
+
+    /////////////////////////////////
+
+
+
+    @GetMapping(path="/opt/odnoraz")
+    public String optodnoraz(Model model) throws ParseException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm",new Locale("ru", "RU"));
+        df1.setTimeZone(TimeZone.getTimeZone(ZoneId.of("Greenwich")));
+        model.addAttribute("df1",df1);
+        SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
+        model.addAttribute("df2",df2);
+
+        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","opt",
+                        Sort.by(Sort.Direction.DESC, "date"));
             }
         });
 
@@ -159,6 +669,63 @@ public class productscontroller {
             }
         });
 
+
+
+        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findSpecials("opt");
+            }
+        });
+
+        Iterable<products> odnoraz = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> jija = productsrepository.findByTypeofproductAndOptIliRozn("jija","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> pod = productsrepository.findByTypeofproductAndOptIliRozn("pod","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> cartridge = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> ispar = productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+
+
+        model.addAttribute("productstype1size",odnoraz.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype2size",jija.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype3size",cartridge.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype4size",ispar.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype5size",pod.spliterator().getExactSizeIfKnown());
+
+        model.addAttribute("opt",true);
+
+        model.addAttribute("userrep",userrepository);
+        model.addAttribute("productsrep", productsrepository);
+        model.addAttribute("commrep",commentrepository);
+
+        model.addAttribute("curusname",currentPrincipalName);
+        return "productsList";
+    }
+
+    @GetMapping(path="/opt/jija")
+    public String optjija(Model model) throws ParseException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm",new Locale("ru", "RU"));
+        df1.setTimeZone(TimeZone.getTimeZone(ZoneId.of("Greenwich")));
+        model.addAttribute("df1",df1);
+        SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
+        model.addAttribute("df2",df2);
+
+        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("jija","opt",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
+
+
         model.addAttribute("productstype2",new LazyContextVariable<Iterable<products>>() {
             @Override
             protected Iterable<products> loadValue() {
@@ -168,21 +735,63 @@ public class productscontroller {
         });
 
 
-        model.addAttribute("productstype3",new LazyContextVariable<Iterable<products>>() {
+        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
             @Override
             protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",
+                return productsrepository.findSpecials("opt");
+            }
+        });
+
+
+        Iterable<products> odnoraz = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> jija = productsrepository.findByTypeofproductAndOptIliRozn("jija","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> pod = productsrepository.findByTypeofproductAndOptIliRozn("pod","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> cartridge = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> ispar = productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+
+
+        model.addAttribute("productstype1size",odnoraz.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype2size",jija.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype3size",cartridge.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype4size",ispar.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype5size",pod.spliterator().getExactSizeIfKnown());
+
+
+
+        model.addAttribute("opt",true);
+
+        model.addAttribute("userrep",userrepository);
+        model.addAttribute("productsrep", productsrepository);
+        model.addAttribute("commrep",commentrepository);
+
+        model.addAttribute("curusname",currentPrincipalName);
+        return "productsList";
+    }
+
+    @GetMapping(path="/opt/pod")
+    public String optpod(Model model) throws ParseException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm",new Locale("ru", "RU"));
+        df1.setTimeZone(TimeZone.getTimeZone(ZoneId.of("Greenwich")));
+        model.addAttribute("df1",df1);
+        SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
+        model.addAttribute("df2",df2);
+
+        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("pod","opt",
                         Sort.by(Sort.Direction.DESC, "date"));
             }
         });
 
-        model.addAttribute("productstype4",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt",
-                        Sort.by(Sort.Direction.DESC, "date"));
-            }
-        });
 
         model.addAttribute("productstype5",new LazyContextVariable<Iterable<products>>() {
             @Override
@@ -200,6 +809,24 @@ public class productscontroller {
         });
 
 
+        Iterable<products> odnoraz = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> jija = productsrepository.findByTypeofproductAndOptIliRozn("jija","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> pod = productsrepository.findByTypeofproductAndOptIliRozn("pod","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> cartridge = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> ispar = productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+
+
+        model.addAttribute("productstype1size",odnoraz.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype2size",jija.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype3size",cartridge.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype4size",ispar.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype5size",pod.spliterator().getExactSizeIfKnown());
+
 
         model.addAttribute("opt",true);
 
@@ -208,9 +835,143 @@ public class productscontroller {
         model.addAttribute("commrep",commentrepository);
 
         model.addAttribute("curusname",currentPrincipalName);
-        //model.addAttribute("curuserid",userrepository.findById(userrepository.findByUsername(currentPrincipalName).getId()));
         return "productsList";
     }
+
+    @GetMapping(path="/opt/ispar")
+    public String optispar(Model model) throws ParseException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm",new Locale("ru", "RU"));
+        df1.setTimeZone(TimeZone.getTimeZone(ZoneId.of("Greenwich")));
+        model.addAttribute("df1",df1);
+        SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
+        model.addAttribute("df2",df2);
+
+        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
+
+
+
+        model.addAttribute("productstype4",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
+
+
+        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findSpecials("opt");
+            }
+        });
+
+
+        Iterable<products> odnoraz = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> jija = productsrepository.findByTypeofproductAndOptIliRozn("jija","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> pod = productsrepository.findByTypeofproductAndOptIliRozn("pod","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> cartridge = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> ispar = productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+
+
+        model.addAttribute("productstype1size",odnoraz.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype2size",jija.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype3size",cartridge.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype4size",ispar.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype5size",pod.spliterator().getExactSizeIfKnown());
+
+
+        model.addAttribute("opt",true);
+
+        model.addAttribute("userrep",userrepository);
+        model.addAttribute("productsrep", productsrepository);
+        model.addAttribute("commrep",commentrepository);
+
+        model.addAttribute("curusname",currentPrincipalName);
+        return "productsList";
+    }
+
+    @GetMapping(path="/opt/cartridge")
+    public String optcartridge(Model model) throws ParseException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm",new Locale("ru", "RU"));
+        df1.setTimeZone(TimeZone.getTimeZone(ZoneId.of("Greenwich")));
+        model.addAttribute("df1",df1);
+        SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
+        model.addAttribute("df2",df2);
+
+
+        model.addAttribute("productstype3",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
+
+
+        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findSpecials("opt");
+            }
+        });
+
+
+        Iterable<products> odnoraz = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> jija = productsrepository.findByTypeofproductAndOptIliRozn("jija","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> pod = productsrepository.findByTypeofproductAndOptIliRozn("pod","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> cartridge = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> ispar = productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+
+
+        model.addAttribute("productstype1size",odnoraz.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype2size",jija.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype3size",cartridge.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype4size",ispar.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype5size",pod.spliterator().getExactSizeIfKnown());
+
+        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
+            @Override
+            protected Iterable<products> loadValue() {
+                return productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",
+                        Sort.by(Sort.Direction.DESC, "date"));
+            }
+        });
+
+        model.addAttribute("opt",true);
+
+        model.addAttribute("userrep",userrepository);
+        model.addAttribute("productsrep", productsrepository);
+        model.addAttribute("commrep",commentrepository);
+
+        model.addAttribute("curusname",currentPrincipalName);
+        return "productsList";
+    }
+
+
+    //////////////////////////////
 
     @GetMapping("/add")
     public String addnews(products products, Model model){
@@ -299,6 +1060,7 @@ public class productscontroller {
         else return "redirect:/products/";
     }
 
+
     @PostMapping("/{id}/edit")
     public String editview(@Valid products products, BindingResult bindingResult, @PathVariable("id") Long id, Model model)   {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -316,6 +1078,10 @@ public class productscontroller {
         productsrepository.save(products);
         return ("redirect:/products/");
     }
+
+
+
+
     @PostMapping("/{id}/comment")
     public String comment(@Valid comment comment, BindingResult bindingResult, @PathVariable("id") Long id) throws ParseException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -370,10 +1136,70 @@ public class productscontroller {
 
     }
 
-    @GetMapping(path="/sort/priceasc")
-    public String homeproductssortasc(Model model) throws ParseException {
+
+
+    @GetMapping("/{id}/fastorder")
+    public String fastorderget(@PathVariable("id")Long id, products products, Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
+        model.addAttribute("curusname", currentPrincipalName);
+
+        if((productsrepository.findById(id).get().getQuantity()==0) ||
+                Objects.equals(productsrepository.findById(id).get().getOptIliRozn(), "opt")){
+            return "redirect:/products/"+id.toString();
+        }
+
+
+        Optional<products> oneproducts = productsrepository.findById(id);
+        ArrayList<products> res = new ArrayList<>();
+        oneproducts.ifPresent(res::add);
+        model.addAttribute("oneprod", res);
+
+        model.addAttribute("fonum","+7(___)___-__-__");
+
+        return "fastorder";
+    }
+
+
+    @PostMapping("/{id}/fastorder")
+    public String fastorder(@PathVariable("id") Long id, @Valid orders orders, BindingResult bindingResult, Model model, TimeZone timezone) throws ParseException {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        if((productsrepository.findById(id).get().getQuantity()==0) ||
+                Objects.equals(productsrepository.findById(id).get().getOptIliRozn(), "opt")){
+            return "redirect:/products/"+id.toString();
+        }
+
+        int postprice=0;
+        if (Objects.equals(orders.getSposobpoluch(), "dost")) {
+            postprice = 300;
+        }
+
+        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",new Locale("ru", "RU"));
+        Date now = df1.parse(ZonedDateTime.now(ZoneId.of("Greenwich")).toString().replace("T"," "));
+        orders.setDate(now);
+
+        orders.setStatus("Confirmed");
+
+        orders.setFasttovar(productsrepository.findById(id).get());
+
+        orders.setTotalPrice(productsrepository.findById(id).get().getPrice() * orders.getFastquan());
+        orders.setTotalMass(productsrepository.findById(id).get().getMass()  * orders.getFastquan());
+        orders.setTotalPostPrice(postprice);
+
+        orderrepository.save(orders);
+
+        return "successpage";
+
+    }
+
+    @GetMapping("/search")
+    public String search(products products, @RequestParam String sparam,  Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        model.addAttribute("curusname", currentPrincipalName);
 
         SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm",new Locale("ru", "RU"));
         df1.setTimeZone(TimeZone.getTimeZone(ZoneId.of("Greenwich")));
@@ -381,99 +1207,94 @@ public class productscontroller {
         SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
         model.addAttribute("df2",df2);
 
-//        Iterable<products> listproducts = productsrepository.findByOptIliRoznOrderByDateDesc("rozn");
-//        model.addAttribute("products",listproducts);
-//
-//        Iterable<products> listproducts1 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("odnoraz","rozn",Sort.by(Sort.Direction.ASC, "price"));
-//        model.addAttribute("productstype1",listproducts1);
-//
-//        Iterable<products> listproducts2 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("jija","rozn", Sort.by(Sort.Direction.ASC, "price"));
-//        model.addAttribute("productstype2",listproducts2);
-//
-//        Iterable<products> listproducts3 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("cartridge","rozn",Sort.by(Sort.Direction.ASC, "price"));
-//        model.addAttribute("productstype3",listproducts3);
-//
-//        Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("ispar","rozn", Sort.by(Sort.Direction.ASC, "price"));
-//        model.addAttribute("productstype4",listproducts4);
-//
-//        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("pod","rozn", Sort.by(Sort.Direction.ASC, "price"));
-//        model.addAttribute("productstype5",listproducts5);
-//
-//        Iterable<products> listspecials = productsrepository.findSpecials("aboba");
-//        model.addAttribute("specials",listspecials);
+
+
+        Iterable<products> odnoraz = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> jija = productsrepository.findByTypeofproductAndOptIliRozn("jija","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> pod = productsrepository.findByTypeofproductAndOptIliRozn("pod","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> cartridge = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> ispar = productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn",
+                Sort.by(Sort.Direction.DESC, "date"));
+
+        Iterator<products> odniter = odnoraz.iterator();
+        while (odniter.hasNext()){
+            if (!odniter.next().getTitle().toLowerCase().contains(sparam.toLowerCase())) {
+                odniter.remove();
+            }
+        }
+        Iterator<products> jijiter = jija.iterator();
+        while (jijiter.hasNext()){
+            if (!jijiter.next().getTitle().toLowerCase().contains(sparam.toLowerCase())) {
+                jijiter.remove();
+            }
+        }
+
+        Iterator<products> poditer = pod.iterator();
+        while (poditer.hasNext()){
+            if (!poditer.next().getTitle().toLowerCase().contains(sparam.toLowerCase())) {
+                poditer.remove();
+            }
+        }
+
+        Iterator<products> cartridgeiter = cartridge.iterator();
+        while (cartridgeiter.hasNext()){
+            if (!cartridgeiter.next().getTitle().toLowerCase().contains(sparam.toLowerCase())) {
+                cartridgeiter.remove();
+            }
+        }
+
+        Iterator<products> ispariter = ispar.iterator();
+        while (ispariter.hasNext()){
+            if (!ispariter.next().getTitle().toLowerCase().contains(sparam.toLowerCase())) {
+                ispariter.remove();
+            }
+        }
+
+        model.addAttribute("productstype1",odnoraz);
+        model.addAttribute("productstype2",jija);
+        model.addAttribute("productstype3",cartridge);
+        model.addAttribute("productstype4",ispar);
+        model.addAttribute("productstype5",pod);
+
+
+        model.addAttribute("productstype1size",odnoraz.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype2size",jija.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype3size",cartridge.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype4size",ispar.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype5size",pod.spliterator().getExactSizeIfKnown());
 
 
         model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
             @Override
             protected Iterable<products> loadValue() {
-                return productsrepository.findByOptIliRoznOrderByDateDesc("rozn");
+                return Iterables.concat(odnoraz,jija,cartridge,ispar,pod);
             }
         });
-
-        model.addAttribute("productstype1",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","rozn",
-                        Sort.by(Sort.Direction.ASC, "price"));
-            }
-        });
-
-        model.addAttribute("productstype2",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("jija","rozn",
-                        Sort.by(Sort.Direction.ASC, "price"));
-            }
-        });
-
-
-        model.addAttribute("productstype3",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("cartridge","rozn",
-                        Sort.by(Sort.Direction.ASC, "price"));
-            }
-        });
-
-        model.addAttribute("productstype4",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn",
-                        Sort.by(Sort.Direction.ASC, "price"));
-            }
-        });
-
-        model.addAttribute("productstype5",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("pod","rozn",
-                        Sort.by(Sort.Direction.ASC, "price"));
-            }
-        });
-
-        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findSpecials("aboba");
-            }
-        });
-
-
 
         model.addAttribute("opt",false);
 
+
         model.addAttribute("userrep",userrepository);
         model.addAttribute("productsrep", productsrepository);
         model.addAttribute("commrep",commentrepository);
 
         model.addAttribute("curusname",currentPrincipalName);
+
+        model.addAttribute("sparamalready",sparam);
+
         return "productsList";
+
     }
 
-    @GetMapping(path="/sort/pricedesc")
-    public String homeproductssortdesc(Model model) throws ParseException {
+    @GetMapping("/opt/search")
+    public String optsearch(products products, @RequestParam String sparam,  Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
+        model.addAttribute("curusname", currentPrincipalName);
 
         SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm",new Locale("ru", "RU"));
         df1.setTimeZone(TimeZone.getTimeZone(ZoneId.of("Greenwich")));
@@ -481,281 +1302,71 @@ public class productscontroller {
         SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
         model.addAttribute("df2",df2);
 
-//        Iterable<products> listproducts = productsrepository.findByOptIliRoznOrderByDateDesc("rozn");
-//        model.addAttribute("products",listproducts);
-//
-//        Iterable<products> listproducts1 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("odnoraz","rozn",Sort.by(Sort.Direction.DESC, "price"));
-//        model.addAttribute("productstype1",listproducts1);
-//
-//        Iterable<products> listproducts2 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("jija","rozn", Sort.by(Sort.Direction.DESC, "price"));
-//        model.addAttribute("productstype2",listproducts2);
-//
-//        Iterable<products> listproducts3 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("cartridge","rozn",Sort.by(Sort.Direction.DESC, "price"));
-//        model.addAttribute("productstype3",listproducts3);
-//
-//        Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("ispar","rozn", Sort.by(Sort.Direction.DESC, "price"));
-//        model.addAttribute("productstype4",listproducts4);
-//
-//        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("pod","rozn", Sort.by(Sort.Direction.DESC, "price"));
-//        model.addAttribute("productstype5",listproducts5);
-//
-//        Iterable<products> listspecials = productsrepository.findSpecials("aboba");
-//        model.addAttribute("specials",listspecials);
-//
+
+
+
+        Iterable<products> odnoraz = productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> jija = productsrepository.findByTypeofproductAndOptIliRozn("jija","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> pod = productsrepository.findByTypeofproductAndOptIliRozn("pod","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> cartridge = productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<products> ispar = productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt",
+                Sort.by(Sort.Direction.DESC, "date"));
+
+        Iterator<products> odniter = odnoraz.iterator();
+        while (odniter.hasNext()){
+            if (!odniter.next().getTitle().toLowerCase().contains(sparam.toLowerCase())) {
+                odniter.remove();
+            }
+        }
+        Iterator<products> jijiter = jija.iterator();
+        while (jijiter.hasNext()){
+            if (!jijiter.next().getTitle().toLowerCase().contains(sparam.toLowerCase())) {
+                jijiter.remove();
+            }
+        }
+
+        Iterator<products> poditer = pod.iterator();
+        while (poditer.hasNext()){
+            if (!poditer.next().getTitle().toLowerCase().contains(sparam.toLowerCase())) {
+                poditer.remove();
+            }
+        }
+
+        Iterator<products> cartridgeiter = cartridge.iterator();
+        while (cartridgeiter.hasNext()){
+            if (!cartridgeiter.next().getTitle().toLowerCase().contains(sparam.toLowerCase())) {
+                cartridgeiter.remove();
+            }
+        }
+
+        Iterator<products> ispariter = ispar.iterator();
+        while (ispariter.hasNext()){
+            if (!ispariter.next().getTitle().toLowerCase().contains(sparam.toLowerCase())) {
+                ispariter.remove();
+            }
+        }
+
+        model.addAttribute("productstype1",odnoraz);
+        model.addAttribute("productstype2",jija);
+        model.addAttribute("productstype3",cartridge);
+        model.addAttribute("productstype4",ispar);
+        model.addAttribute("productstype5",pod);
+
+
+        model.addAttribute("productstype1size",odnoraz.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype2size",jija.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype3size",cartridge.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype4size",ispar.spliterator().getExactSizeIfKnown());
+        model.addAttribute("productstype5size",pod.spliterator().getExactSizeIfKnown());
 
         model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
             @Override
             protected Iterable<products> loadValue() {
-                return productsrepository.findByOptIliRoznOrderByDateDesc("rozn");
-            }
-        });
-
-        model.addAttribute("productstype1",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","rozn",
-                        Sort.by(Sort.Direction.DESC, "price"));
-            }
-        });
-
-        model.addAttribute("productstype2",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("jija","rozn",
-                        Sort.by(Sort.Direction.DESC, "price"));
-            }
-        });
-
-
-        model.addAttribute("productstype3",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("cartridge","rozn",
-                        Sort.by(Sort.Direction.DESC, "price"));
-            }
-        });
-
-        model.addAttribute("productstype4",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("ispar","rozn",
-                        Sort.by(Sort.Direction.DESC, "price"));
-            }
-        });
-
-        model.addAttribute("productstype5",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("pod","rozn",
-                        Sort.by(Sort.Direction.DESC, "price"));
-            }
-        });
-
-        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findSpecials("aboba");
-            }
-        });
-
-
-        model.addAttribute("opt",false);
-
-        model.addAttribute("userrep",userrepository);
-        model.addAttribute("productsrep", productsrepository);
-        model.addAttribute("commrep",commentrepository);
-
-        model.addAttribute("curusname",currentPrincipalName);
-        return "productsList";
-    }
-
-
-    @GetMapping(path="/opt/sort/priceasc")
-    public String optsortasc(Model model) throws ParseException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-
-        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm",new Locale("ru", "RU"));
-        df1.setTimeZone(TimeZone.getTimeZone(ZoneId.of("Greenwich")));
-        model.addAttribute("df1",df1);
-        SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
-        model.addAttribute("df2",df2);
-
-//        Iterable<products> listproducts = productsrepository.findByOptIliRoznOrderByDateDesc("opt");
-//        model.addAttribute("products",listproducts);
-//
-//        Iterable<products> listproducts1 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("odnoraz","opt",Sort.by(Sort.Direction.ASC, "price"));
-//        model.addAttribute("productstype1",listproducts1);
-//
-//        Iterable<products> listproducts2 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("jija","opt", Sort.by(Sort.Direction.ASC, "price"));
-//        model.addAttribute("productstype2",listproducts2);
-//
-//        Iterable<products> listproducts3 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("cartridge","opt",Sort.by(Sort.Direction.ASC, "price"));
-//        model.addAttribute("productstype3",listproducts3);
-//
-//        Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("ispar","opt", Sort.by(Sort.Direction.ASC, "price"));
-//        model.addAttribute("productstype4",listproducts4);
-//
-//        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("pod","opt", Sort.by(Sort.Direction.ASC, "price"));
-//        model.addAttribute("productstype5",listproducts5);
-//
-//        Iterable<products> listspecials = productsrepository.findSpecials("aboba");
-//        model.addAttribute("specials",listspecials);
-
-
-        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByOptIliRoznOrderByDateDesc("opt");
-            }
-        });
-
-        model.addAttribute("productstype1",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","opt",
-                        Sort.by(Sort.Direction.ASC, "price"));
-            }
-        });
-
-        model.addAttribute("productstype2",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("jija","opt",
-                        Sort.by(Sort.Direction.ASC, "price"));
-            }
-        });
-
-
-        model.addAttribute("productstype3",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",
-                        Sort.by(Sort.Direction.ASC, "price"));
-            }
-        });
-
-        model.addAttribute("productstype4",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt",
-                        Sort.by(Sort.Direction.ASC, "price"));
-            }
-        });
-
-        model.addAttribute("productstype5",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("pod","opt",
-                        Sort.by(Sort.Direction.ASC, "price"));
-            }
-        });
-
-        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findSpecials("aboba");
-            }
-        });
-
-
-
-        model.addAttribute("opt",true);
-
-        model.addAttribute("userrep",userrepository);
-        model.addAttribute("productsrep", productsrepository);
-        model.addAttribute("commrep",commentrepository);
-
-        model.addAttribute("curusname",currentPrincipalName);
-        return "productsList";
-    }
-
-    @GetMapping(path="/opt/sort/pricedesc")
-    public String optsortdesc(Model model) throws ParseException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-
-        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm",new Locale("ru", "RU"));
-        df1.setTimeZone(TimeZone.getTimeZone(ZoneId.of("Greenwich")));
-        model.addAttribute("df1",df1);
-        SimpleDateFormat df2 = new SimpleDateFormat("dd MMMM yyyy HH:mm",new Locale("ru", "RU"));
-        model.addAttribute("df2",df2);
-
-//        Iterable<products> listproducts = productsrepository.findByOptIliRoznOrderByDateDesc("opt");
-//        model.addAttribute("products",listproducts);
-//
-//        Iterable<products> listproducts1 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("odnoraz","opt",Sort.by(Sort.Direction.DESC, "price"));
-//        model.addAttribute("productstype1",listproducts1);
-//
-//        Iterable<products> listproducts2 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("jija","opt", Sort.by(Sort.Direction.DESC, "price"));
-//        model.addAttribute("productstype2",listproducts2);
-//
-//        Iterable<products> listproducts3 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("cartridge","opt",Sort.by(Sort.Direction.DESC, "price"));
-//        model.addAttribute("productstype3",listproducts3);
-//
-//        Iterable<products> listproducts4 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceDesc("ispar","opt", Sort.by(Sort.Direction.DESC, "price"));
-//        model.addAttribute("productstype4",listproducts4);
-//
-//        Iterable<products> listproducts5 = productsrepository.findByTypeofproductAndOptIliRoznSortByPriceAsc("pod","opt", Sort.by(Sort.Direction.DESC, "price"));
-//        model.addAttribute("productstype5",listproducts5);
-//
-//        Iterable<products> listspecials = productsrepository.findSpecials("aboba");
-//        model.addAttribute("specials",listspecials);
-
-
-
-        model.addAttribute("products",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByOptIliRoznOrderByDateDesc("opt");
-            }
-        });
-
-        model.addAttribute("productstype1",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("odnoraz","opt",
-                        Sort.by(Sort.Direction.DESC, "price"));
-            }
-        });
-
-        model.addAttribute("productstype2",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("jija","opt",
-                        Sort.by(Sort.Direction.DESC, "price"));
-            }
-        });
-
-
-        model.addAttribute("productstype3",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("cartridge","opt",
-                        Sort.by(Sort.Direction.DESC, "price"));
-            }
-        });
-
-        model.addAttribute("productstype4",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("ispar","opt",
-                        Sort.by(Sort.Direction.DESC, "price"));
-            }
-        });
-
-        model.addAttribute("productstype5",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findByTypeofproductAndOptIliRozn("pod","opt",
-                        Sort.by(Sort.Direction.DESC, "price"));
-            }
-        });
-
-        model.addAttribute("specials",new LazyContextVariable<Iterable<products>>() {
-            @Override
-            protected Iterable<products> loadValue() {
-                return productsrepository.findSpecials("aboba");
+                return Iterables.concat(odnoraz,jija,cartridge,ispar,pod);
             }
         });
 
@@ -768,8 +1379,12 @@ public class productscontroller {
         model.addAttribute("commrep",commentrepository);
 
         model.addAttribute("curusname",currentPrincipalName);
+
+        model.addAttribute("sparamalready",sparam);
+
         return "productsList";
     }
+
 
 
 }

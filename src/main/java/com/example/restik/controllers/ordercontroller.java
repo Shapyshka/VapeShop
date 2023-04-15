@@ -135,7 +135,7 @@ public class ordercontroller {
             try {
                 if(totalmass>20000)
                     totalmass=20000;
-                URL url = new URL("https://postprice.ru/engine/russia/api.php?from=101000&to=" + orders.getZipcode() + "&mass=" + totalmass + "&valuation=" + totalprice + "&vat=1");
+                URL url = new URL("https://postprice.ru/engine/russia/api.php?from=101000&to=" + orders.getZipcode() + "&mass=" + totalmass + "&vat=1");
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");
                 con.setUseCaches(true);
@@ -286,6 +286,13 @@ public class ordercontroller {
         orders.setTotalPostPrice(orderrepository.findById(orders.getId()).get().getTotalPostPrice());
         orders.setDate(orderrepository.findById(orders.getId()).get().getDate());
 
+        orders.setFastemail(orderrepository.findById(orders.getId()).get().getFastemail());
+        orders.setFastname(orderrepository.findById(orders.getId()).get().getFastname());
+        orders.setFastphonenumber(orderrepository.findById(orders.getId()).get().getFastphonenumber());
+        orders.setFastquan(orderrepository.findById(orders.getId()).get().getFastquan());
+        orders.setFasttovar(orderrepository.findById(orders.getId()).get().getFasttovar());
+        orders.setFastmessen(orderrepository.findById(orders.getId()).get().getFastmessen());
+
         orders.setStatus("Canceled");
 
         orderrepository.save(orders);
@@ -347,6 +354,8 @@ public class ordercontroller {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
+
+
         orders.setSposoboplaty(orderrepository.findById(orders.getId()).get().getSposoboplaty());
         orders.setAdress(orderrepository.findById(orders.getId()).get().getAdress());
         orders.setCommentary(orderrepository.findById(orders.getId()).get().getCommentary());
@@ -359,6 +368,15 @@ public class ordercontroller {
         orders.setTotalMass(orderrepository.findById(orders.getId()).get().getTotalMass());
         orders.setTotalPostPrice(orderrepository.findById(orders.getId()).get().getTotalPostPrice());
         orders.setDate(orderrepository.findById(orders.getId()).get().getDate());
+
+        orders.setFastemail(orderrepository.findById(orders.getId()).get().getFastemail());
+        orders.setFastname(orderrepository.findById(orders.getId()).get().getFastname());
+        orders.setFastphonenumber(orderrepository.findById(orders.getId()).get().getFastphonenumber());
+        orders.setFastquan(orderrepository.findById(orders.getId()).get().getFastquan());
+        orders.setFasttovar(orderrepository.findById(orders.getId()).get().getFasttovar());
+        orders.setFastmessen(orderrepository.findById(orders.getId()).get().getFastmessen());
+
+
 
         orders.setStatus("Finished");
 

@@ -55,7 +55,8 @@
     transform: scale(1.15); /* Увеличиваем масштаб */
    }
   </style>
-<body style="margin-top:70px; background-color:#eeeeee">
+<!--zoom:90%-->
+<body style="margin-top:70px; background-color:#eeeeee; ">
 <header th:insert="blocks/header :: Header" ></header>
 <br>
 <div align="center">
@@ -161,9 +162,9 @@
                         <div style="display:inline-block;">
                             • Мы работаем с дропшипперами. За подробностями свяжитесь с
                         </div>
-                        <a target="_blank" href="https://t.me/thismanisdeadinside" style="display:inline-block; text-decoration: none; font-size:20px">
+                        <a target="_blank" href="https://t.me/vapeshiftermanager" style="display:inline-block; text-decoration: none; font-size:20px">
                             <img src="https://i.imgur.com/lV4a4sl.png" width="25px" style="object-fit:contain; display:inline-block;">
-                            <div style="display:inline-block;">@thismanisdeadinside </div>
+                            <div style="display:inline-block;">@vapeshiftermanager </div>
 
                         </a>
                     </div>
@@ -184,11 +185,11 @@
                     <div style="color:#222222; text-decoration: none;">
                         <div  style="display:inline-block; color:#555555; font-size:20px;">• Остались вопросы? Напишите нам!</div>
 
-                        <a target="_blank" href="https://t.me/thismanisdeadinside" style="display:inline-block; text-decoration: none; font-size:20px">
-                            <img src="https://i.imgur.com/lV4a4sl.png" width="25px" style="object-fit:contain; display:inline-block;">
-                            <div style="display:inline-block;">@thismanisdeadinside </div>
+<!--                        <a target="_blank" href="https://t.me/thismanisdeadinside" style="display:inline-block; text-decoration: none; font-size:20px">-->
+<!--                            <img src="https://i.imgur.com/lV4a4sl.png" width="25px" style="object-fit:contain; display:inline-block;">-->
+<!--                            <div style="display:inline-block;">@thismanisdeadinside </div>-->
 
-                        </a>
+<!--                        </a>-->
 
                         <a target="_blank" href="https://telegram.me/vapeshiftermanager" style="display:inline-block; text-decoration: none; font-size:20px">
                             <img src="https://i.imgur.com/lV4a4sl.png" width="25px" style="object-fit:contain; display:inline-block;">
@@ -206,92 +207,14 @@
 </div>
 <br>
 
-<!--<div>-->
-<!--    <div align="center" style="font-size:35px; white-space:nowrap;">⭐Последние отзывы:</div>-->
-<!--    <div align="center" th:each="el:${comments}">-->
-<!--        <br>-->
-<!--        <div class="rounded shadow-sm" align="center" style="background-color:#ffffff; width:75%">-->
-<!--            <table style="width:95%">-->
-<!--                <tr>-->
-<!--                    <td align="center" width="50%">-->
-<!--                        <a th:href="@{/products/{id}(id=${el.getZapis().getId})}" style="text-decoration:none">-->
-<!--                                <div th:id="${'cuntent'+el.getZapis().getId()}" class="card shadow-sm" style="width:100%">-->
-
-<!--                                    <div style="display:inline-block;">-->
-<!--&lt;!&ndash;                                        <img loading=lazy th:if="${curusname=='anonymousUser'}" th:src="${el.getZapis().getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="" height="125" width="100%" style="object-fit:contain; filter: blur(5px); "/>&ndash;&gt;-->
-<!--                                    </div>-->
-<!--                                    <div class="scale" style="display:inline-block;">-->
-<!--                                        <img loading=lazy th:if="${curusname!='anonymousUser'}" th:src="${el.getZapis().getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" class="scale" height="125" width="100%" style="object-fit:contain;"/>-->
-<!--                                    </div>-->
-<!--                                    <div align="center" style="display:inline-block; margin-top:10px">-->
-<!--                                        <div style="width:80%" align="center">-->
-<!--                                            <div align="center"  th:text="${el.getZapis().getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:17px; color:#222222; "></div>-->
-<!--                                            <div style="height:5px"> </div>-->
-<!--                                            <div align="center" style="white-space: nowrap;">-->
-<!--                                                <div style="display:inline-block;">-->
-<!--                                                    <h5  class="text-dark mb-0" th:text="${el.getZapis().getPrice()+' ₽  '}" style="white-space: nowrap;"/>-->
-<!--                                                </div>-->
-<!--                                                <div th:if="${el.getZapis().getOldprice()!=null}"  style="color:#FF0000; text-decoration: line-through; display:inline-block;">-->
-<!--                                                    <span th:text="${el.getZapis().getOldprice()+' ₽'}" style="font-size:14px; color:#777777; "/>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                            <div style="height:15px"> </div>-->
-<!--                                        </div>-->
-
-<!--                                        <a type="button" class="btn btn-sm btn-dark" th:href="@{/products/{id}(id=${el.getZapis().getId})}" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px;">-->
-<!--                                            Подробнее...-->
-<!--                                        </a>-->
-
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </a>-->
-<!--                    </td>-->
-<!--                    <td align="center" width="50%">-->
-<!--                        <div style="display:inline-block">-->
-<!--                            <a style="color:#222222; text-decoration: none;" th:if="${curusname=='admin'}"  th:href="'/users/'+${el.getAuthorName()}" >-->
-<!--                                <img class="rounded-circle" th:src="${userrep.findByUsername(el.getAuthorName()).getAvatarlink()}" style="display:inline-block; vertical-align:middle" height="20px" width="20px" >-->
-<!--                                <h5 th:text="${el.getAuthorName()}" style="display:inline-block; vertical-align:middle"/>-->
-<!--                            </a>-->
-<!--                            <div style="color:#222222; text-decoration: none;" th:if="${curusname!='admin'}" >-->
-<!--                                <img class="rounded-circle" th:src="${userrep.findByUsername(el.getAuthorName()).getAvatarlink()}" style="display:inline-block; vertical-align:middle" height="20px" width="20px" >-->
-<!--                                <h5 th:text="${el.getAuthorName()}" style="display:inline-block; vertical-align:middle"/>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-
-<!--                        <div style="font-size: 23px; display:inline-block;" th:if="${el.getRating()}" >-->
-<!--                            <span style="color:#00d10a; display:inline-block; vertical-align:middle;" class="material-symbols-outlined">-->
-<!--                                thumb_up-->
-<!--                            </span>-->
-<!--                        </div>-->
-<!--                        <div style="font-size: 23px; display:inline-block;" th:if="${!el.getRating()}" >-->
-<!--                            <span style="color:#c40404; display:inline-block; vertical-align:middle;" class="material-symbols-outlined">-->
-<!--                                thumb_down-->
-<!--                            </span>-->
-<!--                        </div>-->
-<!--                        <div style="font-size: 14px; white-space:nowrap" th:text="${df2.format(df1.parse(el.getDate().toString()))}"></div>-->
-
-<!--                        <div style="font-size:23px; color:#222222; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;" th:text="${'«'+el.getText()+'»'}"></div>-->
-
-<!--                    </td>-->
-<!--                </tr>-->
-<!--            </table>-->
-
-
-<!--            <div style="height:7px"></div>-->
-<!--        </div>-->
-<!--    </div>-->
-
-<!--</div>-->
-
 <div class="album py-2" >
     <div class="container">
     <div align="center">
     <div id="specialsdiv">
         <div th:if="${specialsrozn.size()>0}" >
             <br>
-            <div align="center" style="font-size:30px; white-space:nowrap;">🏷️Особые розничные предложения🏷️</div>
-            <br>
+            <div align="center" style="font-size:32px; white-space:nowrap;">🔥Скидки🔥</div>
+            <div style="height:5px"></div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-0" >
                 <div th:each="el:${specialsrozn}" class="col">
                     <a th:href="@{/products/{id}(id=${el.getId})}" style="text-decoration:none">
@@ -342,6 +265,13 @@
                                     В корзину
                                 </a>
 
+                                <a th:if="${el.getQuantity()!=0 && curusname=='anonymousUser'}" th:href="@{/products/{id}/fastorder(id=${el.getId})}" type="button" class="btn btn-sm btn-outline-dark" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px; white-space: nowrap; ">
+                                                    <span class="material-symbols-outlined" style="font-size:16px;">
+                                                        receipt_long
+                                                    </span>
+                                    Заказать
+                                </a>
+
                                 <a type="button" class="btn btn-sm btn-dark" th:href="@{/products/{id}(id=${el.getId})}" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:14px;">
                                     Подробнее...
                                 </a>
@@ -354,7 +284,7 @@
         </div>
         <div th:if="${specialsopt.size()>0}" >
             <br>
-        <div align="center" style="font-size:30px; white-space:nowrap;">🏷️Особые оптовые предложения🏷️</div>
+        <div align="center" style="font-size:30px; white-space:nowrap;">🔥Скидки на опт🔥</div>
             <br>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-0">
                 <div th:each="el:${specialsopt}" class="col">

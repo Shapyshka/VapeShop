@@ -32,8 +32,8 @@
     <!-- /Yandex.Metrika counter -->
 
 </head>
-
-<body style="margin-top:70px; background-color:#eeeeee">
+<!--zoom:90%-->
+<body style="margin-top:70px; background-color:#eeeeee; ">
 <header th:insert="blocks/header :: Header" ></header>
 <br>
 <div align="center">
@@ -116,10 +116,35 @@
                             <ul class="nav justify-content-center border-bottom ">
                             </ul>
 
-                            <a style="color:#222222; text-decoration: none;" th:if="${curusname=='admin'}"  th:href="'/users/'+${el.getUser().getUsername()}" >
-                                <img class="rounded-circle" th:src="${el.getUser().getAvatarlink()}" style="display:inline-block;" height="25px" width="25px" >
-                                <h4 th:text="${el.getUser().getUsername()}" style="display:inline-block;"/>
-                            </a>
+                            <div style="font-size:19px;" th:if="${el.getFastname()!=null}">
+                                Имя:
+                                <div th:text="${el.getFastname()}"></div>
+                                <ul class="nav justify-content-center border-bottom ">
+                                </ul>
+                            </div>
+
+                            <div style="font-size:19px;" th:if="${el.getFastemail()!=null}">
+                                Емаил:
+                                <div th:text="${el.getFastemail()}"></div>
+                                <ul class="nav justify-content-center border-bottom ">
+                                </ul>
+                            </div>
+
+                            <div style="font-size:19px;" th:if="${el.getFastphonenumber()!=null}">
+                                Телефон:
+                                <div th:text="${el.getFastphonenumber()}"></div>
+                                <ul class="nav justify-content-center border-bottom ">
+                                </ul>
+                            </div>
+
+                            <div th:if="${el.getUser()!=null}">
+                                <a style="color:#222222; text-decoration: none;" th:if="${curusname=='admin'}"  th:href="'/users/'+${el.getUser().getUsername()}" >
+                                    <img class="rounded-circle" th:src="${el.getUser().getAvatarlink()}" style="display:inline-block;" height="25px" width="25px" >
+                                    <h4 th:text="${el.getUser().getUsername()}" style="display:inline-block;"/>
+                                </a>
+                                <ul class="nav justify-content-center border-bottom ">
+                                </ul>
+                            </div>
 
                             <div style="font-size:18px;">
                                 Способ получения:
@@ -139,36 +164,41 @@
                                 <div style="text-decoration:underline">
                                     🏃Курьерской доставкой
                                 </div>
-                                Адрес получателя:
-                                <div th:text="${el.getAdress()}" style="text-decoration:underline"></div>
+                                <div th:if="${el.getAdress()!=null}">
+                                    Адрес получателя:
+                                    <div th:text="${el.getAdress()}" style="text-decoration:underline"></div>
+                                </div>
                             </div>
                             <div th:if="${el.getSposobpoluch()=='post'}">
                                 <label style="text-decoration:underline">📬В отделении Почты России №
-                                    <a target="_blank" th:text="${el.getZipcode()}" th:href="${'https://www.pochta.ru/offices/'+el.getZipcode().toString()}"></a>
+                                    <a th:if="${el.getZipcode()!=null}" target="_blank" th:text="${el.getZipcode()}" th:href="${'https://www.pochta.ru/offices/'+el.getZipcode().toString()}"></a>
                                 </label>
                                 <br>
-                                Адрес получателя:
-                                    <div th:text="${el.getAdress()}" style="text-decoration:underline"></div>
+                                <div th:if="${el.getAdress()!=null}">
+                                    Адрес получателя:
+                                        <div th:text="${el.getAdress()}" style="text-decoration:underline"></div>
+                                </div>
                             </div>
                         </div>
 
                             <ul class="nav justify-content-center border-bottom">
                             </ul>
 
-
-                            <div style="font-size:18px;">
-                                Способ оплаты:
-                            </div>
-                            <div style="font-size:19px;">
-                                <div th:if="${el.getSposoboplaty()=='yoomoney'}">
-                                    <label style="white-space: normal; ">
-                                        💳Банковской картой
-                                    </label>
+                            <div th:if="${el.getSposoboplaty()!=null}">
+                                <div style="font-size:18px;">
+                                    Способ оплаты:
                                 </div>
-                                <div th:if="${el.getSposoboplaty()=='pripoluch'}">
-                                    <label style="white-space: normal; ">
-                                        💵Любым способом при получении
-                                    </label>
+                                <div style="font-size:19px;">
+                                    <div th:if="${el.getSposoboplaty()=='yoomoney'}">
+                                        <label style="white-space: normal; ">
+                                            💳Банковской картой
+                                        </label>
+                                    </div>
+                                    <div th:if="${el.getSposoboplaty()=='pripoluch'}">
+                                        <label style="white-space: normal; ">
+                                            💵Любым способом при получении
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 
@@ -247,7 +277,7 @@
                             Товары в заказе:
                         </div>
                         <div style="height:10px"> </div>
-                        <div class="autoplay" style="width:75%;">
+                        <div class="autoplay" th:if="${cartrep.findByOrder_id(el.getId()).size()!=0}" style="width:75%;">
                             <div th:each="elem:${cartrep.findByOrder_id(el.getId())}">
                                 <div class="card shadow-sm">
                                     <a th:href="@{/products/{id}(id=${elem.getProduct().getId()})}" style="text-decoration:none">
@@ -270,18 +300,33 @@
                             </div>
                         </div>
 
+                        <div class="card shadow-sm" th:if="${cartrep.findByOrder_id(el.getId()).size()==0}">
+                            <a th:href="@{/products/{id}(id=${el.getFasttovar().getId()})}" style="text-decoration:none">
+                                <img loading=lazy th:src="${el.getFasttovar().getPhotoUrl().replace('.png','b.png').replace('.jpg','b.jpg')}" height="100" width="100%" style="object-fit:contain;"/>
+                                <div >
+                                    <div align="center" class="mb-0" th:text="${el.getFasttovar().getTitle()}" style="display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; font-size:15px; color:#222222;  font-weight: bold;"></div>
+
+
+                                    <div style="height:3px"> </div>
+
+                                    <div align="center" class="mb-0" th:text="${el.getFastquan()+' шт.'}" style="font-size:14px; color:#222222; "></div>
+                                    <div style="height:5px"> </div>
+                                </div>
+                            </a>
+                        </div>
+
+
                         <div align="center"   >
                             <div align="center" th:if="${el.getStatus()=='WaitingPayment'||el.getStatus()=='notConfirmed'}">
                                 <ul class="nav justify-content-center border-bottom pb-3 mb-3">
                                 </ul>
                                 <div style="white-space: nowrap; ">
-                                    <div style="white-space: normal; ">
-                                        1. Нажмите на кнопку "Перевести" и совершите перевод указанной суммы
+                                    <div style="white-space: normal; font-size:18px">
+                                        1. Совершите перевод указанной суммы на Сбербанк по номеру телефона +79169072614
                                     </div>
-                                    <iframe src="https://yoomoney.ru/quickpay/fundraise/button?billNumber=50VvoQNABcQ.230117&" width="237px" height="47px" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
                                 </div>
                                 <div style="white-space: nowrap; ">
-                                    <div style="white-space: normal; ">
+                                    <div style="white-space: normal; font-size:18px">
                                         2. После успешного перевода нажмите на кнопку "Подтвердить оплату" и ожидайте подтверждения от администратора
                                     </div>
                                     <form method="post" th:action="'/order/'+${el.getId()}+'/confirmpayment'" th:object="${orders}">
@@ -340,11 +385,11 @@
         <script type="text/javascript">
             $('.autoplay').slick({
                 dots: true,
-                infinite: true,
+                infinite: false,
                 slidesToShow: 3,
                 slidesToScroll: 1,
                 autoplay: true,
-                autoplaySpeed: 3000
+                autoplaySpeed: 4000
 
             });
         </script>

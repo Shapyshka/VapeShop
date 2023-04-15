@@ -129,7 +129,7 @@ public class cartcontroller {
         try {
                 if(mass>20000)
                     mass=20000;
-                URL url = new URL("https://postprice.ru/engine/russia/api.php?from=101000&to=" + zip + "&mass=" + mass + "&valuation=" + price + "&vat=1");
+                URL url = new URL("https://postprice.ru/engine/russia/api.php?from=101000&to=" + zip + "&mass=" + mass + "&vat=1");
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");
                 con.setUseCaches(true);

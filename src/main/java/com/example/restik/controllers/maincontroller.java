@@ -65,28 +65,6 @@ public class maincontroller {
         });
 
 
-        Iterable<comment> comments = commentrepository.findAllByOrderByDateDesc();
-        List<comment> commentlist = new ArrayList<comment>();
-        comments.forEach(commentlist::add);
-
-
-        for(Iterator<comment> iterator = commentlist.iterator(); iterator.hasNext();){
-            comment c = iterator.next();
-            if(c.getText()==null){
-                iterator.remove();
-            }
-            else{
-                if(c.getText().length()==0) {
-                    iterator.remove();
-                }
-            }
-        }
-
-        List<comment> comments3 = new ArrayList<comment>();
-        for (int i = 0; i<=2; i++){
-            comments3.add(commentlist.get(i));
-        }
-        model.addAttribute("comments", comments3);
 
         model.addAttribute("news",new LazyContextVariable<Iterable<news>>() {
             @Override

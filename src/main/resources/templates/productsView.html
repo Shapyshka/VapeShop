@@ -98,8 +98,8 @@ input:checked + .slider:before {
     </style>
 
 </head>
-
-<body style="margin-top:70px; background-color:#eeeeee">
+<!--zoom:90%-->
+<body style="margin-top:70px; background-color:#eeeeee;">
 
 <header th:insert="blocks/header :: Header" ></header>
 <br>
@@ -149,18 +149,69 @@ input:checked + .slider:before {
                             <div class="row row-cols-2" >
                                 <div class="col" align="left" style="width:66%">
                                     <div>
-                                        <div th:if="${el.getOptIliRozn()=='opt'}" style="font-size:19px; color:#222222;">
-                                            <div >
-                                                <div class="rounded" style="background-color:#FAF4A1; display:inline-block;">📦Опт</div>
-                                            </div>
+                                        <div th:if="${el.getOptIliRozn()=='opt'}" style="font-size:19px; color:#222222; display:inline-block">
+                                            <a href="/products/opt" style="display:inline-block; text-decoration: none; font-size:18px; color:#000000;" >
+                                                <div class="rounded" style="background-color:#FAF4A1; display:inline-block;">#Опт📦</div>
+                                            </a>
                                         </div>
-                                        <div th:if="${el.getOptIliRozn()=='rozn'}" style="font-size:19px; color:#222222;">
-                                            <div >
-                                                <div class="rounded" style="background-color:#9FFA99; display:inline-block;">🛍️Розница</div>
-                                            </div>
+                                        <div th:if="${el.getOptIliRozn()=='rozn'}" style="font-size:19px; color:#222222; display:inline-block">
+                                            <a href="/products/" style="display:inline-block; text-decoration: none; font-size:18px; color:#000000;">
+                                                <div class="rounded" style="background-color:#9FFA99; display:inline-block;">#Розница🛍️</div>
+                                            </a>
                                         </div>
-                                        <br>
+
+<!--                                        //////////////////////////////////////////////////-->
+                                        <div th:if="${el.getTypeofproduct()=='odnoraz'}" style="font-size:19px; color:#222222; display:inline-block">
+                                            <a th:if="${el.getOptIliRozn()=='opt'}" href="/products/opt/odnoraz" style="display:inline-block; text-decoration: none; font-size:18px; color:#000000;" >
+                                                <div class="rounded" style="background-color:#9FFA99; display:inline-block;">#Одноразка⚡</div>
+                                            </a>
+                                            <a th:if="${el.getOptIliRozn()=='rozn'}" href="/products/odnoraz" style="display:inline-block; text-decoration: none; font-size:18px; color:#000000;" >
+                                                <div class="rounded" style="background-color:#9FFA99; display:inline-block;">#Одноразка⚡</div>
+                                            </a>
+                                        </div>
+
+                                        <div th:if="${el.getTypeofproduct()=='jija'}" style="font-size:19px; color:#222222; display:inline-block">
+
+                                            <a th:if="${el.getOptIliRozn()=='opt'}" href="/products/opt/jija" style="display:inline-block; text-decoration: none; font-size:18px; color:#000000;" >
+                                                <div class="rounded" style="background-color:#9FFA99; display:inline-block;">#Жижа💧</div>
+                                            </a>
+                                            <a th:if="${el.getOptIliRozn()=='rozn'}" href="/products/jija" style="display:inline-block; text-decoration: none; font-size:18px; color:#000000;" >
+                                                <div class="rounded" style="background-color:#9FFA99; display:inline-block;">#Жижа💧</div>
+                                            </a>
+                                        </div>
+
+                                        <div th:if="${el.getTypeofproduct()=='pod'}" style="font-size:19px; color:#222222; display:inline-block">
+
+                                            <a th:if="${el.getOptIliRozn()=='opt'}" href="/products/opt/pod" style="display:inline-block; text-decoration: none; font-size:18px; color:#000000;" >
+                                                <div class="rounded" style="background-color:#9FFA99; display:inline-block;">#Под⚡</div>
+                                            </a>
+                                            <a th:if="${el.getOptIliRozn()=='rozn'}" href="/products/pod" style="display:inline-block; text-decoration: none; font-size:18px; color:#000000;" >
+                                                <div class="rounded" style="background-color:#9FFA99; display:inline-block;">#Под⚡</div>
+                                            </a>
+                                        </div>
+
+                                        <div th:if="${el.getTypeofproduct()=='ispar'}" style="font-size:19px; color:#222222; display:inline-block">
+
+                                            <a th:if="${el.getOptIliRozn()=='opt'}" href="/products/opt/ispar" style="display:inline-block; text-decoration: none; font-size:18px; color:#000000;" >
+                                                <div class="rounded" style="background-color:#9FFA99; display:inline-block;">#Испаритель🔋</div>
+                                            </a>
+                                            <a th:if="${el.getOptIliRozn()=='rozn'}" href="/products/ispar" style="display:inline-block; text-decoration: none; font-size:18px; color:#000000;" >
+                                                <div class="rounded" style="background-color:#9FFA99; display:inline-block;">#Испаритель🔋</div>
+                                            </a>
+                                        </div>
+
+                                        <div th:if="${el.getTypeofproduct()=='cartridge'}" style="font-size:19px; color:#222222; display:inline-block">
+
+                                            <a th:if="${el.getOptIliRozn()=='opt'}" href="/products/opt/cartridge" style="display:inline-block; text-decoration: none; font-size:18px; color:#000000;" >
+                                                <div class="rounded" style="background-color:#9FFA99; display:inline-block;">#Картридж🔋</div>
+                                            </a>
+                                            <a th:if="${el.getOptIliRozn()=='rozn'}" href="/products/cartridge" style="display:inline-block; text-decoration: none; font-size:18px; color:#000000;" >
+                                                <div class="rounded" style="background-color:#9FFA99; display:inline-block;">#Картридж🔋</div>
+                                            </a>
+                                        </div>
+
                                     </div>
+                                    <br>
                                     <div>
                                         <h5 class="box-title">📃Описание:</h5>
                                         <div th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(el.getText()),'\n','&lt;br /&gt;'))}" style="font-size:18px"></div>
@@ -210,6 +261,18 @@ input:checked + .slider:before {
                                                 В корзину
                                             </button>
                                         </div>
+
+                                        <div th:if="${el.getQuantity()==0 && el.getOptIliRozn()=='rozn'}">
+                                            <button type="button" class="btn btn-sm btn-outline-dark" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:20px; white-space: nowrap; " disabled>
+                                                    <span class="material-symbols-outlined" style="font-size:20px;">
+                                                        receipt_long
+                                                    </span>
+                                                Заказать
+                                            </button>
+                                        </div>
+
+
+
                                         <div th:if="${el.getQuantity()!=0}">
 
                                             <a type="button" class="btn btn-sm btn-dark" href="#" data-toggle="modal" data-target="#modalcart" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:22px; white-space: nowrap; ">
@@ -278,8 +341,15 @@ input:checked + .slider:before {
                                                                             <span style="font-size:20px; vertical-align:text-top; color:#ff7b00" class="material-symbols-outlined">
                                                                                 warning
                                                                             </span>
-                                                                            Чтобы добавить товар в корзину нужно
+                                                                            Чтобы заказать товар нужно
                                                                             <a href="/registration">зарегистрироваться</a> <br>
+                                                                        </div>
+
+                                                                        <div align="center" th:if="${el.getOptIliRozn()=='rozn'}">
+                                                                            Или воспользоваться
+                                                                            <a target="_blank" th:href="@{/products/{id}/fastorder(id=${el.getId})}" style="display:inline-block; font-size:18px; ">
+                                                                                <div style="display:inline-block;">быстрым заказом</div>
+                                                                            </a>
                                                                         </div>
 
                                                                         <div align="center">
@@ -353,6 +423,17 @@ input:checked + .slider:before {
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div th:if="${el.getQuantity()!=0 && el.getOptIliRozn()=='rozn' }">
+
+                                            <a type="button" class="btn btn-sm btn-dark" th:href="@{/products/{id}/fastorder(id=${el.getId})}" style="display: inline-block; vertical-align: text-top; margin-bottom:10px; font-size:22px; white-space: nowrap; ">
+                                                <span class="material-symbols-outlined" style="font-size:20px;">
+                                                        receipt_long
+                                                    </span>
+                                                Заказать
+                                            </a>
+                                        </div>
+
                                     </div>
 
                                 </div>

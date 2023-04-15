@@ -28,8 +28,8 @@
     <!-- /Yandex.Metrika counter -->
 
 </head>
-
-<body style="margin-top:70px; background-color:#eeeeee">
+<!--zoom:90%-->
+<body style="margin-top:70px; background-color:#eeeeee; ">
 <header th:insert="blocks/header :: Header" ></header>
 
 <br>
@@ -61,7 +61,7 @@
     <div th:if="${cartproducts.size()!=0}" class="row row-cols-sm-1 row-cols-lg-2" align="center" style="width:95%">
         <div class="col" align="center" >
             <div class="card shadow-sm" align="center" style="margin-top:20px;">
-                            <form method="post" action="/order/addorder" th:object="${orders}">
+                            <form onkeydown="return event.key != 'Enter';" method="post" action="/order/addorder" th:object="${orders}">
 
                                 <div class="row row-cols-sm-1 row-cols-lg-2 mt-2" align="center" style="width:95%">
                                     <div class="col" align="center" >
@@ -73,20 +73,20 @@
 
                                                 <span style="white-space: nowrap;">
                                                     <input type="radio" id="sam1" onclick="hidepost()"
-                                                           name="sposobpoluch" value="sam1">
+                                                           name="sposobpoluch" value="sam1" >
                                                     <label for="sam1" style="white-space: normal; ">📦Самовывоз c метро
                                                         <a target="_blank" href="https://yandex.ru/maps/-/CCUKIJWfHA">Давыдково</a>
                                                     </label>
                                                 </span>
                                                 <div style="height:5px"></div>
-                                                <span style="white-space: nowrap;">
-                                                    <input type="radio" id="sam2" onclick="hidepost()"
-                                                           name="sposobpoluch" value="sam2">
-                                                    <label for="sam2" style="white-space: normal; ">📦Самовывоз с метро
-                                                        <a target="_blank" href="https://yandex.ru/maps/-/CCUKIJGCdC">Каширская</a>
-                                                    </label>
-                                                </span>
-                                                <div style="height:5px"></div>
+<!--                                                <span style="white-space: nowrap;">-->
+<!--                                                    <input type="radio" id="sam2" onclick="hidepost()"-->
+<!--                                                           name="sposobpoluch" value="sam2">-->
+<!--                                                    <label for="sam2" style="white-space: normal; ">📦Самовывоз с метро-->
+<!--                                                        <a target="_blank" href="https://yandex.ru/maps/-/CCUKIJGCdC">Каширская</a>-->
+<!--                                                    </label>-->
+<!--                                                </span>-->
+<!--                                                <div style="height:5px"></div>-->
 
 
                                                 <script language="JavaScript">
@@ -397,7 +397,7 @@
                                     </div>
                                     <div style="display:inline-block; width:100px; ">
                                         <form method="post" th:object="${cart}" th:action="'/cart/'+${el.getId()}+'/edit'">
-                                            <input type="number" min="1" th:max="${el.getProduct().getQuantity()}" th:attr="onchange=|@{showbutt({curid})(curid=${el.getId()})}|" name="quantity" id ="quantity" placeholder="Количество" th:value="${el.getQuantity()}" class="form-control" style="display: inline-block; " required>
+                                            <input type="number" min="1" th:max="${el.getProduct().getQuantity()}" th:attr="oninput=|@{showbutt({curid})(curid=${el.getId()})}|" name="quantity" id ="quantity" placeholder="Количество" th:value="${el.getQuantity()}" class="form-control" style="display: inline-block; " required>
                                             <button style="color:#ffffff; display: none;" th:id="${'cartbutton'+el.getId()}" class="btn btn-success" type="submit">
                                                                     <span class="material-symbols-outlined" style="font-size:21px">
                                                                         done
