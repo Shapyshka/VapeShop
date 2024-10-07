@@ -79,21 +79,22 @@
                                                     </label>
                                                 </span>
                                                 <div style="height:5px"></div>
-<!--                                                <span style="white-space: nowrap;">-->
-<!--                                                    <input type="radio" id="sam2" onclick="hidepost()"-->
-<!--                                                           name="sposobpoluch" value="sam2">-->
-<!--                                                    <label for="sam2" style="white-space: normal; ">📦Самовывоз с метро-->
-<!--                                                        <a target="_blank" href="https://yandex.ru/maps/-/CCUKIJGCdC">Каширская</a>-->
-<!--                                                    </label>-->
-<!--                                                </span>-->
-<!--                                                <div style="height:5px"></div>-->
+
+                                                <span style="white-space: nowrap;">
+                                                    <input type="radio" id="sam2" onclick="hidepost()"
+                                                           name="sposobpoluch" value="sam2">
+                                                    <label for="sam2" style="white-space: normal; ">📦Самовывоз с метро
+                                                        <a target="_blank" href="https://yandex.ru/maps/-/CCUKIJGCdC">Каширская</a>
+                                                    </label>
+                                                </span>
+                                                <div style="height:5px"></div>
 
 
                                                 <script language="JavaScript">
                                                     function hidepost(){
                                                         var numbertxt=document.getElementById('totalOptPrice');
                                                         if(numbertxt!=null){
-                                                            if(!(parseInt(numbertxt.textContent, 10)<4000 && parseInt(numbertxt.textContent, 10)>0)){
+                                                            if(!(parseInt(numbertxt.textContent, 10)<5000 && parseInt(numbertxt.textContent, 10)>0)){
                                                                 document.getElementById("submitorder").disabled=false;
                                                             }
                                                         }
@@ -124,7 +125,7 @@
                                                     <input type="radio" id="dost" onclick="showDost()"
                                                            name="sposobpoluch" value="dost">
                                                     <label for="dost" style="white-space: normal; ">
-                                                        🏃‍Доставка курьером по Москве (+300 ₽)
+                                                        🏃‍Доставка курьером по Москве (300 ₽)
                                                     </label>
                                                 </span>
                                                 <div style="height:5px"></div>
@@ -194,9 +195,9 @@
                                                         if(document.getElementById('adress').value.length==0)
                                                             document.getElementById('submitorder').disabled=true;
                                                         else{
-                                                            if([[${zip!=null}]] && (parseInt(numbertxt.textContent, 10)>=4000 || parseInt(numbertxt.textContent, 10)==0))
+                                                            if([[${zip!=null}]] && (parseInt(numbertxt.textContent, 10)>=5000 || parseInt(numbertxt.textContent, 10)==0))
                                                                 document.getElementById('submitorder').disabled=false;
-                                                            if(document.getElementById('dost').checked && (parseInt(numbertxt.textContent, 10)>=4000 || parseInt(numbertxt.textContent, 10)==0))
+                                                            if(document.getElementById('dost').checked && (parseInt(numbertxt.textContent, 10)>=5000 || parseInt(numbertxt.textContent, 10)==0))
                                                                 document.getElementById('submitorder').disabled=false;
                                                          }
                                                     }
@@ -260,14 +261,14 @@
                                             <input type="radio" id="yoomoney"
                                                    name="sposoboplaty" value="yoomoney" checked>
                                             <label for="yoomoney" style="white-space: normal; ">
-                                                💳Банковской картой
+                                                💳Предоплата переводом
                                             </label>
                                         </span>
                                         <div style="height:5px"></div>
                                         <span style="white-space: nowrap; ">
                                             <input type="radio" id="pripoluch"
                                                    name="sposoboplaty" value="pripoluch">
-                                            <label for="pripoluch" style="white-space: normal; ">💵Любым способом при получении (самовывоз, без опта)</label>
+                                            <label for="pripoluch" style="white-space: normal; ">💵При получении любым способом (самовывоз, без опта)</label>
                                         </span>
                                     </fieldset>
                                     <div style="height:5px"></div>
@@ -323,7 +324,7 @@
                                     </span>
                                     <span style="vertical-align:text-top">
                                     <i style="font-size:17px; color:#444444; ">
-                                        Минимальная сумма оптового заказа - 4000 ₽
+                                        Минимальная сумма оптового заказа - 5000 ₽
                                     </i>
                             </span>
                                     <span style="font-size:20px; vertical-align:text-top; color:#ff7b00" class="material-symbols-outlined">
@@ -469,7 +470,7 @@
                                         </span>
                     <span style="vertical-align:text-top">
                                         <i style="font-size:17px; color:#444444; ">
-                                            Минимальная сумма оптового заказа - 4000 ₽
+                                            Минимальная сумма оптового заказа - 5000 ₽
                                         </i>
                                 </span>
                     <span style="font-size:20px; vertical-align:text-top; color:#ff7b00" class="material-symbols-outlined">
@@ -652,7 +653,7 @@
 
                         var numbertxt=document.getElementById('totalOptPrice');
                         if(numbertxt!=null){
-                            if(parseInt(numbertxt.textContent, 10)<4000 && parseInt(numbertxt.textContent, 10)>0){
+                            if(parseInt(numbertxt.textContent, 10)<5000 && parseInt(numbertxt.textContent, 10)>0){
                                 document.getElementById('submitorder').disabled=true;
                                 document.getElementById('optmsg1').style.display="block";
                                 document.getElementById('optmsg2').style.display="block";

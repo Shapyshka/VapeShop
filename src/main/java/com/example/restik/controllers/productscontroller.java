@@ -237,6 +237,9 @@ public class productscontroller {
         model.addAttribute("commrep",commentrepository);
 
         model.addAttribute("curusname",currentPrincipalName);
+
+        model.addAttribute("descparam","odnoraz");
+
         return "productsList";
     }
 
@@ -304,6 +307,9 @@ public class productscontroller {
         model.addAttribute("commrep",commentrepository);
 
         model.addAttribute("curusname",currentPrincipalName);
+
+        model.addAttribute("descparam","jija");
+
         return "productsList";
     }
 
@@ -369,6 +375,9 @@ public class productscontroller {
         model.addAttribute("commrep",commentrepository);
 
         model.addAttribute("curusname",currentPrincipalName);
+
+        model.addAttribute("descparam","pod");
+
         return "productsList";
     }
 
@@ -434,6 +443,9 @@ public class productscontroller {
         model.addAttribute("commrep",commentrepository);
 
         model.addAttribute("curusname",currentPrincipalName);
+
+        model.addAttribute("descparam","ispar");
+
         return "productsList";
     }
 
@@ -500,6 +512,9 @@ public class productscontroller {
         model.addAttribute("commrep",commentrepository);
 
         model.addAttribute("curusname",currentPrincipalName);
+
+        model.addAttribute("descparam","cartridge");
+
         return "productsList";
     }
 
@@ -508,6 +523,10 @@ public class productscontroller {
 
     @GetMapping(path="/opt")
     public String opt(Model model) throws ParseException {
+
+//        if(1==1)
+//            return "redirect:/products/search?sparam=podonki%20%D0%B0%D0%BD%D0%B0%D1%80%D1%85%D0%B8%D1%8F";
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
@@ -644,6 +663,10 @@ public class productscontroller {
 
     @GetMapping(path="/opt/odnoraz")
     public String optodnoraz(Model model) throws ParseException {
+
+//        if(1==1)
+//            return "redirect:/products/search?sparam=podonki%20%D0%B0%D0%BD%D0%B0%D1%80%D1%85%D0%B8%D1%8F";
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
@@ -703,11 +726,19 @@ public class productscontroller {
         model.addAttribute("commrep",commentrepository);
 
         model.addAttribute("curusname",currentPrincipalName);
+
+        model.addAttribute("descparam","odnoraz");
+
+
         return "productsList";
     }
 
     @GetMapping(path="/opt/jija")
     public String optjija(Model model) throws ParseException {
+
+//        if(1==1)
+//            return "redirect:/products/search?sparam=podonki%20%D0%B0%D0%BD%D0%B0%D1%80%D1%85%D0%B8%D1%8F";
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
@@ -770,11 +801,19 @@ public class productscontroller {
         model.addAttribute("commrep",commentrepository);
 
         model.addAttribute("curusname",currentPrincipalName);
+
+        model.addAttribute("descparam","jija");
+
         return "productsList";
     }
 
     @GetMapping(path="/opt/pod")
     public String optpod(Model model) throws ParseException {
+
+
+//        if(1==1)
+//            return "redirect:/products/search?sparam=podonki%20%D0%B0%D0%BD%D0%B0%D1%80%D1%85%D0%B8%D1%8F";
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
@@ -835,11 +874,19 @@ public class productscontroller {
         model.addAttribute("commrep",commentrepository);
 
         model.addAttribute("curusname",currentPrincipalName);
+
+        model.addAttribute("descparam","pod");
+
         return "productsList";
     }
 
     @GetMapping(path="/opt/ispar")
     public String optispar(Model model) throws ParseException {
+
+
+//        if(1==1)
+//            return "redirect:/products/search?sparam=podonki%20%D0%B0%D0%BD%D0%B0%D1%80%D1%85%D0%B8%D1%8F";
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
@@ -902,11 +949,19 @@ public class productscontroller {
         model.addAttribute("commrep",commentrepository);
 
         model.addAttribute("curusname",currentPrincipalName);
+
+        model.addAttribute("descparam","ispar");
+
         return "productsList";
     }
 
     @GetMapping(path="/opt/cartridge")
     public String optcartridge(Model model) throws ParseException {
+
+
+//        if(1==1)
+//            return "redirect:/products/search?sparam=podonki%20%D0%B0%D0%BD%D0%B0%D1%80%D1%85%D0%B8%D1%8F";
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
@@ -967,6 +1022,9 @@ public class productscontroller {
         model.addAttribute("commrep",commentrepository);
 
         model.addAttribute("curusname",currentPrincipalName);
+
+        model.addAttribute("descparam","cartridge");
+
         return "productsList";
     }
 
@@ -1007,6 +1065,8 @@ public class productscontroller {
 //    @RequestMapping
     public String viewproducts(@PathVariable("id") Long id, TimeZone timezone, Model model){
 
+
+
         SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm",new Locale("ru", "RU"));
         df1.setTimeZone(TimeZone.getTimeZone(ZoneId.of("Greenwich")));
         model.addAttribute("df1",df1);
@@ -1019,6 +1079,9 @@ public class productscontroller {
         ArrayList<products> res = new ArrayList<>();
         oneproducts.ifPresent(res::add);
         model.addAttribute("products",res);
+
+//        if(Objects.equals(oneproducts.get().getOptIliRozn(), "opt"))
+//            return "redirect:/products/search?sparam=podonki%20%D0%B0%D0%BD%D0%B0%D1%80%D1%85%D0%B8%D1%8F";
 
         if(res.get(0).getColors()!=null)
             model.addAttribute("colorarray",res.get(0).getColors().split(";"));
@@ -1292,6 +1355,11 @@ public class productscontroller {
 
     @GetMapping("/opt/search")
     public String optsearch(products products, @RequestParam String sparam,  Model model){
+
+
+//        if(1==1)
+//            return "redirect:/products/search?sparam=podonki%20%D0%B0%D0%BD%D0%B0%D1%80%D1%85%D0%B8%D1%8F";
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         model.addAttribute("curusname", currentPrincipalName);

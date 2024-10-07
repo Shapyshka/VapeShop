@@ -80,12 +80,13 @@
                                 <div >
                                     <div style="display:inline-block;">Статус:</div>  <div class="rounded" style="background-color:#9FFA99; display:inline-block;">✅Подтвержден </div>
                                 </div>
-                                <div th:if="${el.getSposobpoluch()=='sam1'||el.getSposobpoluch()=='sam2'}">
-                                    С вами свяжется наш сотрудник для согласования деталей встречи
-                                </div>
-                                <div th:if="${el.getSposobpoluch()=='post'}">
-                                    Заказ будет отправлен по почте.
-                                </div>
+                                C вами свяжутся в ближайшее время.
+<!--                                <div th:if="${el.getSposobpoluch()=='sam1'||el.getSposobpoluch()=='sam2'}">-->
+<!--                                    С вами свяжется наш сотрудник для согласования деталей встречи-->
+<!--                                </div>-->
+<!--                                <div th:if="${el.getSposobpoluch()=='post'}">-->
+<!--                                    Заказ будет отправлен по почте.-->
+<!--                                </div>-->
                             </div>
                             <div th:if="${el.getStatus()=='notConfirmed'}" style="font-size:18px; color:#222222;">
                                <div >
@@ -191,12 +192,12 @@
                                 <div style="font-size:19px;">
                                     <div th:if="${el.getSposoboplaty()=='yoomoney'}">
                                         <label style="white-space: normal; ">
-                                            💳Банковской картой
+                                            💳Предоплата переводом
                                         </label>
                                     </div>
                                     <div th:if="${el.getSposoboplaty()=='pripoluch'}">
                                         <label style="white-space: normal; ">
-                                            💵Любым способом при получении
+                                            💵При получении любым способом
                                         </label>
                                     </div>
                                 </div>

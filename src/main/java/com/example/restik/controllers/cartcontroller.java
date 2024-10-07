@@ -146,7 +146,7 @@ public class cartcontroller {
                 in.close();
                 JSONParser parse = new JSONParser();
                 JSONObject data_obj = (JSONObject) parse.parse(response.toString());
-                Double postpricedouble = (Double) data_obj.get("pkg");
+                Long postpricedouble = (Long) data_obj.get("pkg");
                 model.addAttribute("postprice",postpricedouble.intValue());
 
 

@@ -94,7 +94,7 @@
     <form method="post" th:action="'/msg/'+${id}+'/sndmsg'" th:object="${message}" style="margin-bottom: 20px;margin-top: 20px;">
       <div class="input-group" style="width:66%;">
 <!--        <textarea style="align:center" name="text" id ="text" placeholder="Сообщение" class="form-control"></textarea>-->
-        <input type="text" name="text" id ="text" placeholder="Сообщение" class="form-control" required>
+        <input type="text" name="text" id ="text" maxlength="2048" placeholder="Сообщение" class="form-control" required>
           <button style="color:#ffffff" class="btn btn-success" type="submit">
             <span class="material-symbols-outlined" style="font-size:15px">
               send

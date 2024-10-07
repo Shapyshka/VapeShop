@@ -33,12 +33,12 @@
 <body style="margin-top:70px; background-color:#eeeeee; ">
 <header th:insert="blocks/header :: Header"></header>
 <br>
-<div align="center" style="font-size:35px;">
+<div align="center" style="font-size:30px;">
     🧾Заказать <label th:text="${oneprod.get(0).getTitle()}"></label>
 </div>
 <br>
 <div align="center">
-    <div align="center" style="width:70%;" >
+    <div align="center" style="width:80%;" >
         <form onkeydown="return event.key != 'Enter';" method="post" th:action="@{/products/{id}/fastorder(id=${oneprod.get(0).getId()})}" th:object="${orders}">
             <div class="card shadow-sm" align="center" style="width:95%">
                         <div><label style="font-size: 18px; width:66%;">
@@ -58,9 +58,10 @@
 
 
                         <div style="height:15px"></div>
-                        <div align="center" style="font-size:18px">
+                        <div align="center" style="font-size:18px; text-decoration:underline">
                             Способ получения:
                         </div>
+                        <div style="height:5px"></div>
 
                         <div align="center" style="font-size:18px; ">
                             <div align="center" style="width:66%">
@@ -76,15 +77,15 @@
 
                                 <div style="height:5px"></div>
 
-<!--                                <span style="white-space: nowrap;">-->
-<!--                                    <input type="radio" id="sam2"-->
-<!--                                           name="sposobpoluch" value="sam2" >-->
-<!--                                    <label for="sam2" style="white-space: normal; ">📦Самовывоз с метро-->
-<!--                                        <a target="_blank" href="https://yandex.ru/maps/-/CCUKIJGCdC">Каширская</a>-->
-<!--                                    </label>-->
-<!--                                </span>-->
+                                <span style="white-space: nowrap;">
+                                    <input type="radio" id="sam2"
+                                           name="sposobpoluch" value="sam2" >
+                                    <label for="sam2" style="white-space: normal; ">📦Самовывоз с метро
+                                        <a target="_blank" href="https://yandex.ru/maps/-/CCUKIJGCdC">Каширская</a>
+                                    </label>
+                                </span>
 
-<!--                                <div style="height:5px"></div>-->
+                                <div style="height:5px"></div>
 
                                 <span style="white-space: nowrap;">
                                     <input type="radio" id="dost"

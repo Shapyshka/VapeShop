@@ -93,7 +93,7 @@ public class ordercontroller {
         for(cart i: listcartopt)
             totaloptprice = totaloptprice+(i.getProduct().getPrice()*i.getQuantity());
 
-        if(totaloptprice>0 && totaloptprice<4000){
+        if(totaloptprice>0 && totaloptprice<5000){
             return "redirect:/cart/";
         }
 
@@ -152,7 +152,7 @@ public class ordercontroller {
                 in.close();
                 JSONParser parse = new JSONParser();
                 JSONObject data_obj = (JSONObject) parse.parse(response.toString());
-                Double postpricedouble = (Double) data_obj.get("pkg");
+                Long postpricedouble = (Long) data_obj.get("pkg");
                 postprice = postpricedouble.intValue();
 
 
@@ -174,12 +174,14 @@ public class ordercontroller {
         orders.setDate(now);
         orders.setUser(user);
 
-        if(Objects.equals(orders.getSposoboplaty(), "pripoluch")){
-            orders.setStatus("Confirmed");
-        }
-        else{
-            orders.setStatus("WaitingPayment");
-        }
+//        if(Objects.equals(orders.getSposoboplaty(), "pripoluch")){
+//            orders.setStatus("Confirmed");
+//        }
+//        else{
+//            orders.setStatus("WaitingPayment");
+//        }
+
+        orders.setStatus("Confirmed");
 
         if(!promotitle.isEmpty()) {
             promos promoFromDb = promorepository.findByTitle(promotitle.toLowerCase(Locale.ROOT));
