@@ -54,7 +54,7 @@ public class websecurityconfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .rememberMe()
                 .userDetailsService(this.userDetailsService())
-                .tokenValiditySeconds(604800)
+                .tokenValiditySeconds(2592000)
                 .alwaysRemember(true)
                 .and()
                 .csrf().disable().cors().disable();
